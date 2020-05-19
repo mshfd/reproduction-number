@@ -1,2 +1,2 @@
-# r-by-tests-ratio
-Compute effective reproduction number based on positive test ratio
+# R Test Ratio
+Compute effective reproduction number for an epidemic based on positive test ratio
