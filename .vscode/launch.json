@@ -1,0 +1,36 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "Chrome",
+            "url": "http://localhost:8080",
+            "webRoot": "${workspaceFolder}"
+        },
+        {
+            "name": "WebServer",
+            "type": "python",
+            "request": "launch",
+            "console": "externalTerminal",
+            "program": "-m",
+            "cwd": "${workspaceFolder}/docs",
+            "args": [
+                "http.server",
+                "8080"
+            ]
+        }
+    ],
+    "compounds": [
+        {
+            "name": "Run Locally",
+            "configurations": [
+                "WebServer",
+                "Chrome"
+            ]
+        }
+    ]
+}
