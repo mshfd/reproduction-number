@@ -89,7 +89,8 @@
   <h2>Effective Reproduction Number</h2>
   <p>
     The above equation admits a simple interpretation. Each element of <dt-math>x^0</dt-math> is the component of the
-    error in the initial guess in the <dt-math>Q</dt-math>-basis. There are <dt-math>n</dt-math> such errors, and each
+    error in the initial guess in the <dt-math>Q</dt-math>-basis <dt-cite key="Wallinga2004"></dt-cite>. There are
+    <dt-math>n</dt-math> such errors, and each
     of these errors follows its own, solitary path to the minimum, decreasing exponentially with a compounding rate of
     <dt-math>1-\alpha\lambda_i</dt-math>. The closer that number is to <dt-math>1</dt-math>, the slower it converges.
   </p>
@@ -232,16 +233,11 @@
   <h2>Onwards and Downwards</h2>
   <p>
     The study of acceleration is seeing a small revival within the optimization community. If the ideas in this article
-    excite you, you may wish to read <dt-cite key="su2014differential"></dt-cite>, which fully explores the idea of
+    excite you, you may wish to read, which fully explores the idea of
     momentum as the discretization of a certain differential equation. But other, less physical, interpretations exist.
-    There is an algebraic interpretation of momentum in terms of approximating polynomials <dt-cite
-      key="rutishauser1959theory,hardtzen"></dt-cite>. Geometric interpretations are emerging <dt-cite
-      key="bubeck2015geometric,drusvyatskiy2016optimal"></dt-cite>, connecting momentum to older methods, like the
-    Ellipsoid method. And finally, there are interpretations relating momentum to duality <dt-cite
-      key="allen2014linear"></dt-cite>, perhaps providing a clue as how to accelerate second order methods and Quasi
-    Newton (for a first step, see <dt-cite key="nesterov2008accelerating"></dt-cite>). But like the proverbial blind men
-    feeling an elephant, momentum seems like something bigger than the sum of its parts. One day, hopefully soon, the
-    many perspectives will converge into a satisfying whole.
+    There is an algebraic interpretation of momentum in terms of approximating polynomials. Geometric interpretations
+    are emerging, connecting momentum to older
+    methods, like the
   </p>
 </dt-article>
 
@@ -276,242 +272,18 @@
 
 
 <script type="text/bibliography">
-@article{o2015adaptive,
-  title={Adaptive restart for accelerated gradient schemes},
-  author={O’Donoghue, Brendan and Candes, Emmanuel},
-  journal={Foundations of computational mathematics},
-  volume={15},
-  number={3},
-  pages={715--732},
-  year={2015},
-  publisher={Springer},
-  url={https://arxiv.org/abs/1204.3982},
-  doi={10.1007/s10208-013-9150-3}
+@article{Wallinga2004,
+  title={Different epidemic curves for severe acute respiratory syndrome reveal similar impacts of control measures},
+  author={Jacco Wallinga, Peter Teunis},
+  journal={American journal of epidemiology},
+  volume={160},
+  number={6},
+  pages={509-16},
+  year={2004},
+  publisher={Oxford University Press},
+  url={https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7110200/},
+  doi={10.1093/aje/kwh255}
 }
-
-@article{flammarion2015averaging,
-  title={From averaging to acceleration, there is only a step-size},
-  author={Flammarion, Nicolas and Bach, Francis},
-  booktitle={Proceedings of the International Conference on Learning Theory (COLT)},
-  year={2015},
-  url={https://arxiv.org/abs/1504.01577}
-}
-
-@article{ioffe2015batch,
-  title={Batch normalization: Accelerating deep network training by reducing internal covariate shift},
-  author={Ioffe, Sergey and Szegedy, Christian},
-  journal={arXiv preprint arXiv:1502.03167},
-  year={2015},
-  url={https://arxiv.org/abs/1502.03167}
-}
-
-@article{duchi2011adaptive,
-  title={Adaptive subgradient methods for online learning and stochastic optimization},
-  author={Duchi, John and Hazan, Elad and Singer, Yoram},
-  journal={Journal of Machine Learning Research},
-  volume={12},
-  number={Jul},
-  pages={2121--2159},
-  year={2011},
-  url={http://jmlr.org/papers/v12/duchi11a.html}
-}
-
-@article{kingma2014adam,
-  title={Adam: A method for stochastic optimization},
-  author={Kingma, Diederik and Ba, Jimmy},
-  journal={arXiv preprint arXiv:1412.6980},
-  year={2014},
-  url={https://arxiv.org/abs/1412.6980}
-}
-
-@book{briggs2000multigrid,
-  title={A multigrid tutorial},
-  author={Briggs, William L and Henson, Van Emden and McCormick, Steve F},
-  year={2000},
-  publisher={SIAM},
-  doi={10.1137/1.9780898719505}
-}
-
-@article{su2014differential,
-  title={A differential equation for modeling Nesterov’s accelerated gradient method: Theory and insights},
-  author={Su, Weijie and Boyd, Stephen and Candes, Emmanuel},
-  booktitle={Advances in Neural Information Processing Systems},
-  pages={2510--2518},
-  year={2014},
-  url={https://arxiv.org/abs/1503.01243}
-}
-
-@article{polyak1964some,
-  title={Some methods of speeding up the convergence of iteration methods},
-  author={Polyak, Boris T},
-  journal={USSR Computational Mathematics and Mathematical Physics},
-  volume={4},
-  number={5},
-  pages={1--17},
-  year={1964},
-  publisher={Elsevier},
-  url={https://www.researchgate.net/profile/Boris_Polyak2/publication/243648538_Some_methods_of_speeding_up_the_convergence_of_iteration_methods/links/5666fa3808ae34c89a01fda1.pdf},
-  doi={10.1016/0041-5553(64)90137-5}
-}
-
-@article{flammarion2015averaging,
-  title={From Averaging to Acceleration, There is Only a Step-size.},
-  author={Flammarion, Nicolas and Bach, Francis R},
-  booktitle={COLT},
-  pages={658--695},
-  year={2015},
-  url={https://arxiv.org/abs/1504.01577}
-}
-
-@article{williamsnthpower,
-  title={The Nth Power of a 2x2 Matrix.},
-  author={Williams, Kenneth},
-  journal={Mathematics Magazine},
-  volume={65},
-  number={5},
-  pages={336},
-  year={1992},
-  publisher={MAA},
-  url={http://people.math.carleton.ca/~williams/papers/pdf/175.pdf},
-  doi={10.2307/2691246}
-}
-
-@article{hardtzen,
-  title={The Zen of Gradient Descent},
-  author={Hardt, Moritz},
-  year={2013},
-  url={http://blog.mrtz.org/2013/09/07/the-zen-of-gradient-descent.html}
-}
-
-@book{nesterov2013introductory,
-  title={Introductory lectures on convex optimization: A basic course},
-  author={Nesterov, Yurii},
-  volume={87},
-  year={2013},
-  publisher={Springer Science \& Business Media},
-  doi={10.1007/978-1-4419-8853-9}
-}
-
-@article{rutishauser1959theory,
-  title={Theory of gradient methods},
-  author={Rutishauser, Heinz},
-  booktitle={Refined iterative methods for computation of the solution and the eigenvalues of self-adjoint boundary value problems},
-  pages={24--49},
-  year={1959},
-  publisher={Springer},
-  doi={10.1007/978-3-0348-7224-9_2}
-}
-
-@article{bubeck2015geometric,
-  title={A geometric alternative to Nesterov's accelerated gradient descent},
-  author={Bubeck, S{\'e}bastien and Lee, Yin Tat and Singh, Mohit},
-  journal={arXiv preprint arXiv:1506.08187},
-  year={2015},
-  url={https://arxiv.org/pdf/1506.08187.pdf}
-}
-
-@article{drusvyatskiy2016optimal,
-  title={An optimal first order method based on optimal quadratic averaging},
-  author={Drusvyatskiy, Dmitriy and Fazel, Maryam and Roy, Scott},
-  journal={arXiv preprint arXiv:1604.06543},
-  year={2016},
-  url={https://arxiv.org/pdf/1604.06543.pdf}
-}
-
-@article{allen2014linear,
-  title={Linear coupling: An ultimate unification of gradient and mirror descent},
-  author={Allen-Zhu, Zeyuan and Orecchia, Lorenzo},
-  journal={arXiv preprint arXiv:1407.1537},
-  year={2014},
-  url={https://arxiv.org/pdf/1407.1537.pdf}
-}
-
-@article{nesterov2008accelerating,
-  title={Accelerating the cubic regularization of Newton’s method on convex problems},
-  author={Nesterov, Yu},
-  journal={Mathematical Programming},
-  volume={112},
-  number={1},
-  pages={159--181},
-  year={2008},
-  publisher={Springer},
-  doi={10.1007/s10107-006-0089-x},
-  url={http://folk.uib.no/ssu029/Pdf_file/Nesterov08.pdf}
-}
-
-@article{qian1999momentum,
-  title={On the momentum term in gradient descent learning algorithms},
-  author={Qian, Ning},
-  journal={Neural networks},
-  volume={12},
-  number={1},
-  pages={145--151},
-  year={1999},
-  publisher={Elsevier},
-  doi={10.1016/s0893-6080(98)00116-6},
-  url={https://pdfs.semanticscholar.org/735d/4220d5579cc6afe956d9f6ea501a96ae99e2.pdf}
-}
-
-@article{amari1998natural,
-  title={Natural gradient works efficiently in learning},
-  author={Amari, Shun-Ichi},
-  journal={Neural computation},
-  volume={10},
-  number={2},
-  pages={251--276},
-  year={1998},
-  publisher={MIT Press},
-  doi={10.1162/089976698300017746},
-  url={http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.452.7280&rep=rep1&type=pdf}
-}
-
-@inproceedings{wiesler2011convergence,
-  title={A convergence analysis of log-linear training},
-  author={Wiesler, Simon and Ney, Hermann},
-  booktitle={Advances in Neural Information Processing Systems},
-  pages={657--665},
-  year={2011},
-  url={http://papers.nips.cc/paper/4421-a-convergence-analysis-of-log-linear-training.pdf}
-}
-
-@article{sutskever2013importance,
-  title={On the importance of initialization and momentum in deep learning.},
-  author={Sutskever, Ilya and Martens, James and Dahl, George E and Hinton, Geoffrey E},
-  journal={ICML (3)},
-  volume={28},
-  pages={1139--1147},
-  year={2013},
-  url={http://www.jmlr.org/proceedings/papers/v28/sutskever13.pdf}
-}
-
-
-@article{hintonNIPS,
-  title={Deep Learning, NIPS'2015 Tutorial},
-  author={Hinton, Geoff and Bengio, Yoshua and LeCun, Yann},
-  year={2015},
-  url={http://www.iro.umontreal.ca/~bengioy/talks/DL-Tutorial-NIPS2015.pdf}
-}
-
-@article{zhang2016understanding,
-  title={Understanding deep learning requires rethinking generalization},
-  author={Zhang, Chiyuan and Bengio, Samy and Hardt, Moritz and Recht, Benjamin and Vinyals, Oriol},
-  journal={arXiv preprint arXiv:1611.03530},
-  year={2016},
-  url={https://arxiv.org/abs/1611.03530}
-}
-
-@article{lessard2016analysis,
-  title={Analysis and design of optimization algorithms via integral quadratic constraints},
-  author={Lessard, Laurent and Recht, Benjamin and Packard, Andrew},
-  journal={SIAM Journal on Optimization},
-  volume={26},
-  number={1},
-  pages={57--95},
-  year={2016},
-  publisher={SIAM},
-  url={https://arxiv.org/abs/1408.3595}
-}
-
 </script>
 
 <!-- Figure render queue -->
