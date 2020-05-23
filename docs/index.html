@@ -84,20 +84,15 @@
 
   <h2>Effective Reproduction Number</h2>
   <p>
-    The above equation admits a simple interpretation. Each element of <dt-math>x^0</dt-math> is the component of the
-    error in the initial guess in the <dt-math>Q</dt-math>-basis <dt-cite key="Wallinga2004"></dt-cite>. There are
-    <dt-math>n</dt-math> such errors, and each
-    of these errors follows its own, solitary path to the minimum, decreasing exponentially with a compounding rate of
-    <dt-math>1-\alpha\lambda_i</dt-math>. The closer that number is to <dt-math>1</dt-math>, the slower it converges.
+    When infection is spreading through a population, it is often convenient to work with the effective
+    reproduction number R, which is defined as the actual average number of secondary cases per primary case. The value
+    of R reflects the impact of control measures and depletion of susceptible persons during the epidemic. If R exceeds
+    1, the number of cases will inevitably increase over time, and a large epidemic is possible. To stop an epidemic, R
+    needs to be persistently reduced to a level below 1 <dt-cite key="Wallinga2004"></dt-cite>.
   </p>
+
   <p>
-    For most step-sizes, the eigenvectors with largest eigenvalues converge the fastest. This triggers an explosion of
-    progress in the first few iterations, before things slow down as the smaller eigenvectors' struggles are revealed.
-    By writing the contributions of each eigenspace's error to the loss
-    <dt-math block>
-      f(w^{k})-f(w^{\star})=\sum(1-\alpha\lambda_{i})^{2k}\lambda_{i}[x_{i}^{0}]^2
-    </dt-math>
-    we can visualize the contributions of each error component to the loss.
+    We can visualize the epidemic curve and its respective reproduction number as follows:
   </p>
   <figure style="position:relative; width:920px; height:360px" id="milestones_gd">
     <figcaption style="position:absolute; text-align:left; left:135px; width:350px; height:80px">Optimization can be
@@ -214,26 +209,26 @@
       callback(null);
     });
   </script>
-  <p>
-  <h3>Choosing A Step-size</h3>
-  <p>
-    The above analysis gives us immediate guidance as to how to set a step-size <dt-math>\alpha</dt-math>. In order to
-    converge, each <dt-math>|1-\alpha \lambda_i|</dt-math> must be strictly less than 1. All workable step-sizes,
-    therefore, fall in the interval
 
+  <p>
+    It is possible to obtain likelihood-based estimates of R. The relative likelihood <dt-math>p_{ij}</dt-math> that
+    case <dt-math>i</dt-math> has been infected by case <dt-math>j</dt-math>, given their difference in time of symptom
+    onset <dt-math>t_i-t_j</dt-math>, can be expressed in terms of the probability distribution for the generation
+    interval. This distribution for the generation interval is available for many infectious diseases, and we denote it
+    by <dt-math>w(\tau)</dt-math>. The relative likelihood that case <dt-math>i</dt-math> has been infected by case
+    <dt-math>j</dt-math> is then the likelihood that case <dt-math>i</dt-math> has been infected by case <dt-math>j
+    </dt-math>, normalized by the likelihood that case <dt-math>i</dt-math> has been
+    infected by any other case <dt-math>k</dt-math>:
+    <dt-math block>
+      \Large p_{ij}= \frac{w(t_i-t_j)}{\displaystyle\sum_{{i} \ne {k}} w(t_i-t_k)}
+    </dt-math>
+    <dt-cite key="Wallinga2004"></dt-cite>
   </p>
 
-
-
   <dt-byline class="l-page"></dt-byline>
-  <h2>Onwards and Downwards</h2>
+  <h2>We want you! For Science! </h2>
   <p>
-    The study of acceleration is seeing a small revival within the optimization community. If the ideas in this article
-    excite you, you may wish to read, which fully explores the idea of
-    momentum as the discretization of a certain differential equation. But other, less physical, interpretations exist.
-    There is an algebraic interpretation of momentum in terms of approximating polynomials. Geometric interpretations
-    are emerging, connecting momentum to older
-    methods, like the
+    You can help make this more complete...
   </p>
 </dt-article>
 
