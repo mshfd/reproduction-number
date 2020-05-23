@@ -1,30 +1,545 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1080">
+<script src="assets/lib/template.v1.js"></script>
+<script type="text/front-matter">
+  title: Effective Reproduction Number
+  description: Effective Reproduction Number for various Epidemics
+  authors:
+    - Richard Schubert: http://rs.hemofektik.de
+  affiliations:
+    - MSHFD: https://www.mshfd.org/
+</script>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MWGDF - Reproduction Number</title>
+<!-- Katex -->
+<!--<script src="assets/lib/auto-render.min.js"></script>-->
+<!--<script src="assets/lib/katex.min.js"></script>-->
+<link rel="stylesheet" href="assets/lib/katex.min.css">
+<link rel="stylesheet" type="text/css" href="assets/widgets.css">
 
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"
-    integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<!-- Required -->
+<script src="assets/lib/lib.js"></script>
+<script src="assets/utils.js"></script>
+<script>
+  var renderQueue = [];
 
-  <!-- The loading of KaTeX is deferred to speed up page rendering -->
-  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"
-    integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz"
-    crossorigin="anonymous"></script>
 
-  <!-- To automatically render math in text elements, include the auto-render extension: -->
-  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"
-    integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"
-    onload="renderMathInElement(document.body);"></script>
-</head>
+  var deleteQueue = [];
+  function renderLoading(figure) {
+    var loadingScreen = figure.append("svg")
+      .style("width", figure.style("width"))
+      .style("height", figure.style("height"))
+      .style("position", "absolute")
+      .style("top", "0px")
+      .style("left", "0px")
+      .style("background", "white")
+      .style("border", "0px dashed #DDD")
+      .style("opacity", 1)
 
-<body>
+    return function (callback) { loadingScreen.remove() };
 
-  <div> $$\LARGE c = \pm\sqrt{a^2 + b^2}$$ </div>
+  }
 
-  <!--<script src="app.js"></script>-->
-</body>
+</script>
+<div id="math-cache" style="display: none;">
+  <dt-math class="star">\star</dt-math>
+  <dt-math class="plus">+</dt-math>
+  <dt-math class="minus">-</dt-math>
+  <dt-math class="equals">=</dt-math>
+  <dt-math class="alpha">\alpha</dt-math>
+  <dt-math class="lambda">\lambda</dt-math>
+  <dt-math class="beta">\beta</dt-math>
+  <dt-math class="r">R</dt-math>
+  <dt-math class="alpha-equals">\alpha=</dt-math>
+  <dt-math class="beta-equals">\beta=</dt-math>
+  <dt-math class="beta-equals-zero">\beta = 0</dt-math>
+  <dt-math class="beta-equals-one">\beta=1</dt-math>
+  <dt-math class="alpha-equals-one-over-lambda-i">\alpha = 1/\lambda_i</dt-math>
+  <dt-math class="model">\text{model}</dt-math>
+  <dt-math class="p">0 p_1</dt-math>
+  <dt-math class="phat">0 \bar{p}_1</dt-math>
+  <dt-math class="two-sqrt-beta">2\sqrt{\beta}</dt-math>
+  <dt-math class="lambda-i">\lambda_i</dt-math>
+  <dt-math class="lambda-i-equals-zero">\lambda_i = 0</dt-math>
+  <dt-math class="alpha-gt-one-over-lambda-i">\alpha > 1/\lambda_i</dt-math>
+  <dt-math class="max-sigma-one">\max\{|\sigma_1|,|\sigma_2|\} > 1</dt-math>
+  <dt-math class="x-i-k">x_i^k - x_i^*</dt-math>
+  <dt-math class="xi-i">\xi_i</dt-math>
+  <dt-math class="beta-equals-one-minus">\beta = (1 - \sqrt{\alpha \lambda_i})^2</dt-math>
+</div>
+<script>
+  function MathCache(id) {
+    return document.querySelector("#math-cache ." + id).innerHTML;
+  }
+</script>
 
-</html>
+<script src="assets/lib/contour_plot.js"></script>
+<script src="assets/iterates.js"></script>
+
+<dt-article class="centered">
+  <h1>Effective Reproduction Number</h1>
+
+  <dt-byline class="l-page"></dt-byline>
+
+
+  <p>
+    ---- DRAFT - WORK IN PROGRESS ----
+  </p>
+
+  <h2>Effective Reproduction Number</h2>
+  <p>
+    The above equation admits a simple interpretation. Each element of <dt-math>x^0</dt-math> is the component of the
+    error in the initial guess in the <dt-math>Q</dt-math>-basis. There are <dt-math>n</dt-math> such errors, and each
+    of these errors follows its own, solitary path to the minimum, decreasing exponentially with a compounding rate of
+    <dt-math>1-\alpha\lambda_i</dt-math>. The closer that number is to <dt-math>1</dt-math>, the slower it converges.
+  </p>
+  <p>
+    For most step-sizes, the eigenvectors with largest eigenvalues converge the fastest. This triggers an explosion of
+    progress in the first few iterations, before things slow down as the smaller eigenvectors' struggles are revealed.
+    By writing the contributions of each eigenspace's error to the loss
+    <dt-math block>
+      f(w^{k})-f(w^{\star})=\sum(1-\alpha\lambda_{i})^{2k}\lambda_{i}[x_{i}^{0}]^2
+    </dt-math>
+    we can visualize the contributions of each error component to the loss.
+  </p>
+  <figure style="position:relative; width:920px; height:360px" id="milestones_gd">
+    <figcaption style="position:absolute; text-align:left; left:135px; width:350px; height:80px">Optimization can be
+      seen as combination of several component problems, shown here as <svg
+        style="position:relative; top:2px; width:3px; height:14px; background:#fde0dd"></svg> 1 <svg
+        style="position:relative; top:2px; width:3px; height:14px; background:#fa9fb5"></svg> 2 <svg
+        style="position:relative; top:2px; width:3px; height:14px; background:#c51b8a"></svg> 3 with eigenvalues <svg
+        style="position:relative; top:2px; width:3px; height:14px; background:#fde0dd"></svg>
+      <dt-math>\lambda_1=0.01</dt-math>, <svg
+        style="position:relative; top:2px; width:3px; height:14px; background:#fa9fb5"></svg>
+      <dt-math>\lambda_2=0.1</dt-math>, and <svg
+        style="position:relative; top:2px; width:3px; height:14px; background:#c51b8a"></svg>
+      <dt-math>\lambda_3=1</dt-math> respectively.
+    </figcaption>
+
+    <!-- ["#fde0dd", "#fa9fb5", "#c51b8a"]
+ -->
+    <div id="sliderStep" style="position:absolute; left:550px; width:250px; height:100px">
+
+      <div id="stepSizeMilestones" class="figtext" style="position:absolute; left:15px; top:15px">
+        Step-size
+      </div>
+
+      <div class="figtext2" id="milestones_gd_optstep"
+        style="position:absolute; font-size:11px; left:152px; top:18px; z-index:10; cursor: pointer">
+        Optimal Step-size
+      </div>
+
+      <svg style="position:absolute; font-size:10px; left:224px; top:34px">
+        <line marker-end="url(#arrowhead)" style="stroke: black; stroke-width: 1.5; visibility: visible;" x2="5" y2="10"
+          x1="5" y1="0"></line>
+      </svg>
+
+    </div>
+    <div id="obj"></div>
+  </figure>
+  <script src="assets/milestones.js"></script>
+  <script>
+    deleteQueue.push(renderLoading(d3.select("#milestones_gd")))
+    renderQueue.push(function (callback) {
+      var graphDiv = d3.select("#obj")
+        .style("width", 920 + "px")
+        .style("height", 300 + "px")
+        .style("top", "90px")
+        .style("position", "relative")
+        .style("margin-left", "auto")
+        .style("margin-right", "auto")
+        .attr("width", 920)
+        .attr("height", 500)
+
+      var svg = graphDiv.append("svg")
+        .attr("width", 920)
+        .attr("height", 300)
+        .style("position", "absolute")
+        .style("left", "15px")
+
+      var updateSliderGD = renderMilestones(svg, function () { });
+
+      var alphaHTML = MathCache("alpha-equals");
+
+      var slidera = sliderGen([250, 80])
+        .ticks([0, 1, 200 / (101), 2])
+        .change(function (i) {
+          var html = alphaHTML + '<span style="font-weight: normal;">' + i.toPrecision(4) + "</span>";
+          d3.select("#stepSizeMilestones")
+            .html("Stepsize " + html)
+          updateSliderGD(i, 0.100)
+        })
+        .ticktitles(function (d, i) { return [0, 1, "", 2][i] })
+        .startxval(200 / (101))
+        .cRadius(7)
+        .shifty(-12)
+        .shifty(10)
+        .margins(20, 20)(d3.select("#sliderStep"))
+
+      d3.select("#milestones_gd_optstep").on("click", slidera.init)
+
+      svg.append("text")
+        .attr("class", "katex morsd mathit")
+        .style("font-size", "19px")
+        .style("font-family", "KaTeX_Math")
+        .attr("x", 105)
+        .attr("y", 50)
+        .attr("text-anchor", "end")
+        .attr("fill", "gray")
+        .html("f(w<tspan baseline-shift = \"super\" font-size = \"15\">k</tspan>) - f(w<tspan baseline-shift = \"super\" font-size = \"15\">*</tspan>)")
+
+
+
+      svg.append("text")
+        .style("font-size", "13px")
+        .attr("x", 0)
+        .attr("y", 80)
+        .attr("dy", 0)
+        .attr("transform", "translate(110,0)")
+        .attr("class", "caption")
+        .attr("text-anchor", "end")
+        .attr("fill", "gray")
+        .text("At the initial point, the error in each component is equal.")
+
+      svg.selectAll(".caption").call(wrap, 100)
+
+
+      svg.append("text")
+        .style("font-size", "13px")
+        .attr("x", 420)
+        .attr("y", 270)
+        .attr("dy", 0)
+        .attr("dx", -295)
+        .attr("text-anchor", "start")
+        .attr("fill", "gray")
+        .text("At the optimum, the rates of convergence of the largest and smallest eigenvalues equalize.")
+
+      callback(null);
+    });
+  </script>
+  <p>
+  <h3>Choosing A Step-size</h3>
+  <p>
+    The above analysis gives us immediate guidance as to how to set a step-size <dt-math>\alpha</dt-math>. In order to
+    converge, each <dt-math>|1-\alpha \lambda_i|</dt-math> must be strictly less than 1. All workable step-sizes,
+    therefore, fall in the interval
+
+  </p>
+
+
+
+  <dt-byline class="l-page"></dt-byline>
+  <h2>Onwards and Downwards</h2>
+  <p>
+    The study of acceleration is seeing a small revival within the optimization community. If the ideas in this article
+    excite you, you may wish to read <dt-cite key="su2014differential"></dt-cite>, which fully explores the idea of
+    momentum as the discretization of a certain differential equation. But other, less physical, interpretations exist.
+    There is an algebraic interpretation of momentum in terms of approximating polynomials <dt-cite
+      key="rutishauser1959theory,hardtzen"></dt-cite>. Geometric interpretations are emerging <dt-cite
+      key="bubeck2015geometric,drusvyatskiy2016optimal"></dt-cite>, connecting momentum to older methods, like the
+    Ellipsoid method. And finally, there are interpretations relating momentum to duality <dt-cite
+      key="allen2014linear"></dt-cite>, perhaps providing a clue as how to accelerate second order methods and Quasi
+    Newton (for a first step, see <dt-cite key="nesterov2008accelerating"></dt-cite>). But like the proverbial blind men
+    feeling an elephant, momentum seems like something bigger than the sum of its parts. One day, hopefully soon, the
+    many perspectives will converge into a satisfying whole.
+  </p>
+</dt-article>
+
+<p>
+
+</p>
+
+
+<dt-appendix class="centered">
+
+  <!--<h3>Acknowledgments</h3>
+
+  <p>
+    I am deeply indebted to the editorial contributions of 
+  </p>
+  <p>
+    I am also grateful to 
+  </p>
+
+  <p>
+    Many thanks to the numerous pull requests and issues filed on github. Thanks in particular, to.
+  </p>-->
+
+  <!--<h4>Discussion and Review</h4>
+  <p>
+    <a href="https://github.com/distillpub/post--momentum/issues/29">Reviewer A - Matt Hoffman</a><br>
+    <a href="https://github.com/distillpub/post--momentum/issues/34">Reviewer B - Anonymous</a><br>
+    <a href="https://github.com/distillpub/post--momentum/issues/51">Discussion with User derifatives</a>
+  </p>-->
+
+</dt-appendix>
+
+
+<script type="text/bibliography">
+@article{o2015adaptive,
+  title={Adaptive restart for accelerated gradient schemes},
+  author={O’Donoghue, Brendan and Candes, Emmanuel},
+  journal={Foundations of computational mathematics},
+  volume={15},
+  number={3},
+  pages={715--732},
+  year={2015},
+  publisher={Springer},
+  url={https://arxiv.org/abs/1204.3982},
+  doi={10.1007/s10208-013-9150-3}
+}
+
+@article{flammarion2015averaging,
+  title={From averaging to acceleration, there is only a step-size},
+  author={Flammarion, Nicolas and Bach, Francis},
+  booktitle={Proceedings of the International Conference on Learning Theory (COLT)},
+  year={2015},
+  url={https://arxiv.org/abs/1504.01577}
+}
+
+@article{ioffe2015batch,
+  title={Batch normalization: Accelerating deep network training by reducing internal covariate shift},
+  author={Ioffe, Sergey and Szegedy, Christian},
+  journal={arXiv preprint arXiv:1502.03167},
+  year={2015},
+  url={https://arxiv.org/abs/1502.03167}
+}
+
+@article{duchi2011adaptive,
+  title={Adaptive subgradient methods for online learning and stochastic optimization},
+  author={Duchi, John and Hazan, Elad and Singer, Yoram},
+  journal={Journal of Machine Learning Research},
+  volume={12},
+  number={Jul},
+  pages={2121--2159},
+  year={2011},
+  url={http://jmlr.org/papers/v12/duchi11a.html}
+}
+
+@article{kingma2014adam,
+  title={Adam: A method for stochastic optimization},
+  author={Kingma, Diederik and Ba, Jimmy},
+  journal={arXiv preprint arXiv:1412.6980},
+  year={2014},
+  url={https://arxiv.org/abs/1412.6980}
+}
+
+@book{briggs2000multigrid,
+  title={A multigrid tutorial},
+  author={Briggs, William L and Henson, Van Emden and McCormick, Steve F},
+  year={2000},
+  publisher={SIAM},
+  doi={10.1137/1.9780898719505}
+}
+
+@article{su2014differential,
+  title={A differential equation for modeling Nesterov’s accelerated gradient method: Theory and insights},
+  author={Su, Weijie and Boyd, Stephen and Candes, Emmanuel},
+  booktitle={Advances in Neural Information Processing Systems},
+  pages={2510--2518},
+  year={2014},
+  url={https://arxiv.org/abs/1503.01243}
+}
+
+@article{polyak1964some,
+  title={Some methods of speeding up the convergence of iteration methods},
+  author={Polyak, Boris T},
+  journal={USSR Computational Mathematics and Mathematical Physics},
+  volume={4},
+  number={5},
+  pages={1--17},
+  year={1964},
+  publisher={Elsevier},
+  url={https://www.researchgate.net/profile/Boris_Polyak2/publication/243648538_Some_methods_of_speeding_up_the_convergence_of_iteration_methods/links/5666fa3808ae34c89a01fda1.pdf},
+  doi={10.1016/0041-5553(64)90137-5}
+}
+
+@article{flammarion2015averaging,
+  title={From Averaging to Acceleration, There is Only a Step-size.},
+  author={Flammarion, Nicolas and Bach, Francis R},
+  booktitle={COLT},
+  pages={658--695},
+  year={2015},
+  url={https://arxiv.org/abs/1504.01577}
+}
+
+@article{williamsnthpower,
+  title={The Nth Power of a 2x2 Matrix.},
+  author={Williams, Kenneth},
+  journal={Mathematics Magazine},
+  volume={65},
+  number={5},
+  pages={336},
+  year={1992},
+  publisher={MAA},
+  url={http://people.math.carleton.ca/~williams/papers/pdf/175.pdf},
+  doi={10.2307/2691246}
+}
+
+@article{hardtzen,
+  title={The Zen of Gradient Descent},
+  author={Hardt, Moritz},
+  year={2013},
+  url={http://blog.mrtz.org/2013/09/07/the-zen-of-gradient-descent.html}
+}
+
+@book{nesterov2013introductory,
+  title={Introductory lectures on convex optimization: A basic course},
+  author={Nesterov, Yurii},
+  volume={87},
+  year={2013},
+  publisher={Springer Science \& Business Media},
+  doi={10.1007/978-1-4419-8853-9}
+}
+
+@article{rutishauser1959theory,
+  title={Theory of gradient methods},
+  author={Rutishauser, Heinz},
+  booktitle={Refined iterative methods for computation of the solution and the eigenvalues of self-adjoint boundary value problems},
+  pages={24--49},
+  year={1959},
+  publisher={Springer},
+  doi={10.1007/978-3-0348-7224-9_2}
+}
+
+@article{bubeck2015geometric,
+  title={A geometric alternative to Nesterov's accelerated gradient descent},
+  author={Bubeck, S{\'e}bastien and Lee, Yin Tat and Singh, Mohit},
+  journal={arXiv preprint arXiv:1506.08187},
+  year={2015},
+  url={https://arxiv.org/pdf/1506.08187.pdf}
+}
+
+@article{drusvyatskiy2016optimal,
+  title={An optimal first order method based on optimal quadratic averaging},
+  author={Drusvyatskiy, Dmitriy and Fazel, Maryam and Roy, Scott},
+  journal={arXiv preprint arXiv:1604.06543},
+  year={2016},
+  url={https://arxiv.org/pdf/1604.06543.pdf}
+}
+
+@article{allen2014linear,
+  title={Linear coupling: An ultimate unification of gradient and mirror descent},
+  author={Allen-Zhu, Zeyuan and Orecchia, Lorenzo},
+  journal={arXiv preprint arXiv:1407.1537},
+  year={2014},
+  url={https://arxiv.org/pdf/1407.1537.pdf}
+}
+
+@article{nesterov2008accelerating,
+  title={Accelerating the cubic regularization of Newton’s method on convex problems},
+  author={Nesterov, Yu},
+  journal={Mathematical Programming},
+  volume={112},
+  number={1},
+  pages={159--181},
+  year={2008},
+  publisher={Springer},
+  doi={10.1007/s10107-006-0089-x},
+  url={http://folk.uib.no/ssu029/Pdf_file/Nesterov08.pdf}
+}
+
+@article{qian1999momentum,
+  title={On the momentum term in gradient descent learning algorithms},
+  author={Qian, Ning},
+  journal={Neural networks},
+  volume={12},
+  number={1},
+  pages={145--151},
+  year={1999},
+  publisher={Elsevier},
+  doi={10.1016/s0893-6080(98)00116-6},
+  url={https://pdfs.semanticscholar.org/735d/4220d5579cc6afe956d9f6ea501a96ae99e2.pdf}
+}
+
+@article{amari1998natural,
+  title={Natural gradient works efficiently in learning},
+  author={Amari, Shun-Ichi},
+  journal={Neural computation},
+  volume={10},
+  number={2},
+  pages={251--276},
+  year={1998},
+  publisher={MIT Press},
+  doi={10.1162/089976698300017746},
+  url={http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.452.7280&rep=rep1&type=pdf}
+}
+
+@inproceedings{wiesler2011convergence,
+  title={A convergence analysis of log-linear training},
+  author={Wiesler, Simon and Ney, Hermann},
+  booktitle={Advances in Neural Information Processing Systems},
+  pages={657--665},
+  year={2011},
+  url={http://papers.nips.cc/paper/4421-a-convergence-analysis-of-log-linear-training.pdf}
+}
+
+@article{sutskever2013importance,
+  title={On the importance of initialization and momentum in deep learning.},
+  author={Sutskever, Ilya and Martens, James and Dahl, George E and Hinton, Geoffrey E},
+  journal={ICML (3)},
+  volume={28},
+  pages={1139--1147},
+  year={2013},
+  url={http://www.jmlr.org/proceedings/papers/v28/sutskever13.pdf}
+}
+
+
+@article{hintonNIPS,
+  title={Deep Learning, NIPS'2015 Tutorial},
+  author={Hinton, Geoff and Bengio, Yoshua and LeCun, Yann},
+  year={2015},
+  url={http://www.iro.umontreal.ca/~bengioy/talks/DL-Tutorial-NIPS2015.pdf}
+}
+
+@article{zhang2016understanding,
+  title={Understanding deep learning requires rethinking generalization},
+  author={Zhang, Chiyuan and Bengio, Samy and Hardt, Moritz and Recht, Benjamin and Vinyals, Oriol},
+  journal={arXiv preprint arXiv:1611.03530},
+  year={2016},
+  url={https://arxiv.org/abs/1611.03530}
+}
+
+@article{lessard2016analysis,
+  title={Analysis and design of optimization algorithms via integral quadratic constraints},
+  author={Lessard, Laurent and Recht, Benjamin and Packard, Andrew},
+  journal={SIAM Journal on Optimization},
+  volume={26},
+  number={1},
+  pages={57--95},
+  year={2016},
+  publisher={SIAM},
+  url={https://arxiv.org/abs/1408.3595}
+}
+
+</script>
+
+<!-- Figure render queue -->
+<script>
+
+  setTimeout(function () {
+    var q = d3.queue(1);
+
+    d3.zip(deleteQueue, renderQueue).forEach(function (fn) {
+      q.defer(function (callback) {
+        fn[1](callback);
+        fn[0](callback);
+      });
+      q.defer(function (callback) {
+        setTimeout(function () {
+          callback(null);
+        }, 50);
+      });
+    });
+    q.await(function (error) {
+      if (error) {
+        console.error("Render error.", error)
+      } else {
+        console.log("Render done.")
+      }
+    });
+  }, 50);
+
+
+
+</script>
