@@ -1,4 +1,4 @@
-function renderMilestones(div, updateTick) {
+function renderMilestones(div) {
   var lambda = [1, 10, 100]
   var totalIters = 180
 
@@ -87,7 +87,7 @@ function renderMilestones(div, updateTick) {
   }
 
 
-  var updateStep = function (alpha, beta) {
+  const updateStep = function (alpha, beta) {
     var trace = getTrace(alpha / lambda[2], beta)
     // Update the milestones on the slider
     var milestones = [0, 0, 0]
