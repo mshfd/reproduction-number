@@ -73,7 +73,18 @@
   </p>
 
   <p>
-    We can visualize the epidemic curve and its respective reproduction number as follows:
+    We can visualize the epidemic curve for
+    <select name="epidemic" id="epidemic">
+      <option>SARS-CoV-2</option>
+    </select>
+    in
+    <select name="region" id="region">
+      <option>Germany</option>
+    </select>
+    and its respective reproduction number based on
+    <select name="data" id="data">
+    </select>
+    as follows:
   </p>
   <figure style="position:relative; width:920px; height:360px" id="milestones_gd">
     <figcaption style="position:absolute; text-align:left; left:135px; width:350px; height:80px">Optimization can be
@@ -197,7 +208,7 @@
       .style("position", "absolute")
       .style("left", "15px");
 
-    const updateSlider = renderMilestones(svg);
+    const updateSliderCallback = renderMilestones(svg);
 
     const alphaHTML = MathCache("alpha-equals");
 
@@ -206,7 +217,7 @@
       .change(function (i) {
         const html = alphaHTML + '<span style="font-weight: normal;">' + i.toPrecision(4) + "</span>";
         d3.select("#stepSizeMilestones").html("Stepsize " + html);
-        updateSlider(i, 0.100);
+        updateSliderCallback(i, 0.100);
       })
       .ticktitles(function (d, i) { return [0, 1, "", 2][i] })
       .startxval(200 / (101))
@@ -253,5 +264,56 @@
   requestAnimationFrame(() => {
     renderGraph();
   });
+
+</script>
+
+<script>
+
+  let regionSelection = document.getElementById("region");
+  let dataSelection = document.getElementById("data");
+
+  let regions = [];
+
+  let loadDatasetForRegion = () => {
+    const selectedOption = regionSelection.options[regionSelection.selectedIndex];
+    const selectedRegion = regions.filter((region) => region.path === selectedOption.value)[0];
+
+    let numOptions = dataSelection.options.length;
+    for (let optionIndex = numOptions - 1; optionIndex >= 0; optionIndex--) {
+      dataSelection.remove(optionIndex);
+    }
+    for (let dataIndex = 0; dataIndex < selectedRegion.dataset.length; dataIndex++) {
+      const dataset = selectedRegion.dataset[dataIndex];
+
+      let newELement = new Option(dataset.title, dataset.title, true, true);
+      dataSelection.add(newELement);
+    }
+  };
+
+  regionSelection.addEventListener("input", loadDatasetForRegion);
+
+  var xmlhttp = new XMLHttpRequest();
+  xmlhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      regions = JSON.parse(this.responseText).regions;
+
+      let numOptions = regionSelection.options.length;
+      for (let optionIndex = numOptions - 1; optionIndex >= 0; optionIndex--) {
+        regionSelection.remove(optionIndex);
+      }
+
+      for (let regionIndex = 0; regionIndex < regions.length; regionIndex++) {
+        const region = regions[regionIndex];
+
+        let newELement = new Option(region.name, region.path, true, true);
+        regionSelection.add(newELement);
+      }
+
+      loadDatasetForRegion();
+    }
+  };
+
+  xmlhttp.open("GET", "assets/data/SARS-CoV-2/dataset.json", true);
+  xmlhttp.send();
 
 </script>

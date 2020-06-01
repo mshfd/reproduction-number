@@ -285,3 +285,11 @@
   color: hsl(24, 100%, 45%);
   border-bottom: dotted 1px hsl(24, 100%, 50%);
 }
+
+select {
+  font-size: 20px;
+  color: rgba(0, 0, 0, 0.8);
+  border: 0px;
+  font-family: Georgia, serif;
+  cursor: pointer;
+}
