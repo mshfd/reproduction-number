@@ -2,6 +2,7 @@ import csv, os
 import urllib.request
 import shutil
 import datetime
+import json
 
 abspath = os.path.abspath(__file__)
 dname = os.path.dirname(abspath)
@@ -28,17 +29,23 @@ if not os.path.exists(rki_covid19_filename):
         shutil.copyfileobj(response, out_file)
     print("Finished downloading " + rki_covid19_filename)
 
+
+print()
+print("processing data...")
+print()
+
+num_cases_total = 0
+num_deaths_total = 0
+num_recovered_total = 0
+
+version_date_str = ""
+cases_for_date = {}
+
 # Parse the source data and accumulate cases for each date where the COVID-19 onset occurred.
 with open(rki_covid19_filename) as csvfile:
     reader = csv.DictReader(csvfile)
 
     # See https://www.arcgis.com/home/item.html?id=f10774f1c63e40168479a1feb6c7ca74 for details on how to interpret the data.
-    num_cases_total = 0
-    num_deaths_total = 0
-    num_recovered_total = 0
-
-    version_date_str = ""
-    cases_for_date = {}
     for row in reader:
         version_date_str = row["Datenstand"]
         num_cases = int(row["AnzahlFall"])
@@ -55,39 +62,67 @@ with open(rki_covid19_filename) as csvfile:
 
         cases_for_date[cases_date] += num_cases
 
-    version_date = datetime.datetime.strptime(version_date_str, "%d.%m.%Y, %H:%M Uhr")
+version_date = datetime.datetime.strptime(version_date_str, "%d.%m.%Y, %H:%M Uhr")
 
-    dates = sorted(cases_for_date.keys())
-    first_date = parse_date(dates[0]).date()
-    last_date = parse_date(dates[-1]).date()
+dates = sorted(cases_for_date.keys())
+first_date = parse_date(dates[0]).date()
+last_date = parse_date(dates[-1]).date()
 
-    date = first_date
-    while date < last_date:
+date = first_date
+cases = []
+while date < last_date:
 
-        date += datetime.timedelta(days=1)
-        date_key = key_for_date(date)
+    date_key = key_for_date(date)
 
-        num_cases = 0
-        if date_key in cases_for_date:
-            num_cases = cases_for_date[date_key]
+    num_cases = 0
+    if date_key in cases_for_date:
+        num_cases = cases_for_date[date_key]
 
-        print(str(date) + " had " + str(num_cases) + " new cases")
+    cases.append(num_cases)
+    print(str(date) + " had " + str(num_cases) + " new cases")
 
-    print()
-    print("Number of cases in total: " + str(num_cases_total))
-    print("Number of recovered cases in total: " + str(num_recovered_total))
-    print("Number of deaths in total: " + str(num_deaths_total))
-    print(
-        "Number of active cases in total on "
-        + str(version_date.date())
-        + ": "
-        + str(num_cases_total - num_recovered_total - num_deaths_total)
-    )
+    date += datetime.timedelta(days=1)
 
-    print(
-        "Data is from "
-        + str(version_date.date())
-        + " and spans "
-        + str((last_date - first_date).days)
-        + " days"
-    )
+print()
+print("Number of cases in total: " + str(num_cases_total))
+print("Number of recovered cases in total: " + str(num_recovered_total))
+print("Number of deaths in total: " + str(num_deaths_total))
+print(
+    "Number of active cases in total on "
+    + str(version_date.date())
+    + ": "
+    + str(num_cases_total - num_recovered_total - num_deaths_total)
+)
+
+print(
+    "Data is from "
+    + str(version_date.date())
+    + " and spans "
+    + str((last_date - first_date).days)
+    + " days"
+)
+
+targetJson = "docs/assets/data/SARS-CoV-2/Germany/cases-RKI.json"
+print()
+print("Writing results to " + targetJson)
+
+result = {
+    "startDate": str(first_date),
+    "versionDate": str(version_date.date()),
+    "type": "cases",
+    "source": {
+        "name": "Robert Koch-Institut",
+        "url": "https://www.arcgis.com/home/item.html?id=f10774f1c63e40168479a1feb6c7ca74",
+        "license": "Data licence Germany - attribution - version 2.0",
+        "licenseUrl": "https://www.govdata.de/dl-de/by-2-0",
+    },
+    "metrics": {
+        "numCases": num_cases_total,
+        "numRecovered": num_recovered_total,
+        "numDeaths": num_deaths_total,
+    },
+    "data": cases,
+}
+
+with open("../../" + targetJson, "w") as outfile:
+    json.dump(result, outfile, indent=4)
