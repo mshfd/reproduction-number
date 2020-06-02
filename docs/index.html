@@ -82,7 +82,7 @@
       <option>Germany</option>
     </select>
     and its respective reproduction number based on
-    <select name="data" id="data">
+    <select name="dataset" id="dataset">
     </select>
     as follows:
   </p>
@@ -269,25 +269,54 @@
 
 <script>
 
+  const epidemic = "SARS-CoV-2";
   let regionSelection = document.getElementById("region");
-  let dataSelection = document.getElementById("data");
+  let datasetSelection = document.getElementById("dataset");
 
   let regions = [];
 
+  let loadDataForDataset = () => {
+    const selectedRegionOption = regionSelection.options[regionSelection.selectedIndex];
+    const selectedDatasetOption = datasetSelection.options[datasetSelection.selectedIndex];
+    const selectedRegion = regions.filter(region => region.path === selectedRegionOption.value)[0];
+    const selectedDataset = selectedRegion.datasets.filter(dataset => dataset.title === selectedDatasetOption.value)[0];
+
+    const dataPath = "assets/data/" + epidemic + "/" + selectedRegion.path + "/" + selectedDataset.filename;
+
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function () {
+      if (this.readyState == 4 && this.status == 200) {
+        data = JSON.parse(this.responseText);
+        console.log(data);
+      }
+    };
+
+    xmlhttp.open("GET", dataPath, true);
+    xmlhttp.send();
+  };
+
+  datasetSelection.addEventListener("input", loadDataForDataset);
+
   let loadDatasetForRegion = () => {
-    const selectedOption = regionSelection.options[regionSelection.selectedIndex];
-    const selectedRegion = regions.filter((region) => region.path === selectedOption.value)[0];
+    const selectedRegionOption = regionSelection.options[regionSelection.selectedIndex];
+    const selectedRegion = regions.filter(region => region.path === selectedRegionOption.value)[0];
 
-    let numOptions = dataSelection.options.length;
+    let numOptions = datasetSelection.options.length;
     for (let optionIndex = numOptions - 1; optionIndex >= 0; optionIndex--) {
-      dataSelection.remove(optionIndex);
+      datasetSelection.remove(optionIndex);
     }
-    for (let dataIndex = 0; dataIndex < selectedRegion.dataset.length; dataIndex++) {
-      const dataset = selectedRegion.dataset[dataIndex];
 
-      let newELement = new Option(dataset.title, dataset.title, true, true);
-      dataSelection.add(newELement);
+    let isPreselected = true;
+    for (let dataIndex = 0; dataIndex < selectedRegion.datasets.length; dataIndex++) {
+      const dataset = selectedRegion.datasets[dataIndex];
+
+      let newELement = new Option(dataset.title, dataset.title, isPreselected, isPreselected);
+      newELement.title = dataset.description;
+      datasetSelection.add(newELement);
+      isPreselected = false;
     }
+
+    loadDataForDataset();
   };
 
   regionSelection.addEventListener("input", loadDatasetForRegion);
@@ -302,18 +331,20 @@
         regionSelection.remove(optionIndex);
       }
 
+      let isPreselected = true;
       for (let regionIndex = 0; regionIndex < regions.length; regionIndex++) {
         const region = regions[regionIndex];
 
-        let newELement = new Option(region.name, region.path, true, true);
+        let newELement = new Option(region.name, region.path, isPreselected, isPreselected);
         regionSelection.add(newELement);
+        isPreselected = false;
       }
 
       loadDatasetForRegion();
     }
   };
 
-  xmlhttp.open("GET", "assets/data/SARS-CoV-2/dataset.json", true);
+  xmlhttp.open("GET", "assets/data/" + epidemic + "/dataset.json", true);
   xmlhttp.send();
 
 </script>
