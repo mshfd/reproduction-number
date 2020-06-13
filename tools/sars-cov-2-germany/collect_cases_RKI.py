@@ -8,8 +8,9 @@ abspath = os.path.abspath(__file__)
 dname = os.path.dirname(abspath)
 os.chdir(dname)
 
+# update the token from https://www.arcgis.com/home/item.html?id=f10774f1c63e40168479a1feb6c7ca74
 rki_covid19_filename = "RKI_COVID19.csv"
-rki_covid19_source_url = "https://www.arcgis.com/sharing/rest/content/items/f10774f1c63e40168479a1feb6c7ca74/data?token=hIaOEUx0TvgLxywZzt9HqdMHkfmovw1Fxix6iTMRk4LbRfYVgj810RuH_0oj-QhXBR32V3bVqlLPU3xfqztjfF9uBqm-2dgWxnJZg_K60K4Z2ndEbpyXDoAlcKL0SBpzt_IN8jfSJVvN3seLhjMG1dLwFuUB8w6LedGL_q7NvEc6ZeDdhx5lyxD5QDN6WdW3"
+rki_covid19_source_url = "https://www.arcgis.com/sharing/rest/content/items/f10774f1c63e40168479a1feb6c7ca74/data?token=Tr0erWjIzBIxsz-LWYN7NIGeU7cSGI_oRtjGqlbertke2Z7T34MO83Ge8LQdRXlCdWXViFy8zuOWBe4ccIhHlHl4tdaxN-6F2o6kxMhgym__ogxzc8t_ZOT_6g6hhrRzlIQCkEpDeC5Xl42xNHsPPl7SO01zPU4CSSc9Tw9GVbxsv6BYaPywnCmAC8IJ1eNi"
 
 
 def parse_date(date_str):
@@ -51,6 +52,10 @@ with open(rki_covid19_filename) as csvfile:
         num_cases = int(row["AnzahlFall"])
         num_deaths = int(row["AnzahlTodesfall"])
         num_recovered = int(row["AnzahlGenesen"])
+        is_berlin = row["IdBundesland"] == "11"
+
+        # if not is_berlin:
+        #    continue
 
         num_cases_total += num_cases
         num_deaths_total += num_deaths
