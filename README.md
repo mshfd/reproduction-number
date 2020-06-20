@@ -5,3 +5,6 @@ Compute effective reproduction number for an epidemic based on positive test rat
 
 [Check out](https://mshfd.github.io/reproduction-number/) how the reproduction number changes over time for available epidemic surveillances.
 
+
+## Based on [Distill Template](https://github.com/distillpub/template)
+
