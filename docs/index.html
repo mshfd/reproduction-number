@@ -1,30 +1,393 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1080">
+<script src="assets/lib/template.v1.js"></script>
+<script type="text/front-matter">
+  title: Effective Reproduction Number
+  description: Effective Reproduction Number for various Epidemics
+  authors:
+    - Richard Schubert: http://rs.hemofektik.de
+  affiliations:
+    - MSHFD: https://www.mshfd.org/
+</script>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MWGDF - Reproduction Number</title>
+<!-- Katex -->
+<script src="assets/lib/auto-render.min.js"></script>
+<script src="assets/lib/katex.min.js"></script>
+<link rel="stylesheet" href="assets/lib/katex.min.css">
+<link rel="stylesheet" type="text/css" href="assets/widgets.css">
 
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"
-    integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<!-- Required -->
+<script src="assets/lib/lib.js"></script>
+<script src="assets/utils.js"></script>
+<div id="math-cache" style="display: none;">
+  <dt-math class="star">\star</dt-math>
+  <dt-math class="plus">+</dt-math>
+  <dt-math class="minus">-</dt-math>
+  <dt-math class="equals">=</dt-math>
+  <dt-math class="alpha">\alpha</dt-math>
+  <dt-math class="lambda">\lambda</dt-math>
+  <dt-math class="beta">\beta</dt-math>
+  <dt-math class="r">R</dt-math>
+  <dt-math class="alpha-equals">\alpha=</dt-math>
+  <dt-math class="beta-equals">\beta=</dt-math>
+  <dt-math class="beta-equals-zero">\beta = 0</dt-math>
+  <dt-math class="beta-equals-one">\beta=1</dt-math>
+  <dt-math class="alpha-equals-one-over-lambda-i">\alpha = 1/\lambda_i</dt-math>
+  <dt-math class="model">\text{model}</dt-math>
+  <dt-math class="p">0 p_1</dt-math>
+  <dt-math class="phat">0 \bar{p}_1</dt-math>
+  <dt-math class="two-sqrt-beta">2\sqrt{\beta}</dt-math>
+  <dt-math class="lambda-i">\lambda_i</dt-math>
+  <dt-math class="lambda-i-equals-zero">\lambda_i = 0</dt-math>
+  <dt-math class="alpha-gt-one-over-lambda-i">\alpha > 1/\lambda_i</dt-math>
+  <dt-math class="max-sigma-one">\max\{|\sigma_1|,|\sigma_2|\} > 1</dt-math>
+  <dt-math class="x-i-k">x_i^k - x_i^*</dt-math>
+  <dt-math class="xi-i">\xi_i</dt-math>
+  <dt-math class="beta-equals-one-minus">\beta = (1 - \sqrt{\alpha \lambda_i})^2</dt-math>
+</div>
+<script>
+  function MathCache(id) {
+    return document.querySelector("#math-cache ." + id).innerHTML;
+  }
+</script>
 
-  <!-- The loading of KaTeX is deferred to speed up page rendering -->
-  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"
-    integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz"
-    crossorigin="anonymous"></script>
 
-  <!-- To automatically render math in text elements, include the auto-render extension: -->
-  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"
-    integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"
-    onload="renderMathInElement(document.body);"></script>
-</head>
+<dt-article class="centered">
+  <h1>Effective Reproduction Number</h1>
 
-<body>
+  <dt-byline class="l-page"></dt-byline>
 
-  <div> $$\LARGE c = \pm\sqrt{a^2 + b^2}$$ </div>
 
-  <!--<script src="app.js"></script>-->
-</body>
+  <p>
+    ---- DRAFT - WORK IN PROGRESS ----
+  </p>
 
-</html>
+  <h2>Effective Reproduction Number</h2>
+  <p>
+    When infection is spreading through a population, it is often convenient to work with the effective
+    reproduction number R, which is defined as the actual average number of secondary cases per primary case. The value
+    of R reflects the impact of control measures and depletion of susceptible persons during the epidemic. If R exceeds
+    1, the number of cases will inevitably increase over time, and a large epidemic is possible. To stop an epidemic, R
+    needs to be persistently reduced to a level below 1 <dt-cite key="Wallinga2004"></dt-cite>.
+  </p>
+
+  <p>
+    We can visualize the epidemic curve for
+    <select name="epidemic" id="epidemic">
+      <option>SARS-CoV-2</option>
+    </select>
+    in
+    <select name="region" id="region">
+      <option>Germany</option>
+    </select>
+    and its respective reproduction number based on
+    <select name="dataset" id="dataset">
+    </select>
+    as follows:
+  </p>
+
+  <figure style="position:relative; width:920px; height:450px" id="epidemic_fig">
+    <figcaption style="position:absolute; text-align:left; left:135px; width:350px; height:80px">
+      The shown epidemic curve is a combination of cases with known symptom onset
+      <svg style="position:relative; top:2px; width:3px; height:14px; background:#c51b8a"></svg> and cases without
+      symptoms
+      <svg style="position:relative; top:2px; width:3px; height:14px; background:#fa9fb5"></svg>
+      if data provides this information.
+    </figcaption>
+
+    <div id="chart"></div>
+  </figure>
+
+  <!--
+  <figure style="position:relative; width:920px; height:360px" id="milestones_gd">
+
+    <div id="sliderStep" style="position:absolute; left:550px; width:250px; height:100px">
+
+      <div id="stepSizeMilestones" class="figtext" style="position:absolute; left:15px; top:15px">
+        Step-size
+      </div>
+
+      <div class="figtext2" id="milestones_gd_optstep"
+        style="position:absolute; font-size:11px; left:152px; top:18px; z-index:10; cursor: pointer">
+        Optimal Step-size
+      </div>
+
+      <svg style="position:absolute; font-size:10px; left:224px; top:34px">
+        <line marker-end="url(#arrowhead)" style="stroke: black; stroke-width: 1.5; visibility: visible;" x2="5" y2="10"
+          x1="5" y1="0"></line>
+      </svg>
+
+    </div>
+    <div id="chart"></div>
+  </figure>-->
+
+  <p>
+    It is possible to obtain likelihood-based estimates of R. The relative likelihood <dt-math>p_{ij}</dt-math> that
+    case <dt-math>i</dt-math> has been infected by case <dt-math>j</dt-math>, given their difference in time of symptom
+    onset <dt-math>t_i-t_j</dt-math>, can be expressed in terms of the probability distribution for the generation
+    interval. This distribution for the generation interval is available for many infectious diseases, and we denote it
+    by <dt-math>w(\tau)</dt-math>. The relative likelihood that case <dt-math>i</dt-math> has been infected by case
+    <dt-math>j</dt-math> is then the likelihood that case <dt-math>i</dt-math> has been infected by case <dt-math>j
+    </dt-math>, normalized by the likelihood that case <dt-math>i</dt-math> has been
+    infected by any other case <dt-math>k</dt-math>:
+    <dt-math block>
+      \Large p_{ij}= \frac{w(t_i-t_j)}{\displaystyle\sum_{{i} \ne {k}} w(t_i-t_k)}
+    </dt-math>
+    <dt-cite key="Wallinga2004"></dt-cite>
+  </p>
+
+  <dt-byline class="l-page"></dt-byline>
+  <h2>We want you! For Science! </h2>
+  <p>
+    You can help make this more complete...
+  </p>
+</dt-article>
+
+<p>
+
+</p>
+
+
+<dt-appendix class="centered">
+
+  <!--<h3>Acknowledgments</h3>
+
+  <p>
+    I am deeply indebted to the editorial contributions of 
+  </p>
+  <p>
+    I am also grateful to 
+  </p>
+
+  <p>
+    Many thanks to the numerous pull requests and issues filed on github. Thanks in particular, to.
+  </p>-->
+
+  <!--<h4>Discussion and Review</h4>
+  <p>
+    <a href="https://github.com/distillpub/post--momentum/issues/29">Reviewer A - Matt Hoffman</a><br>
+    <a href="https://github.com/distillpub/post--momentum/issues/34">Reviewer B - Anonymous</a><br>
+    <a href="https://github.com/distillpub/post--momentum/issues/51">Discussion with User derifatives</a>
+  </p>-->
+
+</dt-appendix>
+
+
+<script type="text/bibliography">
+@article{Wallinga2004,
+  title={Different epidemic curves for severe acute respiratory syndrome reveal similar impacts of control measures},
+  author={Jacco Wallinga, Peter Teunis},
+  journal={American journal of epidemiology},
+  volume={160},
+  number={6},
+  pages={509-16},
+  year={2004},
+  publisher={Oxford University Press},
+  url={https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7110200/},
+  doi={10.1093/aje/kwh255}
+}
+</script>
+
+
+<!--<script src="assets/milestones.js"></script>
+<script>
+
+    const renderGraph = () => {
+      const graphDiv = d3.select("#chart")
+        .style("width", 920 + "px")
+        .style("height", 300 + "px")
+        .style("top", "90px")
+        .style("position", "relative")
+        .style("margin-left", "auto")
+        .style("margin-right", "auto")
+        .attr("width", 920)
+        .attr("height", 500);
+
+      const svg = graphDiv.append("svg")
+        .attr("width", 920)
+        .attr("height", 300)
+        .style("position", "absolute")
+        .style("left", "15px");
+
+      const updateSliderCallback = renderMilestones(svg);
+
+      const alphaHTML = MathCache("alpha-equals");
+
+      const slidera = sliderGen([250, 80])
+        .ticks([0, 1, 200 / (101), 2])
+        .change(function (i) {
+          const html = alphaHTML + '<span style="font-weight: normal;">' + i.toPrecision(4) + "</span>";
+          d3.select("#stepSizeMilestones").html("Stepsize " + html);
+          updateSliderCallback(i, 0.100);
+        })
+        .ticktitles(function (d, i) { return [0, 1, "", 2][i] })
+        .startxval(200 / (101))
+        .cRadius(7)
+        .shifty(-12)
+        .shifty(10)
+        .margins(20, 20)(d3.select("#sliderStep"));
+
+      d3.select("#milestones_gd_optstep").on("click", slidera.init)
+
+      svg.append("text")
+        .attr("class", "katex morsd mathit")
+        .style("font-size", "19px")
+        .style("font-family", "KaTeX_Math")
+        .attr("x", 105)
+        .attr("y", 50)
+        .attr("text-anchor", "end")
+        .attr("fill", "gray")
+        .html("f(w<tspan baseline-shift = \"super\" font-size = \"15\">k</tspan>) - f(w<tspan baseline-shift = \"super\" font-size = \"15\">*</tspan>)");
+
+      svg.append("text")
+        .style("font-size", "13px")
+        .attr("x", 0)
+        .attr("y", 80)
+        .attr("dy", 0)
+        .attr("transform", "translate(110,0)")
+        .attr("class", "caption")
+        .attr("text-anchor", "end")
+        .attr("fill", "gray")
+        .text("At the initial point, the error in each component is equal.");
+      svg.selectAll(".caption").call(wrap, 100);
+
+      svg.append("text")
+        .style("font-size", "13px")
+        .attr("x", 420)
+        .attr("y", 270)
+        .attr("dy", 0)
+        .attr("dx", -295)
+        .attr("text-anchor", "start")
+        .attr("fill", "gray")
+        .text("At the optimum, the rates of convergence of the largest and smallest eigenvalues equalize.");
+    };
+
+    requestAnimationFrame(() => {
+      renderGraph();
+    });
+</script>-->
+
+<!-- Figure render queue -->
+<script src="assets/epidemic.js"></script>
+<script>
+  const renderGraph = (epidemicData, measures) => {
+    const graphDiv = d3.select("#chart")
+      .style("width", 920 + "px")
+      .style("height", 500 + "px")
+      .style("top", "90px")
+      .style("position", "relative")
+      .style("margin-left", "auto")
+      .style("margin-right", "auto")
+      .attr("width", 920)
+      .attr("height", 500);
+
+    const svg = graphDiv.append("svg")
+      .attr("width", 920)
+      .attr("height", 400)
+      .style("position", "absolute")
+      .style("left", "15px");
+
+    renderEpidemic(svg, epidemicData, measures);
+  };
+
+  requestGraphUpdate = (epidemicData, measures) => {
+    requestAnimationFrame(() => {
+      renderGraph(epidemicData, measures);
+    });
+  }
+
+  const epidemic = "SARS-CoV-2";
+  let regionSelection = document.getElementById("region");
+  let datasetSelection = document.getElementById("dataset");
+
+  let regions = [];
+  let measures = {};
+
+  let loadDataForDataset = () => {
+    const selectedRegionOption = regionSelection.options[regionSelection.selectedIndex];
+    const selectedDatasetOption = datasetSelection.options[datasetSelection.selectedIndex];
+    const selectedRegion = regions.filter(region => region.path === selectedRegionOption.value)[0];
+    const selectedDataset = selectedRegion.datasets.filter(dataset => dataset.title === selectedDatasetOption.value)[0];
+
+    const dataPath = "assets/data/" + epidemic + "/" + selectedRegion.path + "/" + selectedDataset.filename;
+
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function () {
+      if (this.readyState == 4 && this.status == 200) {
+        data = JSON.parse(this.responseText);
+        console.log(data);
+        requestGraphUpdate(data, measures);
+      }
+    };
+
+    xmlhttp.open("GET", dataPath, true);
+    xmlhttp.send();
+  };
+
+  datasetSelection.addEventListener("input", loadDataForDataset);
+
+  let loadDatasetForRegion = () => {
+    const selectedRegionOption = regionSelection.options[regionSelection.selectedIndex];
+    const selectedRegion = regions.filter(region => region.path === selectedRegionOption.value)[0];
+
+    let numOptions = datasetSelection.options.length;
+    for (let optionIndex = numOptions - 1; optionIndex >= 0; optionIndex--) {
+      datasetSelection.remove(optionIndex);
+    }
+
+    let isPreselected = true;
+    for (let dataIndex = 0; dataIndex < selectedRegion.datasets.length; dataIndex++) {
+      const dataset = selectedRegion.datasets[dataIndex];
+
+      let newELement = new Option(dataset.title, dataset.title, isPreselected, isPreselected);
+      newELement.title = dataset.description;
+      datasetSelection.add(newELement);
+      isPreselected = false;
+    }
+
+    const measuresPath = "assets/data/" + epidemic + "/" + selectedRegion.path + "/measures.json";
+
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function () {
+      if (this.readyState == 4 && this.status == 200) {
+        measures = JSON.parse(this.responseText);
+        console.log(measures);
+
+        loadDataForDataset();
+      }
+    };
+
+    xmlhttp.open("GET", measuresPath, true);
+    xmlhttp.send();
+  };
+
+  regionSelection.addEventListener("input", loadDatasetForRegion);
+
+  var xmlhttp = new XMLHttpRequest();
+  xmlhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      regions = JSON.parse(this.responseText).regions;
+
+      let numOptions = regionSelection.options.length;
+      for (let optionIndex = numOptions - 1; optionIndex >= 0; optionIndex--) {
+        regionSelection.remove(optionIndex);
+      }
+
+      let isPreselected = true;
+      for (let regionIndex = 0; regionIndex < regions.length; regionIndex++) {
+        const region = regions[regionIndex];
+
+        let newELement = new Option(region.name, region.path, isPreselected, isPreselected);
+        regionSelection.add(newELement);
+        isPreselected = false;
+      }
+
+      loadDatasetForRegion();
+    }
+  };
+
+  xmlhttp.open("GET", "assets/data/" + epidemic + "/dataset.json", true);
+  xmlhttp.send();
+
+</script>
