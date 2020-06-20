@@ -23,9 +23,10 @@
             "type": "python",
             "request": "launch",
             "console": "externalTerminal",
-            "program": "-m",
+            "program": "",
             "cwd": "${workspaceFolder}/docs",
             "args": [
+                "-m",
                 "http.server",
                 "8080"
             ]
