@@ -2,9 +2,17 @@ function renderEpidemic(svg, epidemicData, measuresData) {
   const numDays = epidemicData.data.length;
   const measures = measuresData.measures;
 
+  const startDate = Date.parse(epidemicData.startDate);
+
   const maxValue = Math.max(...epidemicData.data);
-  const measureColors = colorbrewer.Blues[measures.length];
-  //TODO: check if measures and number colors are available
+  const measureColors = colorbrewer.Blues[Math.min(Math.max(measures.length, 3), 9)];
+
+  const getMeasureColor = (index) => {
+    return measureColors[(measures.length - 1 - i) % measureColors.length];
+  };
+
+  const width = 800;
+  const height = 270;
 
   svg.append("defs").append("marker")
     .attr("id", "arrowhead")
@@ -16,7 +24,7 @@ function renderEpidemic(svg, epidemicData, measuresData) {
     .append("path")
     .attr("d", "M 0,0 V 4 L4,2 Z"); //this is actual shape for arrowhead
 
-  var markers = []
+  var markers = [];
   for (var i = 0; i < measures.length; i++) {
     var marker = svg.append("defs").append("marker")
       .attr("id", "arrowhead" + i)
@@ -27,42 +35,41 @@ function renderEpidemic(svg, epidemicData, measuresData) {
       .attr("orient", "auto")
       .append("path")
       .attr("d", "M 0,0 V 2 L2,1 Z") //this is actual shape for arrowhead
-      .attr("fill", measureColors[measures.length - 1 - i])
-    markers.push(marker)
+      .attr("fill", getMeasureColor(i));
+    markers.push(marker);
   }
 
+  var stackedBar = stackedBarchartGen(numDays, 2)(svg, width, height, false);
 
-  var stackedBar = stackedBarchartGen(numDays, 2)(svg)
+  var measureSeperationY = 14;
 
-  var measureSeperationY = 14
+  var r = [];
+  var lines = [];
 
-  var r = []
-  var lines = []
-
-  var progressmeter = svg.append("g")
+  var progressmeter = svg.append("g");
   for (var i = 0; i < measures.length; i++) {
     var ri = progressmeter.append("line")
       .attr("x1", stackedBar.X(-1) + "px")
-      .attr("y1", (202 + i * measureSeperationY) + "px")
-      .attr("stroke", measureColors[measures.length - 1 - i])
-      .attr("y2", (202 + i * measureSeperationY) + "px")
-      .attr("stroke-width", 4)
-    r.push(ri)
+      .attr("y1", (height + 20 + i * measureSeperationY) + "px")
+      .attr("stroke", getMeasureColor(i))
+      .attr("y2", (height + 20 + i * measureSeperationY) + "px")
+      .attr("stroke-width", 4);
+    r.push(ri);
 
     var linei = progressmeter.append("line")
       .style("stroke", "black")
       .style("stroke-width", 1.5)
       .attr("marker-end", "url(#arrowhead)")
-      .attr("opacity", 0.6)
-    lines.push(linei)
+      .attr("opacity", 0.6);
+    lines.push(linei);
 
     progressmeter.append("text")
       .attr("class", "figtext2")
       .attr("x", 0)
-      .attr("y", 206 + i * measureSeperationY)
+      .attr("y", height + 18 + i * measureSeperationY)
       .attr("text-anchor", "end")
       .attr("fill", "gray")
-      .html((i == 0) ? "Measure " + (measures.length - i) : (measures.length - i))
+      .html((i == 0) ? "Measure " + (measures.length - i) : (measures.length - i));
   }
 
   let trace = [];
@@ -77,11 +84,13 @@ function renderEpidemic(svg, epidemicData, measuresData) {
   // Update the milestones on the slider
   let milestones = [];
   milestones.length = measures.length;
-  for (var i = 0; i < numDays; i++) {
-    milestones[2] = 100;
-    milestones[1] = 90;
-    milestones[0] = 70;
+
+  for (var i = 0; i < measures.length; i++) {
+    const millisecondsPerDay = 1000 * 60 * 60 * 24;
+    const deltaT = (Date.parse(measures[i].startDate) - startDate);
+    milestones[i] = Math.floor(deltaT / (1000 * 60 * 60 * 24));
   }
+  console.log(milestones);
 
   stackedBar.update(trace, milestones);
 
@@ -94,19 +103,19 @@ function renderEpidemic(svg, epidemicData, measuresData) {
     let showMarker = true;
     if (showMarker) {
       lines[i].attr("x2", stack.x)
-        .attr("y2", 160)
+        .attr("y2", height)
         .attr("x1", stack.x)
-        .attr("y1", 203.5 + measureSeperationY * (i))
-        .style("visibility", "visible")
-      r[i].attr("marker-end", "url()")
+        .attr("y1", height + 22 + measureSeperationY * (i))
+        .style("visibility", "visible");
+      r[i].attr("marker-end", "url()");
 
-      //lines[i].style("visibility", "hidden")
-      r[i].attr("marker-end", "url(#arrowhead" + i + ")")
+      //lines[i].style("visibility", "hidden");
+      r[i].attr("marker-end", "url(#arrowhead" + i + ")");
     }
 
-    r[i].attr("x1", (stackedBar.X(milestones[measureIndex])) + "px")
-    r[i].attr("x2", (stackedBar.X(milestones[measureIndex] + 30)) + "px")
+    r[i].attr("x1", (stackedBar.X(milestones[measureIndex])) + "px");
+    r[i].attr("x2", (stackedBar.X(numDays - 1)) + "px");
 
-    setTM(progressmeter.node(), ctm)
+    setTM(progressmeter.node(), ctm);
   }
 }

@@ -87,9 +87,9 @@
     as follows:
   </p>
 
-  <figure style="position:relative; width:920px; height:360px" id="epidemic_fig">
+  <figure style="position:relative; width:920px; height:400px" id="epidemic_fig">
     <figcaption style="position:absolute; text-align:left; left:135px; width:350px; height:80px">
-      Epidemic curve is a combination of cases with symptoms and known onset
+      The shown epidemic curve is a combination of cases with known symptom onset
       <svg style="position:relative; top:2px; width:3px; height:14px; background:#c51b8a"></svg> and cases without
       symptoms
       <svg style="position:relative; top:2px; width:3px; height:14px; background:#fa9fb5"></svg>
@@ -286,7 +286,7 @@
   const renderGraph = (epidemicData, measures) => {
     const graphDiv = d3.select("#chart")
       .style("width", 920 + "px")
-      .style("height", 300 + "px")
+      .style("height", 500 + "px")
       .style("top", "90px")
       .style("position", "relative")
       .style("margin-left", "auto")
@@ -296,7 +296,7 @@
 
     const svg = graphDiv.append("svg")
       .attr("width", 920)
-      .attr("height", 300)
+      .attr("height", 400)
       .style("position", "absolute")
       .style("left", "15px");
 

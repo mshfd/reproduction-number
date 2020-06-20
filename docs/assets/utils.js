@@ -398,10 +398,7 @@ function stackedBarchartGen(n, m) {
   var dotcolor = "black"
   var drawgrid = true
 
-  function renderStackedGraph(svg) {
-
-    var dwidth = 800
-    var dheight = 170
+  function renderStackedGraph(svg, dwidth, dheight, createCircleTips) {
 
     var margin = { right: 23, left: 10, top: 10, bottom: 10 }
     var width = dwidth - margin.left - margin.right
@@ -437,25 +434,29 @@ function stackedBarchartGen(n, m) {
 
     }
 
-    graphsvg.append("g").selectAll("circle")
-      .data(stack)
-      .enter()
-      .append("circle")
-      .attr("cx", function (d, i) { return X(i) })
-      .attr("cy", function (d, i) { return Y(d.reduce(add, 0)) })
-      .attr("r", 2)
-      .attr("opacity", copacity)
+    if (createCircleTips) {
+      graphsvg.append("g").selectAll("circle")
+        .data(stack)
+        .enter()
+        .append("circle")
+        .attr("cx", function (d, i) { return X(i) })
+        .attr("cy", function (d, i) { return Y(d.reduce(add, 0)) })
+        .attr("r", 2)
+        .attr("opacity", copacity)
+    }
 
     function updateGraph(stacknew, highlight) {
 
-      var svgdata = graphsvg.selectAll("circle").data(stacknew)
-      svgdata.enter().append("circle")
-      svgdata.merge(svgdata)
-        .attr("cx", function (d, i) { return X(i) })
-        .attr("cy", function (d, i) { return Y(d.reduce(add, 0)) })
-        .attr("r", function (d, i) { return highlight.includes(i) ? 2 : cr })
-        .attr("fill", function (d, i) { return highlight.includes(i) ? highlightcol : dotcolor })
-      svgdata.exit().remove()
+      var svgdata = graphsvg.selectAll("circle").data(stacknew);
+      if (createCircleTips) {
+        svgdata.enter().append("circle")
+        svgdata.merge(svgdata)
+          .attr("cx", function (d, i) { return X(i) })
+          .attr("cy", function (d, i) { return Y(d.reduce(add, 0)) })
+          .attr("r", function (d, i) { return highlight.includes(i) ? 2 : cr })
+          .attr("fill", function (d, i) { return highlight.includes(i) ? highlightcol : dotcolor })
+        svgdata.exit().remove()
+      }
 
       for (var j = 0; j < m; j++) {
         var svgdatai = s[j].selectAll("line").data(stacknew)
