@@ -428,7 +428,7 @@ function stackedBarchartGen(n, m) {
         .attr("y2", function (d, i) { return Y(d[0]) })
         .attr("stroke-width", 2)
         .attr("stroke", col[3][j])
-        .attr("opacity", lineopacity)
+        .attr("opacity", lineopacity);
 
       s.push(si)
 
@@ -445,7 +445,7 @@ function stackedBarchartGen(n, m) {
         .attr("opacity", copacity)
     }
 
-    function updateGraph(stacknew, highlight) {
+    function updateGraph(stacknew, highlight, startDate, maxValue) {
 
       var svgdata = graphsvg.selectAll("circle").data(stacknew);
       if (createCircleTips) {
@@ -462,8 +462,13 @@ function stackedBarchartGen(n, m) {
         var svgdatai = s[j].selectAll("line").data(stacknew)
         svgdatai.enter().append("line")
         svgdatai.merge(svgdatai)
-          .attr("y1", function (d, i) { return Y(d.slice(0, j).reduce(add, 0)) })
-          .attr("y2", function (d, i) { return Y(d.slice(0, j + 1).reduce(add, 0)) })
+          .attr("y1", function (d, i) { return Y(d.slice(0, j).reduce(add, 0) / maxValue) })
+          .attr("y2", function (d, i) { return Y(d.slice(0, j + 1).reduce(add, 0) / maxValue) })
+          .append("title").html(function (d, i) {
+            const millisecondsPerDay = 1000 * 60 * 60 * 24;
+            const date = new Date(startDate.getTime() + i * millisecondsPerDay);
+            return date.toLocaleDateString() + " - Number of Cases: " + stacknew[i][j];
+          });
         svgdatai.exit().remove()
       }
 
@@ -886,9 +891,7 @@ function matSum(R, b) {
   var U = eR["E"]; fix(U)
   var bc = new numeric.T(numeric.transpose([b]), zeros2D(b.length, 1))
   var Uinvb = U.inv().dot(bc); fix(Uinvb)
-  // console.log(numeric.prettyPrint(R))
-  // console.log(numeric.prettyPrint(lambda))
-  // console.log(1-numeric.norm2([lambda.y[0],lambda.x[0]]), 1-numeric.norm2([lambda.y[1],lambda.x[1]]))
+
   return {
     matSum: function (k) {
       var topv = pow(lambda, k).mul(-1).add(1)

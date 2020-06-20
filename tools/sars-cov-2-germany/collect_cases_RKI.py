@@ -75,7 +75,7 @@ last_date = parse_date(dates[-1]).date()
 
 date = first_date
 cases = []
-while date < last_date:
+while date <= last_date:
 
     date_key = key_for_date(date)
 
