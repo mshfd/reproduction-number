@@ -5,7 +5,7 @@ function renderEpidemic(svg, epidemicData, measuresData) {
   const startDate = Date.parse(epidemicData.startDate);
 
   const maxValue = Math.max(...epidemicData.data);
-  const measureColors = colorbrewer.Blues[Math.min(Math.max(measures.length, 3), 9)];
+  const measureColors = colorbrewer.Reds[Math.min(Math.max(measures.length, 3), 9)];
 
   const getMeasureColor = (index) => {
     return measureColors[(measures.length - 1 - i) % measureColors.length];
@@ -108,41 +108,46 @@ function renderEpidemic(svg, epidemicData, measuresData) {
     }
   }
 
-  stackedBar.update(trace, measureDays, new Date(startDate), maxValue);
+  const updateChart = (alpha) => {
 
-  for (var i = 0; i < measures.length; i++) {
-    const measureIndex = measures.length - 1 - i;
-    const measure = measures[measureIndex];
-    var endpoint = stackedBar.stack[0].selectAll("line").nodes()[measureDays[measureIndex]]
-    var stack = endpoint.getBBox();
-    var ctm = endpoint.getCTM();
+    stackedBar.update(trace, measureDays, new Date(startDate), maxValue, alpha);
 
-    const startDateText = new Date(Date.parse(measure.startDate)).toLocaleDateString();
-    const endDateText = (measureDaysEnd[measureIndex] != 0) ? (" - " + new Date(Date.parse(measure.endDate)).toLocaleDateString()) : "";
-    const toolTip = startDateText + endDateText + ": " + measure.description;
+    for (var i = 0; i < measures.length; i++) {
+      const measureIndex = measures.length - 1 - i;
+      const measure = measures[measureIndex];
+      var endpoint = stackedBar.stack[0].selectAll("line").nodes()[measureDays[measureIndex]]
+      var stack = endpoint.getBBox();
+      var ctm = endpoint.getCTM();
 
-    let showMarker = true;
-    if (showMarker) {
-      lines[i].attr("x2", stack.x)
-        .attr("y2", height)
-        .attr("x1", stack.x)
-        .attr("y1", height + 22 + measureSeperationY * (i))
-        .style("visibility", "visible")
+      const startDateText = new Date(Date.parse(measure.startDate)).toLocaleDateString();
+      const endDateText = (measureDaysEnd[measureIndex] != 0) ? (" - " + new Date(Date.parse(measure.endDate)).toLocaleDateString()) : "";
+      const toolTip = startDateText + endDateText + ": " + measure.description;
+
+      let showMarker = true;
+      if (showMarker) {
+        lines[i].attr("x2", stack.x)
+          .attr("y2", height)
+          .attr("x1", stack.x)
+          .attr("y1", height + 22 + measureSeperationY * (i))
+          .style("visibility", "visible")
+          .append("title").html(toolTip);
+
+        linesDashed[i].attr("x2", stack.x)
+          .attr("y2", height)
+          .attr("x1", stack.x)
+          .attr("y1", -10)
+          .style("visibility", "visible")
+          .append("title").html(toolTip);
+      }
+
+      r[i].attr("x1", (stackedBar.X(measureDays[measureIndex]) + 0.75) + "px")
+        .attr("x2", stackedBar.X((measureDaysEnd[measureIndex] != 0) ? measureDaysEnd[measureIndex] : numDays - 1) + "px")
+        .attr("marker-end", "url(#arrowhead" + i + ")")
         .append("title").html(toolTip);
 
-      linesDashed[i].attr("x2", stack.x)
-        .attr("y2", height)
-        .attr("x1", stack.x)
-        .attr("y1", -10)
-        .style("visibility", "visible")
-        .append("title").html(toolTip);
+      setTM(controlMeasureTimeline.node(), ctm);
     }
+  };
 
-    r[i].attr("x1", (stackedBar.X(measureDays[measureIndex]) + 0.75) + "px")
-      .attr("x2", stackedBar.X((measureDaysEnd[measureIndex] != 0) ? measureDaysEnd[measureIndex] : numDays - 1) + "px")
-      .attr("marker-end", "url(#arrowhead" + i + ")")
-      .append("title").html(toolTip);
-
-    setTM(controlMeasureTimeline.node(), ctm);
-  }
+  return updateChart;
 }

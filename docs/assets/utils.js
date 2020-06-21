@@ -445,7 +445,7 @@ function stackedBarchartGen(n, m) {
         .attr("opacity", copacity)
     }
 
-    function updateGraph(stacknew, highlight, startDate, maxValue) {
+    function updateGraph(stacknew, highlight, startDate, maxValue, alpha) {
 
       var svgdata = graphsvg.selectAll("circle").data(stacknew);
       if (createCircleTips) {
@@ -455,6 +455,7 @@ function stackedBarchartGen(n, m) {
           .attr("cy", function (d, i) { return Y(d.reduce(add, 0)) })
           .attr("r", function (d, i) { return highlight.includes(i) ? 2 : cr })
           .attr("fill", function (d, i) { return highlight.includes(i) ? highlightcol : dotcolor })
+          .attr("opacity", alpha)
         svgdata.exit().remove()
       }
 
@@ -464,6 +465,7 @@ function stackedBarchartGen(n, m) {
         svgdatai.merge(svgdatai)
           .attr("y1", function (d, i) { return Y(d.slice(0, j).reduce(add, 0) / maxValue) })
           .attr("y2", function (d, i) { return Y(d.slice(0, j + 1).reduce(add, 0) / maxValue) })
+          .attr("opacity", alpha)
           .append("title").html(function (d, i) {
             const millisecondsPerDay = 1000 * 60 * 60 * 24;
             const date = new Date(startDate.getTime() + i * millisecondsPerDay);
