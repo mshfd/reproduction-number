@@ -28,7 +28,7 @@
   <dt-math class="alpha">\alpha</dt-math>
   <dt-math class="lambda">\lambda</dt-math>
   <dt-math class="beta">\beta</dt-math>
-  <dt-math class="r">R</dt-math>
+  <dt-math class="r">R_{j}= \displaystyle\sum_{i}^{n} p_{ij}</dt-math>
   <dt-math class="alpha-equals">\alpha=</dt-math>
   <dt-math class="beta-equals">\beta=</dt-math>
   <dt-math class="beta-equals-zero">\beta = 0</dt-math>
@@ -90,37 +90,26 @@
   <figure style="position:relative; width:920px; height:450px" id="epidemic_fig">
     <figcaption style="position:absolute; text-align:left; left:135px; width:350px; height:80px">
       The shown epidemic curve is a combination of cases with known symptom onset
-      <svg style="position:relative; top:2px; width:3px; height:14px; background:#c51b8a"></svg> and cases without
-      symptoms
-      <svg style="position:relative; top:2px; width:3px; height:14px; background:#fa9fb5"></svg>
+      <svg id="symptoms-indicator" style="position:relative; top:2px; width:3px; height:14px; background:#c51b8a"></svg>
+      and cases without symptoms
+      <svg id="no-symptoms-indicator"
+        style="position:relative; top:2px; width:3px; height:14px; background:#fa9fb5"></svg>
       if data provides this information.
     </figcaption>
 
+    <div id="sliderStep" style="position:absolute; left:500px; width:250px; height:100px">
+
+      <div id="stepSizeMilestones" class="figtext" style="position:absolute; left:15px; top:0px">
+        Opacity epidemic curve
+      </div>
+    </div>
+
+    <div id="R" class="figtext" style="position:absolute; left:50px; top:150px">
+      R
+    </div>
+
     <div id="chart"></div>
   </figure>
-
-  <!--
-  <figure style="position:relative; width:920px; height:360px" id="milestones_gd">
-
-    <div id="sliderStep" style="position:absolute; left:550px; width:250px; height:100px">
-
-      <div id="stepSizeMilestones" class="figtext" style="position:absolute; left:15px; top:15px">
-        Step-size
-      </div>
-
-      <div class="figtext2" id="milestones_gd_optstep"
-        style="position:absolute; font-size:11px; left:152px; top:18px; z-index:10; cursor: pointer">
-        Optimal Step-size
-      </div>
-
-      <svg style="position:absolute; font-size:10px; left:224px; top:34px">
-        <line marker-end="url(#arrowhead)" style="stroke: black; stroke-width: 1.5; visibility: visible;" x2="5" y2="10"
-          x1="5" y1="0"></line>
-      </svg>
-
-    </div>
-    <div id="chart"></div>
-  </figure>-->
 
   <p>
     It is possible to obtain likelihood-based estimates of R. The relative likelihood <dt-math>p_{ij}</dt-math> that
@@ -189,85 +178,6 @@
 }
 </script>
 
-
-<!--<script src="assets/milestones.js"></script>
-<script>
-
-    const renderGraph = () => {
-      const graphDiv = d3.select("#chart")
-        .style("width", 920 + "px")
-        .style("height", 300 + "px")
-        .style("top", "90px")
-        .style("position", "relative")
-        .style("margin-left", "auto")
-        .style("margin-right", "auto")
-        .attr("width", 920)
-        .attr("height", 500);
-
-      const svg = graphDiv.append("svg")
-        .attr("width", 920)
-        .attr("height", 300)
-        .style("position", "absolute")
-        .style("left", "15px");
-
-      const updateSliderCallback = renderMilestones(svg);
-
-      const alphaHTML = MathCache("alpha-equals");
-
-      const slidera = sliderGen([250, 80])
-        .ticks([0, 1, 200 / (101), 2])
-        .change(function (i) {
-          const html = alphaHTML + '<span style="font-weight: normal;">' + i.toPrecision(4) + "</span>";
-          d3.select("#stepSizeMilestones").html("Stepsize " + html);
-          updateSliderCallback(i, 0.100);
-        })
-        .ticktitles(function (d, i) { return [0, 1, "", 2][i] })
-        .startxval(200 / (101))
-        .cRadius(7)
-        .shifty(-12)
-        .shifty(10)
-        .margins(20, 20)(d3.select("#sliderStep"));
-
-      d3.select("#milestones_gd_optstep").on("click", slidera.init)
-
-      svg.append("text")
-        .attr("class", "katex morsd mathit")
-        .style("font-size", "19px")
-        .style("font-family", "KaTeX_Math")
-        .attr("x", 105)
-        .attr("y", 50)
-        .attr("text-anchor", "end")
-        .attr("fill", "gray")
-        .html("f(w<tspan baseline-shift = \"super\" font-size = \"15\">k</tspan>) - f(w<tspan baseline-shift = \"super\" font-size = \"15\">*</tspan>)");
-
-      svg.append("text")
-        .style("font-size", "13px")
-        .attr("x", 0)
-        .attr("y", 80)
-        .attr("dy", 0)
-        .attr("transform", "translate(110,0)")
-        .attr("class", "caption")
-        .attr("text-anchor", "end")
-        .attr("fill", "gray")
-        .text("At the initial point, the error in each component is equal.");
-      svg.selectAll(".caption").call(wrap, 100);
-
-      svg.append("text")
-        .style("font-size", "13px")
-        .attr("x", 420)
-        .attr("y", 270)
-        .attr("dy", 0)
-        .attr("dx", -295)
-        .attr("text-anchor", "start")
-        .attr("fill", "gray")
-        .text("At the optimum, the rates of convergence of the largest and smallest eigenvalues equalize.");
-    };
-
-    requestAnimationFrame(() => {
-      renderGraph();
-    });
-</script>-->
-
 <!-- Figure render queue -->
 <script src="assets/epidemic.js"></script>
 <script>
@@ -288,7 +198,48 @@
       .style("position", "absolute")
       .style("left", "15px");
 
-    renderEpidemic(svg, epidemicData, measures);
+    const updateChart = renderEpidemic(svg, epidemicData, measures);
+
+    const updateChartLocally = (alpha) => {
+      updateChart(alpha);
+      d3.select("#symptoms-indicator").attr("opacity", alpha);
+      d3.select("#no-symptoms-indicator").attr("opacity", alpha);
+    }
+
+    const alphaHTML = MathCache("alpha-equals");
+
+    const startValue = 0.5;
+    const slidera = sliderGen([150, 60])
+      .ticks([0, 1])
+      .change(function (i) {
+        const html = alphaHTML + '<span style="font-weight: normal;">' + i.toFixed(2) + "</span>";
+        d3.select("#stepSizeMilestones").html("Opacity " + html);
+        updateChartLocally(i);
+      })
+      .ticktitles(function (d, i) { return [0, 1, "", 2][i] })
+      .startxval(startValue)
+      .cRadius(7)
+      .shifty(-5)
+      .margins(10, 20)(d3.select("#sliderStep"));
+    updateChartLocally(startValue);
+
+    d3.select("#milestones_gd_optstep").on("click", slidera.init)
+
+    const rHTML = MathCache("r");
+    d3.select("#R").html(rHTML);
+
+    svg.append("text")
+      .style("font-size", "13px")
+      .attr("x", 0)
+      .attr("y", 130)
+      .attr("dy", 0)
+      .attr("transform", "translate(110,0)")
+      .attr("class", "caption")
+      .attr("text-anchor", "end")
+      .attr("fill", "gray")
+      .text("The Reproduction Number is assigned to a period of n days.");
+    svg.selectAll(".caption").call(wrap, 100);
+
   };
 
   requestGraphUpdate = (epidemicData, measures) => {
