@@ -94,7 +94,7 @@
 
     <div id="sliderStep" style="position:absolute; left:500px; width:250px; height:100px">
 
-      <div id="stepSizeMilestones" class="figtext" style="position:absolute; left:15px; top:0px">
+      <div id="opacityEpidemic" class="figtext" style="position:absolute; left:15px; top:0px">
         Opacity epidemic curve
       </div>
     </div>
@@ -209,7 +209,7 @@
       .ticks([0, 1])
       .change(function (i) {
         const html = alphaHTML + '<span style="font-weight: normal;">' + i.toFixed(2) + "</span>";
-        d3.select("#stepSizeMilestones").html("Opacity " + html);
+        d3.select("#opacityEpidemic").html("Opacity " + html);
         updateChartLocally(i);
       })
       .ticktitles(function (d, i) { return [0, 1, "", 2][i] })
@@ -218,8 +218,6 @@
       .shifty(-5)
       .margins(10, 20)(d3.select("#sliderStep"));
     updateChartLocally(startValue);
-
-    d3.select("#milestones_gd_optstep").on("click", slidera.init)
 
     const rHTML = MathCache("r");
     d3.select("#R").html(rHTML);
