@@ -108,7 +108,23 @@ function renderEpidemic(svg, epidemicData, measuresData) {
     }
   }
 
+  const updateRPlot = () => {
+
+    var graphsvg = svg.append("g").attr("transform", "translate(" + 110 + "," + 10 + ")")
+    const updatePlot = plot2dGen((x) => { return x; }, (y) => { return y * 1; }, () => { return colorbrewer.YlGn[3][0]; })(graphsvg);
+
+    updatePlot([[1, 2], [2, 4], [3, 2], [4, 6], [10, 12], [20, 30], [300, 60]]);
+  }
+
+  const updateLikelihoodWeights = () => {
+    var graphsvg = svg.append("g").attr("transform", "translate(" + 10 + "," + 370 + ")");
+    stackedBarchartGen(100, 100)(graphsvg, 100, 100, true);
+  }
+
   const updateChart = (alpha) => {
+
+    //updateRPlot();
+    //updateLikelihoodWeights(svg);
 
     stackedBar.update(trace, measureDays, new Date(startDate), maxValue, alpha);
 
