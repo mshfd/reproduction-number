@@ -442,7 +442,7 @@ function stackedBarchartGen(n, m) {
   var cr = 1.75
   var copacity = 1
   var dotcolor = "black"
-  var drawgrid = true
+  var drawgrid = true;
 
   function renderStackedGraph(svg, dwidth, dheight, createCircleTips) {
 
@@ -454,10 +454,12 @@ function stackedBarchartGen(n, m) {
 
     var stack = zeros2D(n, m)
     var axisheight = 10
-    var X = d3.scaleLinear().domain([0, stack.length]).range([margin.right, margin.right + width])
-    var Y = d3.scaleLinear().domain([axis[1], axis[0]]).range([0, height])
+    let X = d3.scaleLinear().domain([0, stack.length - 1]).range([margin.right, margin.right + width]);
 
     function add(a, b) { return a + b; }
+
+    var scaleLeft = graphsvg.append("g");
+    var scaleBottom = graphsvg.append("g");
 
     var s = []
     for (var j = 0; j < m; j++) {
@@ -470,9 +472,9 @@ function stackedBarchartGen(n, m) {
         .append("line")
         .attr("x1", function (d, i) { return X(i) })
         .attr("x2", function (d, i) { return X(i) })
-        .attr("y1", function (d, i) { return Y(0) })
-        .attr("y2", function (d, i) { return Y(d[0]) })
-        .attr("stroke-width", 2)
+        .attr("y1", function (d, i) { return 0 })
+        .attr("y2", function (d, i) { return 0 })
+        .attr("stroke-width", 1.5)
         .attr("stroke", col[3][j])
         .attr("opacity", lineopacity);
 
@@ -486,12 +488,14 @@ function stackedBarchartGen(n, m) {
         .enter()
         .append("circle")
         .attr("cx", function (d, i) { return X(i) })
-        .attr("cy", function (d, i) { return Y(d.reduce(add, 0)) })
+        .attr("cy", function (d, i) { return 0 })
         .attr("r", 2)
         .attr("opacity", copacity)
     }
 
-    function updateGraph(stacknew, highlight, startDate, maxValue, alpha) {
+    function updateGraph(stacknew, highlight, startDate, maxValue, alpha, numTicksY) {
+
+      Y = d3.scaleLinear().domain([maxValue, 0]).range([0, height]);
 
       var svgdata = graphsvg.selectAll("circle").data(stacknew);
       if (createCircleTips) {
@@ -505,13 +509,16 @@ function stackedBarchartGen(n, m) {
         svgdata.exit().remove()
       }
 
+      const lineWidth = (width / stacknew.length) * 0.75;
+
       for (var j = 0; j < m; j++) {
         var svgdatai = s[j].selectAll("line").data(stacknew)
         svgdatai.enter().append("line")
         svgdatai.merge(svgdatai)
-          .attr("y1", function (d, i) { return Y(d.slice(0, j).reduce(add, 0) / maxValue) })
-          .attr("y2", function (d, i) { return Y(d.slice(0, j + 1).reduce(add, 0) / maxValue) })
+          .attr("y1", function (d, i) { return Y(d.slice(0, j).reduce(add, 0)) })
+          .attr("y2", function (d, i) { return Y(d.slice(0, j + 1).reduce(add, 0)) })
           .attr("opacity", alpha)
+          .attr("stroke-width", lineWidth)
           .append("title").html(function (d, i) {
             const millisecondsPerDay = 1000 * 60 * 60 * 24;
             const date = new Date(startDate.getTime() + i * millisecondsPerDay);
@@ -520,25 +527,27 @@ function stackedBarchartGen(n, m) {
         svgdatai.exit().remove()
       }
 
+      if (drawgrid) {
+        scaleLeft
+          .attr("class", "grid")
+          .attr("transform", "translate(0," + (height + 10) + ")")
+          .attr("opacity", 0.25)
+          .call(d3.axisBottom(X)
+            .ticks(5)
+            .tickSize(2))
+
+        scaleBottom
+          .attr("class", "grid")
+          .attr("transform", "translate(12,0)")
+          .attr("opacity", 0.25)
+          .call(d3.axisRight(Y)
+            .ticks(numTicksY || 0)
+            .tickSize(2))
+      }
+
     }
 
-    if (drawgrid) {
-      graphsvg.append("g")
-        .attr("class", "grid")
-        .attr("transform", "translate(0," + (height + 10) + ")")
-        .attr("opacity", 0.25)
-        .call(d3.axisBottom(X)
-          .ticks(5)
-          .tickSize(2))
 
-      graphsvg.append("g")
-        .attr("class", "grid")
-        .attr("transform", "translate(12,0)")
-        .attr("opacity", 0.25)
-        .call(d3.axisLeft(Y)
-          .ticks(0)
-          .tickSize(2))
-    }
     return { update: updateGraph, stack: s, X: X }
 
   }

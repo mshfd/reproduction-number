@@ -2,6 +2,9 @@ function renderEpidemic(svg, epidemicData, measuresData) {
   const numDays = epidemicData.data.length;
   const measures = measuresData.measures;
 
+  const numStacks = 2;
+  const numDaysPerGeneration = 4;
+
   const startDate = Date.parse(epidemicData.startDate);
 
   const maxValue = Math.max(...epidemicData.data);
@@ -39,7 +42,10 @@ function renderEpidemic(svg, epidemicData, measuresData) {
     markers.push(marker);
   }
 
-  var stackedBar = stackedBarchartGen(numDays, 2)(svg, width, height, false);
+  var stackedBar = stackedBarchartGen(numDays, numStacks)(svg, width, height, false);
+
+  let graphsvg = svg.append("g").attr("transform", "translate(" + 10 + "," + 380 + ")");
+  let likelihoodWeightsGraph = stackedBarchartGen(numDaysPerGeneration + 2, numStacks)(graphsvg, 200, 100, false);
 
   var measureSeperationY = 14;
 
@@ -116,17 +122,26 @@ function renderEpidemic(svg, epidemicData, measuresData) {
     updatePlot([[1, 2], [2, 4], [3, 2], [4, 6], [10, 12], [20, 30], [300, 60]]);
   }
 
-  const updateLikelihoodWeights = () => {
-    var graphsvg = svg.append("g").attr("transform", "translate(" + 10 + "," + 370 + ")");
-    stackedBarchartGen(100, 100)(graphsvg, 100, 100, true);
+  const updateLikelihoodWeights = (alpha) => {
+
+    let likelihoodWeights = [];
+    likelihoodWeights.length = numDaysPerGeneration + 2;
+
+    for (var i = 0; i < numDaysPerGeneration + 2; i++) {
+      likelihoodWeights[i] = [0, 0];
+      likelihoodWeights[i][0] = (i > 0 && i <= numDaysPerGeneration) ? 1 : 0;
+      likelihoodWeights[i][1] = likelihoodWeights[i][0]; // without symptoms
+    }
+
+    likelihoodWeightsGraph.update(likelihoodWeights, null, new Date(startDate), 2, Math.max(0.25, alpha));
   }
 
   const updateChart = (alpha) => {
 
     //updateRPlot();
-    //updateLikelihoodWeights(svg);
+    updateLikelihoodWeights(alpha);
 
-    stackedBar.update(trace, measureDays, new Date(startDate), maxValue, alpha);
+    stackedBar.update(trace, measureDays, new Date(startDate), maxValue, alpha, 5);
 
     for (var i = 0; i < measures.length; i++) {
       const measureIndex = measures.length - 1 - i;

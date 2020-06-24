@@ -82,7 +82,7 @@
     as follows:
   </p>
 
-  <figure style="position:relative; width:920px; height:450px" id="epidemic_fig">
+  <figure style="position:relative; width:920px; height:580px" id="epidemic_fig">
     <figcaption style="position:absolute; text-align:left; left:135px; width:350px; height:80px">
       The shown epidemic curve is a combination of cases with known symptom onset
       <svg id="symptoms-indicator" style="position:relative; top:2px; width:3px; height:14px; background:#c51b8a"></svg>
@@ -181,7 +181,7 @@
   const renderGraph = (epidemicData, measures) => {
     const graphDiv = d3.select("#chart")
       .style("width", 920 + "px")
-      .style("height", 600 + "px")
+      .style("height", 500 + "px")
       .style("top", "90px")
       .style("position", "relative")
       .style("margin-left", "auto")
@@ -189,7 +189,7 @@
 
     const svg = graphDiv.append("svg")
       .attr("width", 920)
-      .attr("height", 600)
+      .attr("height", 500)
       .style("position", "absolute")
       .style("left", "15px");
 
@@ -231,6 +231,18 @@
       .attr("text-anchor", "end")
       .attr("fill", "gray")
       .text("The reproduction number is assigned to a period of n days and is obtained as described below.");
+
+    svg.append("text")
+      .style("font-size", "13px")
+      .attr("x", 0)
+      .attr("y", 400)
+      .attr("dy", 0)
+      .attr("transform", "translate(110,0)")
+      .attr("class", "caption")
+      .attr("text-anchor", "end")
+      .attr("fill", "gray")
+      .text("The relative likelihood that case i has been infected by case j.");
+
     svg.selectAll(".caption").call(wrap, 100);
   };
 
