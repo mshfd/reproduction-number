@@ -493,7 +493,7 @@ function stackedBarchartGen(n, m) {
         .attr("opacity", copacity)
     }
 
-    function updateGraph(stacknew, highlight, startDate, maxValue, alpha, numTicksY) {
+    function updateGraph(stacknew, highlight, startDate, maxValue, alpha, numTicksY, scaleXTickLabels) {
 
       Y = d3.scaleLinear().domain([maxValue, 0]).range([0, height]);
 
@@ -528,21 +528,32 @@ function stackedBarchartGen(n, m) {
       }
 
       if (drawgrid) {
+
+        let xTickLabels = null;
+        if (scaleXTickLabels) {
+          xTickLabels = d3.scaleBand()
+            .domain(scaleXTickLabels)
+            .range([margin.right, margin.right + width])
+            .paddingInner(1.0);
+        }
+
         scaleLeft
           .attr("class", "grid")
           .attr("transform", "translate(0," + (height + 10) + ")")
           .attr("opacity", 0.25)
-          .call(d3.axisBottom(X)
+          .call(d3.axisBottom(xTickLabels ? xTickLabels : X)
             .ticks(5)
             .tickSize(2))
 
-        scaleBottom
-          .attr("class", "grid")
-          .attr("transform", "translate(12,0)")
-          .attr("opacity", 0.25)
-          .call(d3.axisRight(Y)
-            .ticks(numTicksY || 0)
-            .tickSize(2))
+        if (numTicksY) {
+          scaleBottom
+            .attr("class", "grid")
+            .attr("transform", "translate(12,0)")
+            .attr("opacity", 0.25)
+            .call(d3.axisRight(Y)
+              .ticks(numTicksY || 0)
+              .tickSize(2))
+        }
       }
 
     }

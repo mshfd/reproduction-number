@@ -4,6 +4,8 @@ function renderEpidemic(svg, epidemicData, measuresData) {
 
   const numStacks = 2;
   const numDaysPerGeneration = 4;
+  const numDaysForIncubation = numDaysPerGeneration;
+  const numDaysForWeights = Math.ceil(numDaysPerGeneration + numDaysForIncubation);
 
   const startDate = Date.parse(epidemicData.startDate);
 
@@ -45,7 +47,7 @@ function renderEpidemic(svg, epidemicData, measuresData) {
   var stackedBar = stackedBarchartGen(numDays, numStacks)(svg, width, height, false);
 
   let graphsvg = svg.append("g").attr("transform", "translate(" + 10 + "," + 380 + ")");
-  let likelihoodWeightsGraph = stackedBarchartGen(numDaysPerGeneration + 2, numStacks)(graphsvg, 200, 100, false);
+  let likelihoodWeightsGraph = stackedBarchartGen(numDaysForWeights, numStacks)(graphsvg, 400, 100, false);
 
   var measureSeperationY = 14;
 
@@ -125,15 +127,26 @@ function renderEpidemic(svg, epidemicData, measuresData) {
   const updateLikelihoodWeights = (alpha) => {
 
     let likelihoodWeights = [];
-    likelihoodWeights.length = numDaysPerGeneration + 2;
+    let tickLabels = [];
+    likelihoodWeights.length = numDaysForWeights;
+    tickLabels.length = numDaysForWeights;
 
-    for (var i = 0; i < numDaysPerGeneration + 2; i++) {
+    let emptyLabel = "";
+    for (var i = 0; i < numDaysForWeights; i++) {
       likelihoodWeights[i] = [0, 0];
-      likelihoodWeights[i][0] = (i > 0 && i <= numDaysPerGeneration) ? 1 : 0;
+
+      const isInfectedCase = i >= numDaysForIncubation && i < numDaysForWeights;
+
+      likelihoodWeights[i][0] = (i == 0) ? 1 : (isInfectedCase ? 1.0 / numDaysPerGeneration : 0);
       likelihoodWeights[i][1] = likelihoodWeights[i][0]; // without symptoms
+
+      const iLabel = likelihoodWeights[i][0] ? "i" + Math.floor(i - numDaysForIncubation) : emptyLabel;
+      emptyLabel = emptyLabel + " ";
+      tickLabels[i] = (i == 0) ? "j" : iLabel;
     }
 
-    likelihoodWeightsGraph.update(likelihoodWeights, null, new Date(startDate), 2, Math.max(0.25, alpha));
+    likelihoodWeightsGraph.update(likelihoodWeights, null, new Date(startDate), 2, Math.max(0.25, alpha), null, tickLabels);
+
   }
 
   const updateChart = (alpha) => {

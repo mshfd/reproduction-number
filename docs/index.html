@@ -28,7 +28,7 @@
   <dt-math class="alpha">\alpha</dt-math>
   <dt-math class="lambda">\lambda</dt-math>
   <dt-math class="beta">\beta</dt-math>
-  <dt-math class="r">R_{j}= \displaystyle\sum_{i}^{n} p_{ij}</dt-math>
+  <dt-math class="r">R_{j}= \displaystyle\sum_{i} p_{ij}</dt-math>
   <dt-math class="alpha-equals">\alpha=</dt-math>
   <dt-math class="beta-equals">\beta=</dt-math>
   <dt-math class="beta-equals-zero">\beta = 0</dt-math>
@@ -45,6 +45,7 @@
   <dt-math class="x-i-k">x_i^k - x_i^*</dt-math>
   <dt-math class="xi-i">\xi_i</dt-math>
   <dt-math class="beta-equals-one-minus">\beta = (1 - \sqrt{\alpha \lambda_i})^2</dt-math>
+  <dt-math class="pij">p_{ij}</dt-math>
 </div>
 <script>
   function MathCache(id) {
@@ -101,6 +102,10 @@
 
     <div id="R" class="figtext3" style="position:absolute; left:0px; top:120px">
       R
+    </div>
+
+    <div id="pij" class="figtext3" style="position:absolute; left:100px; top:470px">
+      pij
     </div>
 
     <div id="chart"></div>
@@ -224,24 +229,27 @@
     svg.append("text")
       .style("font-size", "13px")
       .attr("x", 0)
-      .attr("y", 130)
+      .attr("y", 120)
       .attr("dy", 0)
       .attr("transform", "translate(110,0)")
       .attr("class", "caption")
       .attr("text-anchor", "end")
       .attr("fill", "gray")
-      .text("The reproduction number is assigned to a period of n days and is obtained as described below.");
+      .text("The effective reproduction number for case j is the sum over all cases i, weighted by the relative likelihood that case i has been infected by case j.");
+
+    const pijHTML = MathCache("pij");
+    d3.select("#pij").html(pijHTML);
 
     svg.append("text")
       .style("font-size", "13px")
       .attr("x", 0)
-      .attr("y", 400)
+      .attr("y", 430)
       .attr("dy", 0)
       .attr("transform", "translate(110,0)")
       .attr("class", "caption")
       .attr("text-anchor", "end")
       .attr("fill", "gray")
-      .text("The relative likelihood that case i has been infected by case j.");
+      .text("The relative likelihood that cases i have been infected by case j.");
 
     svg.selectAll(".caption").call(wrap, 100);
   };
