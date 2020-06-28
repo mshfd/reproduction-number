@@ -5,7 +5,7 @@ function renderEpidemic(svg, epidemicData, measuresData) {
   const numStacks = 2;
   const numDaysPerGeneration = 4;
   const numDaysForIncubation = numDaysPerGeneration;
-  const numDaysForWeights = Math.ceil(numDaysPerGeneration + numDaysForIncubation);
+  const numDaysForWeights = Math.ceil(numDaysPerGeneration * 2 + numDaysForIncubation * 2);
 
   const startDate = Date.parse(epidemicData.startDate);
 
@@ -135,14 +135,16 @@ function renderEpidemic(svg, epidemicData, measuresData) {
     for (var i = 0; i < numDaysForWeights; i++) {
       likelihoodWeights[i] = [0, 0];
 
+      const isInfectiousCase = i >= 0 && i < numDaysPerGeneration;
       const isInfectedCase = i >= numDaysForIncubation && i < numDaysForWeights;
+      const caseDayIndex = numDaysForIncubation + numDaysPerGeneration;
 
-      likelihoodWeights[i][0] = (i == 0) ? 1 : (isInfectedCase ? 1.0 / numDaysPerGeneration : 0);
+      likelihoodWeights[i][0] = (i == caseDayIndex) ? 1 : ((isInfectedCase || isInfectiousCase) ? 1.0 / numDaysPerGeneration : 0);
       likelihoodWeights[i][1] = likelihoodWeights[i][0]; // without symptoms
 
-      const iLabel = likelihoodWeights[i][0] ? "i" + Math.floor(i - numDaysForIncubation) : emptyLabel;
+      const iLabel = likelihoodWeights[i][0] ? "i" + Math.floor(i - numDaysForIncubation - numDaysPerGeneration) : emptyLabel;
       emptyLabel = emptyLabel + " ";
-      tickLabels[i] = (i == 0) ? "j" : iLabel;
+      tickLabels[i] = (i == caseDayIndex) ? "j" : iLabel;
     }
 
     likelihoodWeightsGraph.update(likelihoodWeights, null, new Date(startDate), 2, Math.max(0.25, alpha), null, tickLabels);
