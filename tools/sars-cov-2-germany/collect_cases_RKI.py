@@ -8,9 +8,8 @@ abspath = os.path.abspath(__file__)
 dname = os.path.dirname(abspath)
 os.chdir(dname)
 
-# update the token from https://www.arcgis.com/home/item.html?id=f10774f1c63e40168479a1feb6c7ca74
 rki_covid19_filename = "RKI_COVID19.csv"
-rki_covid19_source_url = "https://www.arcgis.com/sharing/rest/content/items/f10774f1c63e40168479a1feb6c7ca74/data?token=Tr0erWjIzBIxsz-LWYN7NIGeU7cSGI_oRtjGqlbertke2Z7T34MO83Ge8LQdRXlCdWXViFy8zuOWBe4ccIhHlHl4tdaxN-6F2o6kxMhgym__ogxzc8t_ZOT_6g6hhrRzlIQCkEpDeC5Xl42xNHsPPl7SO01zPU4CSSc9Tw9GVbxsv6BYaPywnCmAC8IJ1eNi"
+rki_covid19_source_url = "https://www.arcgis.com/sharing/rest/content/items/f10774f1c63e40168479a1feb6c7ca74/data"
 
 
 def parse_date(date_str):
