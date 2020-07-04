@@ -104,7 +104,7 @@
       R
     </div>
 
-    <div id="pij" class="figtext3" style="position:absolute; left:100px; top:470px">
+    <div id="pij" class="figtext3" style="position:absolute; left:100px; top:460px">
       pij
     </div>
 
@@ -180,6 +180,7 @@
 </script>
 
 <!-- Figure render queue -->
+<script src="assets/epidemic_model.js"></script>
 <script src="assets/epidemic.js"></script>
 <script>
 
@@ -243,13 +244,13 @@
     svg.append("text")
       .style("font-size", "13px")
       .attr("x", 0)
-      .attr("y", 430)
+      .attr("y", 420)
       .attr("dy", 0)
       .attr("transform", "translate(110,0)")
       .attr("class", "caption")
       .attr("text-anchor", "end")
       .attr("fill", "gray")
-      .text("The relative likelihood that cases i have been infected by case j.");
+      .text("The relative likelihood that cases i have been infected by case j and vice versa.");
 
     svg.selectAll(".caption").call(wrap, 100);
   };

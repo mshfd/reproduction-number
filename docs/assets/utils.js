@@ -493,7 +493,7 @@ function stackedBarchartGen(n, m) {
         .attr("opacity", copacity)
     }
 
-    function updateGraph(stacknew, highlight, startDate, maxValue, alpha, numTicksY, scaleXTickLabels) {
+    function updateGraph(stacknew, highlight, callbacks, maxValue, alpha, numTicksY, scaleXTickLabels) {
 
       Y = d3.scaleLinear().domain([maxValue, 0]).range([0, height]);
 
@@ -519,11 +519,9 @@ function stackedBarchartGen(n, m) {
           .attr("y2", function (d, i) { return Y(d.slice(0, j + 1).reduce(add, 0)) })
           .attr("opacity", alpha)
           .attr("stroke-width", lineWidth)
-          .append("title").html(function (d, i) {
-            const millisecondsPerDay = 1000 * 60 * 60 * 24;
-            const date = new Date(startDate.getTime() + i * millisecondsPerDay);
-            return date.toLocaleDateString() + " - Number of Cases: " + stacknew[i][j];
-          });
+          .on("mouseover", function (i) { })
+          .on("mouseout", function (i) { })
+          .append("title").html(function (d, i) { return callbacks.getBarTitle ? callbacks.getBarTitle(i, stacknew[i][j]) : null });
         svgdatai.exit().remove()
       }
 
