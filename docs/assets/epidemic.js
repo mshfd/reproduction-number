@@ -3,9 +3,8 @@ function renderEpidemic(svg, epidemicData, measuresData) {
   const measures = measuresData.measures;
 
   const numStacks = 2;
-  const numDaysPerGeneration = 4;
-  const numDaysForIncubation = numDaysPerGeneration;
-  const numDaysForWeights = Math.ceil(numDaysPerGeneration * 2 + numDaysForIncubation * 2);
+  const epidemicModel = new EpidemicModel(5, -1, 5);
+  const numDaysForWeights = epidemicModel._generationIntervalDays * 4 - 1;
 
   const startDate = Date.parse(epidemicData.startDate);
 
@@ -131,24 +130,32 @@ function renderEpidemic(svg, epidemicData, measuresData) {
     likelihoodWeights.length = numDaysForWeights;
     tickLabels.length = numDaysForWeights;
 
+    let maxValue = 0;
     let emptyLabel = "";
+    const caseDayIndex = epidemicModel._generationIntervalDays * 2 - 1;
     for (var i = 0; i < numDaysForWeights; i++) {
       likelihoodWeights[i] = [0, 0];
 
-      const isInfectiousCase = i >= 0 && i < numDaysPerGeneration;
-      const isInfectedCase = i >= numDaysForIncubation && i < numDaysForWeights;
-      const caseDayIndex = numDaysForIncubation + numDaysPerGeneration;
+      const p_ij = epidemicModel.computeWeightedInfectedLikelihood(Math.abs(i - caseDayIndex));
 
-      likelihoodWeights[i][0] = (i == caseDayIndex) ? 1 : ((isInfectedCase || isInfectiousCase) ? 1.0 / numDaysPerGeneration : 0);
-      likelihoodWeights[i][1] = likelihoodWeights[i][0]; // without symptoms
+      likelihoodWeights[i][0] = (i == caseDayIndex) ? 1 : p_ij;
+      likelihoodWeights[i][1] = 0; //likelihoodWeights[i][0]; // without symptoms
+      maxValue = Math.max(maxValue, likelihoodWeights[i][0] + likelihoodWeights[i][1]);
 
-      const iLabel = likelihoodWeights[i][0] ? "i" + Math.floor(i - numDaysForIncubation - numDaysPerGeneration) : emptyLabel;
+      const iLabel = likelihoodWeights[i][0] ? "i" + Math.floor(i - caseDayIndex) : emptyLabel;
       emptyLabel = emptyLabel + " ";
       tickLabels[i] = (i == caseDayIndex) ? "j" : iLabel;
     }
 
-    likelihoodWeightsGraph.update(likelihoodWeights, null, new Date(startDate), 2, Math.max(0.25, alpha), null, tickLabels);
+    const chartCallbacks = {
+      getBarTitle: (index, value) => {
+        return index < caseDayIndex ? "This case infects case j with a likelihood of " + (value * 100).toPrecision(2) + "%." :
+          index > caseDayIndex ? "This case has been infected by case j with a likelihood of " + (value * 100).toPrecision(2) + "%." :
+            "Case j has been infected by prior cases and infects other cases.";
+      }
+    };
 
+    likelihoodWeightsGraph.update(likelihoodWeights, null, chartCallbacks, maxValue, Math.max(0.25, alpha), null, tickLabels);
   }
 
   const updateChart = (alpha) => {
@@ -156,7 +163,15 @@ function renderEpidemic(svg, epidemicData, measuresData) {
     //updateRPlot();
     updateLikelihoodWeights(alpha);
 
-    stackedBar.update(trace, measureDays, new Date(startDate), maxValue, alpha, 5);
+    const chartCallbacks = {
+      getBarTitle: (index, value) => {
+        const millisecondsPerDay = 1000 * 60 * 60 * 24;
+        const date = new Date(startDate + index * millisecondsPerDay);
+        return date.toLocaleDateString() + " - Number of Cases: " + value;
+      }
+    };
+
+    stackedBar.update(trace, measureDays, chartCallbacks, maxValue, alpha, 5);
 
     for (var i = 0; i < measures.length; i++) {
       const measureIndex = measures.length - 1 - i;
