@@ -1,3 +1,40 @@
+
+const epidemicChartCallbacks = {
+  startDate: 0,
+  getBarTitle: (value, index) => {
+    const millisecondsPerDay = 1000 * 60 * 60 * 24;
+    const date = new Date(epidemicChartCallbacks.startDate + index * millisecondsPerDay);
+    return date.toLocaleDateString() + " - Number of Cases: " + value;
+  }
+};
+
+const likelihoodChartCallbacks = {
+  caseDayIndex: 0,
+  extrasG: null,
+  addCustomElements: (g, data, xScale) => {
+    likelihoodChartCallbacks.extrasG = g;
+    likelihoodChartCallbacks.extrasG
+      .selectAll("line")
+      .data(data)
+      .enter()
+      .append("line")
+      .attr("x1", function (d, i) { return xScale(i) })
+      .attr("x2", function (d, i) { return xScale(i) })
+      .attr("y1", 1)
+      .attr("y2", 10)
+      .attr("stroke-width", 4.5)
+      .attr("stroke", '#31a354');
+  },
+  getBarTitle: (value, index) => {
+    return index < likelihoodChartCallbacks.caseDayIndex ? "This case infects case j with a likelihood of " + (value * 100).toPrecision(2) + "%." :
+      index > likelihoodChartCallbacks.caseDayIndex ? "This case has been infected by case j with a likelihood of " + (value * 100).toPrecision(2) + "%." :
+        "Case j has been infected by prior cases and infects other cases.";
+  },
+  onMouseOver: (value, index, element) => {
+
+  }
+};
+
 function renderEpidemic(svg, epidemicData, measuresData) {
   const numDays = epidemicData.data.length;
   const measures = measuresData.measures;
@@ -43,10 +80,10 @@ function renderEpidemic(svg, epidemicData, measuresData) {
     markers.push(marker);
   }
 
-  var stackedBar = stackedBarchartGen(numDays, numStacks)(svg, width, height, false);
+  var stackedBar = stackedBarchartGen(numDays, numStacks, epidemicChartCallbacks)(svg, width, height, false);
 
   let graphsvg = svg.append("g").attr("transform", "translate(" + 10 + "," + 380 + ")");
-  let likelihoodWeightsGraph = stackedBarchartGen(numDaysForWeights, numStacks)(graphsvg, 400, 100, false);
+  let likelihoodWeightsGraph = stackedBarchartGen(numDaysForWeights, numStacks, likelihoodChartCallbacks)(graphsvg, 400, 100, false);
 
   var measureSeperationY = 14;
 
@@ -133,6 +170,7 @@ function renderEpidemic(svg, epidemicData, measuresData) {
     let maxValue = 0;
     let emptyLabel = "";
     const caseDayIndex = epidemicModel._generationIntervalDays * 2 - 1;
+    likelihoodChartCallbacks.caseDayIndex = caseDayIndex;
     for (var i = 0; i < numDaysForWeights; i++) {
       likelihoodWeights[i] = [0, 0];
 
@@ -147,15 +185,7 @@ function renderEpidemic(svg, epidemicData, measuresData) {
       tickLabels[i] = (i == caseDayIndex) ? "j" : iLabel;
     }
 
-    const chartCallbacks = {
-      getBarTitle: (index, value) => {
-        return index < caseDayIndex ? "This case infects case j with a likelihood of " + (value * 100).toPrecision(2) + "%." :
-          index > caseDayIndex ? "This case has been infected by case j with a likelihood of " + (value * 100).toPrecision(2) + "%." :
-            "Case j has been infected by prior cases and infects other cases.";
-      }
-    };
-
-    likelihoodWeightsGraph.update(likelihoodWeights, null, chartCallbacks, maxValue, Math.max(0.25, alpha), null, tickLabels);
+    likelihoodWeightsGraph.update(likelihoodWeights, null, maxValue, Math.max(0.25, alpha), null, tickLabels);
   }
 
   const updateChart = (alpha) => {
@@ -163,15 +193,8 @@ function renderEpidemic(svg, epidemicData, measuresData) {
     //updateRPlot();
     updateLikelihoodWeights(alpha);
 
-    const chartCallbacks = {
-      getBarTitle: (index, value) => {
-        const millisecondsPerDay = 1000 * 60 * 60 * 24;
-        const date = new Date(startDate + index * millisecondsPerDay);
-        return date.toLocaleDateString() + " - Number of Cases: " + value;
-      }
-    };
-
-    stackedBar.update(trace, measureDays, chartCallbacks, maxValue, alpha, 5);
+    epidemicChartCallbacks.startDate = startDate;
+    stackedBar.update(trace, measureDays, maxValue, alpha, 5);
 
     for (var i = 0; i < measures.length; i++) {
       const measureIndex = measures.length - 1 - i;

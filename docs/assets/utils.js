@@ -431,29 +431,29 @@ function stemGraphGen(graphWidth, graphHeight, n) {
 }
 
 /* Render a stacked graph. D*/
-function stackedBarchartGen(n, m) {
+function stackedBarchartGen(n, m, callbacks) {
 
-  var axis = [0, 1.0]
-  var translatex = 110
-  var translatey = 10
-  var col = colorbrewer.RdPu
-  var highlightcol = "darkred"
-  var lineopacity = 1
-  var cr = 1.75
-  var copacity = 1
-  var dotcolor = "black"
+  var axis = [0, 1.0];
+  var translatex = 110;
+  var translatey = 10;
+  var col = colorbrewer.RdPu;
+  var highlightcol = "darkred";
+  var lineopacity = 1;
+  var cr = 1.75;
+  var copacity = 1;
+  var dotcolor = "black";
   var drawgrid = true;
 
   function renderStackedGraph(svg, dwidth, dheight, createCircleTips) {
 
-    var margin = { right: 23, left: 10, top: 10, bottom: 10 }
-    var width = dwidth - margin.left - margin.right
+    var margin = { right: 23, left: 10, top: 10, bottom: 10 };
+    var width = dwidth - margin.left - margin.right;
     var height = dheight - margin.top - margin.bottom;
 
-    var graphsvg = svg.append("g").attr("transform", "translate(" + translatex + "," + translatey + ")")
+    var graphsvg = svg.append("g").attr("transform", "translate(" + translatex + "," + translatey + ")");
 
-    var stack = zeros2D(n, m)
-    var axisheight = 10
+    var stack = zeros2D(n, m);
+    var axisheight = 10;
     let X = d3.scaleLinear().domain([0, stack.length - 1]).range([margin.right, margin.right + width]);
 
     function add(a, b) { return a + b; }
@@ -461,12 +461,12 @@ function stackedBarchartGen(n, m) {
     var scaleLeft = graphsvg.append("g");
     var scaleBottom = graphsvg.append("g");
 
-    var s = []
+    var s = [];
     for (var j = 0; j < m; j++) {
 
-      var si = graphsvg.append("g")
+      var si = graphsvg.append("g");
 
-      si.selectAll("line")
+      const currentLine = si.selectAll("line")
         .data(stack)
         .enter()
         .append("line")
@@ -478,8 +478,12 @@ function stackedBarchartGen(n, m) {
         .attr("stroke", col[3][j])
         .attr("opacity", lineopacity);
 
-      s.push(si)
+      s.push(si);
+    }
 
+    if (callbacks.addCustomElements) {
+      let g = graphsvg.append("g");
+      callbacks.addCustomElements(g, stack, X);
     }
 
     if (createCircleTips) {
@@ -493,7 +497,7 @@ function stackedBarchartGen(n, m) {
         .attr("opacity", copacity)
     }
 
-    function updateGraph(stacknew, highlight, callbacks, maxValue, alpha, numTicksY, scaleXTickLabels) {
+    function updateGraph(stacknew, highlight, maxValue, alpha, numTicksY, scaleXTickLabels) {
 
       Y = d3.scaleLinear().domain([maxValue, 0]).range([0, height]);
 
@@ -506,22 +510,23 @@ function stackedBarchartGen(n, m) {
           .attr("r", function (d, i) { return highlight.includes(i) ? 2 : cr })
           .attr("fill", function (d, i) { return highlight.includes(i) ? highlightcol : dotcolor })
           .attr("opacity", alpha)
+
         svgdata.exit().remove()
       }
 
       const lineWidth = (width / stacknew.length) * 0.75;
 
       for (var j = 0; j < m; j++) {
-        var svgdatai = s[j].selectAll("line").data(stacknew)
-        svgdatai.enter().append("line")
+        const svgdatai = s[j].selectAll("line").data(stacknew);
+        svgdatai.enter().append("line");
         svgdatai.merge(svgdatai)
           .attr("y1", function (d, i) { return Y(d.slice(0, j).reduce(add, 0)) })
           .attr("y2", function (d, i) { return Y(d.slice(0, j + 1).reduce(add, 0)) })
           .attr("opacity", alpha)
           .attr("stroke-width", lineWidth)
-          .on("mouseover", function (i) { })
-          .on("mouseout", function (i) { })
-          .append("title").html(function (d, i) { return callbacks.getBarTitle ? callbacks.getBarTitle(i, stacknew[i][j]) : null });
+          .on("mouseover", function (sample, index, element) { if (callbacks.onMouseOver) { callbacks.onMouseOver(sample[j], index, element); } })
+          .on("mouseout", function (sample, index, element) { if (callbacks.onMouseOut) { callbacks.onMouseOut(sample[j], index, element); } })
+          .append("title").html(function (sample, index) { return callbacks.getBarTitle ? callbacks.getBarTitle(sample[j], index) : null });
         svgdatai.exit().remove()
       }
 
