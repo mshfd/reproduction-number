@@ -483,7 +483,7 @@ function stackedBarchartGen(n, m, callbacks) {
 
     if (callbacks.addCustomElements) {
       let g = graphsvg.append("g");
-      callbacks.addCustomElements(g, stack, X);
+      callbacks.addCustomElements(g, stack, X, width, height);
     }
 
     if (createCircleTips) {

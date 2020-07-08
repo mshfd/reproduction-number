@@ -9,25 +9,69 @@ const epidemicChartCallbacks = {
 };
 
 const likelihoodChartCallbacks = {
-  caseDayIndex: 0,
+  epidemicModel: null,
   extrasG: null,
-  addCustomElements: (g, data, xScale) => {
+
+  addCustomElements: (g, data, xScale, width, height) => {
     likelihoodChartCallbacks.extrasG = g;
+
+    let arrows = [];
+    const model = likelihoodChartCallbacks.epidemicModel;
+    const caseDayIndex = model.getCenterCaseDayIndex();
+    const generationIntervalDays = model.getGenerationIntervalDays();
+    for (var i = 0; i < model.getInfectionInOutPeriodDays(); i++) {
+
+      const p_ij = model.computeWeightedInfectedLikelihood(Math.abs(i - caseDayIndex));
+      if (p_ij === 0) {
+        continue;
+      }
+
+      let arrow = {
+        index: i,
+        p_ij: p_ij
+      };
+
+      arrows.push(arrow);
+    }
+
+    const heightScale = height / generationIntervalDays;
+    const lineWidth = width / data.length;
+
     likelihoodChartCallbacks.extrasG
       .selectAll("line")
-      .data(data)
+      .data(arrows)
       .enter()
       .append("line")
-      .attr("x1", function (d, i) { return xScale(i) })
-      .attr("x2", function (d, i) { return xScale(i) })
-      .attr("y1", 1)
-      .attr("y2", 10)
-      .attr("stroke-width", 4.5)
-      .attr("stroke", '#31a354');
+      .attr("x1", function (d, i) {
+        const isInfectious = d.index < caseDayIndex;
+        return xScale(isInfectious ? d.index : caseDayIndex) + (isInfectious ? 0.0 : lineWidth * 0.5);
+      })
+      .attr("x2", function (d, i) {
+        const isInfected = d.index > caseDayIndex;
+        return xScale(isInfected ? d.index : caseDayIndex) - (isInfected ? 0.0 : lineWidth * 0.5);
+      })
+      .attr("y1", function (d, i) { return d.index < caseDayIndex ? height * (1 - d.p_ij) : height + (generationIntervalDays - i - 0.5) * heightScale; })
+      .attr("y2", function (d, i) { return d.index < caseDayIndex ? height + (i - generationIntervalDays + 0.5) * heightScale : height * (1 - d.p_ij); })
+      .attr("stroke-width", 1.5)
+      .attr("marker-end", "url(#arrowhead)")
+      .attr("stroke", '#000');
+
+    const line = d3.line().curve(d3.curveCardinal)
+      .x(function (d) { return d[0]; })
+      .y(function (d) { return d[1]; });
+
+    polygon = likelihoodChartCallbacks.extrasG
+      .append("path")
+      .style("stroke", "#000")
+      .attr("stroke-width", 1.5)
+      .style("fill", "none")
+      .attr("class", "isoline")
+      .attr("d", line([[10, -60], [40, -90], [60, -10], [190, -10]]));
   },
   getBarTitle: (value, index) => {
-    return index < likelihoodChartCallbacks.caseDayIndex ? "This case infects case j with a likelihood of " + (value * 100).toPrecision(2) + "%." :
-      index > likelihoodChartCallbacks.caseDayIndex ? "This case has been infected by case j with a likelihood of " + (value * 100).toPrecision(2) + "%." :
+    const caseDayIndex = likelihoodChartCallbacks.epidemicModel.getCenterCaseDayIndex();
+    return index < caseDayIndex ? "This case infects case j with a likelihood of " + (value * 100).toPrecision(2) + "%." :
+      index > caseDayIndex ? "This case has been infected by case j with a likelihood of " + (value * 100).toPrecision(2) + "%." :
         "Case j has been infected by prior cases and infects other cases.";
   },
   onMouseOver: (value, index, element) => {
@@ -41,7 +85,8 @@ function renderEpidemic(svg, epidemicData, measuresData) {
 
   const numStacks = 2;
   const epidemicModel = new EpidemicModel(5, -1, 5);
-  const numDaysForWeights = epidemicModel._generationIntervalDays * 4 - 1;
+
+  likelihoodChartCallbacks.epidemicModel = epidemicModel;
 
   const startDate = Date.parse(epidemicData.startDate);
 
@@ -83,7 +128,7 @@ function renderEpidemic(svg, epidemicData, measuresData) {
   var stackedBar = stackedBarchartGen(numDays, numStacks, epidemicChartCallbacks)(svg, width, height, false);
 
   let graphsvg = svg.append("g").attr("transform", "translate(" + 10 + "," + 380 + ")");
-  let likelihoodWeightsGraph = stackedBarchartGen(numDaysForWeights, numStacks, likelihoodChartCallbacks)(graphsvg, 400, 100, false);
+  let likelihoodWeightsGraph = stackedBarchartGen(epidemicModel.getInfectionInOutPeriodDays(), numStacks, likelihoodChartCallbacks)(graphsvg, 400, 100, false);
 
   var measureSeperationY = 14;
 
@@ -164,14 +209,13 @@ function renderEpidemic(svg, epidemicData, measuresData) {
 
     let likelihoodWeights = [];
     let tickLabels = [];
-    likelihoodWeights.length = numDaysForWeights;
-    tickLabels.length = numDaysForWeights;
+    likelihoodWeights.length = epidemicModel.getInfectionInOutPeriodDays();
+    tickLabels.length = epidemicModel.getInfectionInOutPeriodDays();
 
     let maxValue = 0;
     let emptyLabel = "";
-    const caseDayIndex = epidemicModel._generationIntervalDays * 2 - 1;
-    likelihoodChartCallbacks.caseDayIndex = caseDayIndex;
-    for (var i = 0; i < numDaysForWeights; i++) {
+    const caseDayIndex = epidemicModel.getCenterCaseDayIndex();
+    for (var i = 0; i < epidemicModel.getInfectionInOutPeriodDays(); i++) {
       likelihoodWeights[i] = [0, 0];
 
       const p_ij = epidemicModel.computeWeightedInfectedLikelihood(Math.abs(i - caseDayIndex));

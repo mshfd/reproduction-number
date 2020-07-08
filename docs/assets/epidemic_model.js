@@ -16,6 +16,18 @@ class EpidemicModel {
       return this._infectedLikelihoodModel(indexDay / (this._infectivityPeriodDays - 1));
     };
 
+    this.getGenerationIntervalDays = function () {
+      return this._generationIntervalDays;
+    }
+
+    this.getInfectionInOutPeriodDays = function () {
+      return this._generationIntervalDays * 4 - 1;
+    }
+
+    this.getCenterCaseDayIndex = function () {
+      return this._generationIntervalDays * 2 - 1;
+    }
+
     this.computeWeightedInfectedLikelihood = function (offsetDay) {
       // P.T. Jacco Wallinga 2004 [https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7110200/]
       // The relative likelihood that cases i have been infected by case j.
