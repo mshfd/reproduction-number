@@ -503,31 +503,32 @@ function stackedBarchartGen(n, m, callbacks) {
 
       var svgdata = graphsvg.selectAll("circle").data(stacknew);
       if (createCircleTips) {
-        svgdata.enter().append("circle")
-        svgdata.merge(svgdata)
+        svgdata.enter().append("circle").merge(svgdata)
           .attr("cx", function (d, i) { return X(i) })
           .attr("cy", function (d, i) { return Y(d.reduce(add, 0)) })
           .attr("r", function (d, i) { return highlight.includes(i) ? 2 : cr })
           .attr("fill", function (d, i) { return highlight.includes(i) ? highlightcol : dotcolor })
           .attr("opacity", alpha)
-
-        svgdata.exit().remove()
+          .exit().remove()
       }
 
       const lineWidth = (width / stacknew.length) * 0.75;
 
       for (var j = 0; j < m; j++) {
         const svgdatai = s[j].selectAll("line").data(stacknew);
-        svgdatai.enter().append("line");
-        svgdatai.merge(svgdatai)
+        svgdatai.enter().append("line").merge(svgdatai)
           .attr("y1", function (d, i) { return Y(d.slice(0, j).reduce(add, 0)) })
           .attr("y2", function (d, i) { return Y(d.slice(0, j + 1).reduce(add, 0)) })
           .attr("opacity", alpha)
           .attr("stroke-width", lineWidth)
           .on("mouseover", function (sample, index, element) { if (callbacks.onMouseOver) { callbacks.onMouseOver(sample[j], index, element); } })
           .on("mouseout", function (sample, index, element) { if (callbacks.onMouseOut) { callbacks.onMouseOut(sample[j], index, element); } })
-          .append("title").html(function (sample, index) { return callbacks.getBarTitle ? callbacks.getBarTitle(sample[j], index) : null });
-        svgdatai.exit().remove()
+          .append("title").html(function (sample, index) { return callbacks.getBarTitle ? callbacks.getBarTitle(sample[j], index) : null })
+          .exit().remove()
+      }
+
+      if (callbacks.updateCustomElements) {
+        callbacks.updateCustomElements(stack, X, width, height);
       }
 
       if (drawgrid) {
