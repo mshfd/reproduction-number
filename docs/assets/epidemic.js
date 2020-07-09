@@ -11,9 +11,10 @@ const epidemicChartCallbacks = {
 const likelihoodChartCallbacks = {
   epidemicModel: null,
   extrasG: null,
-
   addCustomElements: (g, data, xScale, width, height) => {
     likelihoodChartCallbacks.extrasG = g;
+  },
+  updateCustomElements: (data, xScale, width, height) => {
 
     let arrows = [];
     const model = likelihoodChartCallbacks.epidemicModel;
@@ -37,42 +38,35 @@ const likelihoodChartCallbacks = {
     const heightScale = height / generationIntervalDays;
     const lineWidth = width / data.length;
 
-    likelihoodChartCallbacks.extrasG
-      .selectAll("line")
-      .data(arrows)
-      .enter()
-      .append("line")
-      .attr("x1", function (d, i) {
-        const isInfectious = d.index < caseDayIndex;
-        return xScale(isInfectious ? d.index : caseDayIndex) + (isInfectious ? 0.0 : lineWidth * 0.5);
-      })
-      .attr("x2", function (d, i) {
-        const isInfected = d.index > caseDayIndex;
-        return xScale(isInfected ? d.index : caseDayIndex) - (isInfected ? 0.0 : lineWidth * 0.5);
-      })
-      .attr("y1", function (d, i) { return d.index < caseDayIndex ? height * (1 - d.p_ij) : height + (generationIntervalDays - i - 0.5) * heightScale; })
-      .attr("y2", function (d, i) { return d.index < caseDayIndex ? height + (i - generationIntervalDays + 0.5) * heightScale : height * (1 - d.p_ij); })
-      .attr("stroke-width", 1.5)
-      .attr("marker-end", "url(#arrowhead)")
-      .attr("stroke", '#000');
-
-    const line = d3.line().curve(d3.curveCardinal)
-      .x(function (d) { return d[0]; })
-      .y(function (d) { return d[1]; });
-
-    polygon = likelihoodChartCallbacks.extrasG
-      .append("path")
+    const polygon = likelihoodChartCallbacks.extrasG.selectAll("path").data(arrows);
+    polygon.enter().append("path").merge(polygon)
       .style("stroke", "#000")
       .attr("stroke-width", 1.5)
       .style("fill", "none")
-      .attr("class", "isoline")
-      .attr("d", line([[10, -60], [40, -90], [60, -10], [190, -10]]));
+      .attr("marker-end", "url(#arrowhead)")
+      .attr("d", function (d, i) {
+
+        const isInfectious = d.index < caseDayIndex;
+        const isInfected = d.index > caseDayIndex;
+
+        const x1 = xScale(isInfectious ? d.index : caseDayIndex) + (isInfectious ? 0.0 : lineWidth * 0.5);
+        const x2 = xScale(isInfected ? d.index : caseDayIndex) - (isInfected ? 0.0 : lineWidth * 0.5);
+        const y1 = d.index < caseDayIndex ? height * (1 - d.p_ij) : height + (generationIntervalDays - i - 0.5) * heightScale;
+        const y2 = d.index < caseDayIndex ? height + (i - generationIntervalDays + 0.5) * heightScale : height * (1 - d.p_ij);
+
+        const yCurveScale = 0.75;
+        const x3 = d.index < caseDayIndex ? x1 : x2;
+        const y3 = d.index < caseDayIndex ? y1 + ((i - generationIntervalDays) * heightScale) * yCurveScale : y2 + ((generationIntervalDays - i - 1) * heightScale) * yCurveScale;
+
+        return d3.line().curve(d3.curveBundle, 0.5)([[x1, y1], [x3, y3], [x2, y2]]);
+      })
+      .exit().remove();
   },
   getBarTitle: (value, index) => {
     const caseDayIndex = likelihoodChartCallbacks.epidemicModel.getCenterCaseDayIndex();
     return index < caseDayIndex ? "This case infects case j with a likelihood of " + (value * 100).toPrecision(2) + "%." :
       index > caseDayIndex ? "This case has been infected by case j with a likelihood of " + (value * 100).toPrecision(2) + "%." :
-        "Case j has been infected by prior cases and infects other cases.";
+        "Case j has been infected by prior cases and infects upcoming cases.";
   },
   onMouseOver: (value, index, element) => {
 
