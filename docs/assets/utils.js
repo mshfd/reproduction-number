@@ -462,7 +462,7 @@ function stackedBarchartGen(n, m, callbacks) {
     var scaleBottom = graphsvg.append("g");
 
     var s = [];
-    for (var j = 0; j < m; j++) {
+    for (let j = 0; j < m; j++) {
 
       var si = graphsvg.append("g");
 
@@ -514,7 +514,7 @@ function stackedBarchartGen(n, m, callbacks) {
 
       const lineWidth = (width / stacknew.length) * 0.75;
 
-      for (var j = 0; j < m; j++) {
+      for (let j = 0; j < m; j++) {
         const svgdatai = s[j].selectAll("line").data(stacknew);
         svgdatai.enter().append("line").merge(svgdatai)
           .attr("y1", function (d, i) { return Y(d.slice(0, j).reduce(add, 0)) })
@@ -523,7 +523,7 @@ function stackedBarchartGen(n, m, callbacks) {
           .attr("stroke-width", lineWidth)
           .on("mouseover", function (sample, index, element) { if (callbacks.onMouseOver) { callbacks.onMouseOver(sample[j], index, element); } })
           .on("mouseout", function (sample, index, element) { if (callbacks.onMouseOut) { callbacks.onMouseOut(sample[j], index, element); } })
-          .append("title").html(function (sample, index) { return callbacks.getBarTitle ? callbacks.getBarTitle(sample[j], index) : null })
+          .append("title").html(function (sample, index) { return callbacks.getBarTitle ? callbacks.getBarTitle(sample, index, j) : null })
           .exit().remove()
       }
 

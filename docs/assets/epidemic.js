@@ -1,10 +1,10 @@
 
 const epidemicChartCallbacks = {
   startDate: 0,
-  getBarTitle: (value, index) => {
+  getBarTitle: (values, index, stackIndex) => {
     const millisecondsPerDay = 1000 * 60 * 60 * 24;
     const date = new Date(epidemicChartCallbacks.startDate + index * millisecondsPerDay);
-    return date.toLocaleDateString() + " - Number of Cases: " + value;
+    return date.toLocaleDateString() + " - Number of Cases: " + values[stackIndex];
   }
 };
 
@@ -62,10 +62,14 @@ const likelihoodChartCallbacks = {
       })
       .exit().remove();
   },
-  getBarTitle: (value, index) => {
+  getBarTitle: (values, index, stackIndex) => {
     const caseDayIndex = likelihoodChartCallbacks.epidemicModel.getCenterCaseDayIndex();
-    return index < caseDayIndex ? "This case infects case j with a likelihood of " + (value * 100).toPrecision(2) + "%." :
-      index > caseDayIndex ? "This case has been infected by case j with a likelihood of " + (value * 100).toPrecision(2) + "%." :
+    if (values[0] === 0) {
+      return index < caseDayIndex ? "This case cannot infect case j." : "This case was not infected by case j.";
+    }
+
+    return index < caseDayIndex ? "This case infects case j with a likelihood of " + (values[0] * 100).toPrecision(2) + "%." :
+      index > caseDayIndex ? "This case has been infected by case j with a likelihood of " + (values[0] * 100).toPrecision(2) + "%." :
         "Case j has been infected by one of the prior cases and may infect upcoming cases.";
   },
   onMouseOver: (value, index, element) => {
