@@ -66,7 +66,7 @@ const likelihoodChartCallbacks = {
     const caseDayIndex = likelihoodChartCallbacks.epidemicModel.getCenterCaseDayIndex();
     return index < caseDayIndex ? "This case infects case j with a likelihood of " + (value * 100).toPrecision(2) + "%." :
       index > caseDayIndex ? "This case has been infected by case j with a likelihood of " + (value * 100).toPrecision(2) + "%." :
-        "Case j has been infected by prior cases and infects upcoming cases.";
+        "Case j has been infected by one of the prior cases and may infect upcoming cases.";
   },
   onMouseOver: (value, index, element) => {
 
@@ -215,7 +215,7 @@ function renderEpidemic(svg, epidemicData, measuresData) {
       const p_ij = epidemicModel.computeWeightedInfectedLikelihood(Math.abs(i - caseDayIndex));
 
       likelihoodWeights[i][0] = (i == caseDayIndex) ? 1 : p_ij;
-      likelihoodWeights[i][1] = 0; //likelihoodWeights[i][0]; // without symptoms
+      likelihoodWeights[i][1] = 1 - likelihoodWeights[i][0];
       maxValue = Math.max(maxValue, likelihoodWeights[i][0] + likelihoodWeights[i][1]);
 
       const iLabel = likelihoodWeights[i][0] ? "i" + Math.floor(i - caseDayIndex) : emptyLabel;
