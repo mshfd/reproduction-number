@@ -1,66 +1,102 @@
 
+const updateArrows = (g, data, xScale, yScale, width, height, model, dayOfInterest) => {
+
+  let arrows = [];
+  const caseDayIndex = model.getCenterCaseDayIndex();
+  const dayOffset = (dayOfInterest === undefined) ? 0 : dayOfInterest - caseDayIndex;
+  const generationIntervalDays = model.getGenerationIntervalDays();
+  for (var i = 0; i < model.getInfectionInOutPeriodDays(); i++) {
+
+    const p_ij = model.computeWeightedInfectedLikelihood(Math.abs(i - caseDayIndex));
+    if (p_ij === 0) {
+      continue;
+    }
+
+    let arrow = {
+      index: i,
+      p_ij: p_ij
+    };
+
+    arrows.push(arrow);
+  }
+
+  const relativeHeightScale = 1.0 / generationIntervalDays;
+  const heightScale = height * relativeHeightScale;
+  const lineWidth = width / data.length;
+
+  const polygon = g.selectAll("path").data(arrows);
+  polygon.enter().append("path").merge(polygon)
+    .style("stroke", "#000")
+    .attr("stroke-width", 1.5)
+    .style("fill", "none")
+    .attr("marker-end", "url(#arrowhead)")
+    .attr("d", function (d, i) {
+
+      const isInfectious = d.index < caseDayIndex;
+      const isInfected = d.index > caseDayIndex;
+
+      const x1 = xScale(dayOffset + (isInfectious ? d.index : caseDayIndex)) + (isInfectious ? 0.0 : lineWidth * 0.5);
+      const x2 = xScale(dayOffset + (isInfected ? d.index : caseDayIndex)) - (isInfected ? 0.0 : lineWidth * 0.5);
+      let y1 = d.index < caseDayIndex ? height * (1 - d.p_ij) : height + (generationIntervalDays - i - 0.5) * heightScale;
+      let y2 = d.index < caseDayIndex ? height + (i - generationIntervalDays + 0.5) * heightScale : height * (1 - d.p_ij);
+
+      let yCurveScale = 0.75;
+      let x3 = d.index < caseDayIndex ? x1 : x2;
+      let y3 = d.index < caseDayIndex ? y1 + ((i - generationIntervalDays) * heightScale) * yCurveScale : y2 + ((generationIntervalDays - i - 1) * heightScale) * yCurveScale;
+
+      if (dayOfInterest !== undefined) {
+        if (d.index < caseDayIndex) {
+          y1 = yScale(data[dayOffset + d.index][0] * (generationIntervalDays - i - 0.5) * relativeHeightScale);
+          y2 = yScale(data[dayOffset + caseDayIndex][0] * (generationIntervalDays - i - 0.5) * relativeHeightScale);
+          y3 = y1;
+        } else {
+          y1 = yScale(data[dayOffset + caseDayIndex][0] * (i + 0.5 - generationIntervalDays) * relativeHeightScale);
+          y2 = yScale(data[dayOffset + d.index][0] * (i - generationIntervalDays + 0.5) * relativeHeightScale);
+          y3 = y2;
+        }
+      }
+
+      return d3.line().curve(d3.curveBundle, 0.5)([[x1, y1], [x3, y3], [x2, y2]]);
+    })
+    .exit().remove();
+};
+
 const epidemicChartCallbacks = {
   startDate: 0,
+  epidemicModel: null,
+  _g: null,
+  _data: null,
+  _xScale: null,
+  _yScale: null,
+  _width: 0,
+  _height: 0,
+  updateCustomElements: (g, data, xScale, yScale, width, height) => {
+    epidemicChartCallbacks._g = g;
+    epidemicChartCallbacks._data = data;
+    epidemicChartCallbacks._xScale = xScale;
+    epidemicChartCallbacks._yScale = yScale;
+    epidemicChartCallbacks._width = width;
+    epidemicChartCallbacks._height = height;
+  },
   getBarTitle: (values, index, stackIndex) => {
     const millisecondsPerDay = 1000 * 60 * 60 * 24;
     const date = new Date(epidemicChartCallbacks.startDate + index * millisecondsPerDay);
     return date.toLocaleDateString() + " - Number of Cases: " + values[stackIndex];
+  },
+  onMouseOver: (values, index, stackIndex) => {
+    const a = epidemicChartCallbacks;
+    updateArrows(a._g, a._data, a._xScale, a._yScale, a._width, a._height, a.epidemicModel, index);
+    a._g.style("visibility", "visible");
+  },
+  onMouseOut: (values, index, stackIndex) => {
+    epidemicChartCallbacks._g.style("visibility", "hidden");
   }
 };
 
 const likelihoodChartCallbacks = {
   epidemicModel: null,
-  extrasG: null,
-  addCustomElements: (g, data, xScale, width, height) => {
-    likelihoodChartCallbacks.extrasG = g;
-  },
-  updateCustomElements: (data, xScale, width, height) => {
-
-    let arrows = [];
-    const model = likelihoodChartCallbacks.epidemicModel;
-    const caseDayIndex = model.getCenterCaseDayIndex();
-    const generationIntervalDays = model.getGenerationIntervalDays();
-    for (var i = 0; i < model.getInfectionInOutPeriodDays(); i++) {
-
-      const p_ij = model.computeWeightedInfectedLikelihood(Math.abs(i - caseDayIndex));
-      if (p_ij === 0) {
-        continue;
-      }
-
-      let arrow = {
-        index: i,
-        p_ij: p_ij
-      };
-
-      arrows.push(arrow);
-    }
-
-    const heightScale = height / generationIntervalDays;
-    const lineWidth = width / data.length;
-
-    const polygon = likelihoodChartCallbacks.extrasG.selectAll("path").data(arrows);
-    polygon.enter().append("path").merge(polygon)
-      .style("stroke", "#000")
-      .attr("stroke-width", 1.5)
-      .style("fill", "none")
-      .attr("marker-end", "url(#arrowhead)")
-      .attr("d", function (d, i) {
-
-        const isInfectious = d.index < caseDayIndex;
-        const isInfected = d.index > caseDayIndex;
-
-        const x1 = xScale(isInfectious ? d.index : caseDayIndex) + (isInfectious ? 0.0 : lineWidth * 0.5);
-        const x2 = xScale(isInfected ? d.index : caseDayIndex) - (isInfected ? 0.0 : lineWidth * 0.5);
-        const y1 = d.index < caseDayIndex ? height * (1 - d.p_ij) : height + (generationIntervalDays - i - 0.5) * heightScale;
-        const y2 = d.index < caseDayIndex ? height + (i - generationIntervalDays + 0.5) * heightScale : height * (1 - d.p_ij);
-
-        const yCurveScale = 0.75;
-        const x3 = d.index < caseDayIndex ? x1 : x2;
-        const y3 = d.index < caseDayIndex ? y1 + ((i - generationIntervalDays) * heightScale) * yCurveScale : y2 + ((generationIntervalDays - i - 1) * heightScale) * yCurveScale;
-
-        return d3.line().curve(d3.curveBundle, 0.5)([[x1, y1], [x3, y3], [x2, y2]]);
-      })
-      .exit().remove();
+  updateCustomElements: (g, data, xScale, yScale, width, height) => {
+    updateArrows(g, data, xScale, yScale, width, height, likelihoodChartCallbacks.epidemicModel);
   },
   getBarTitle: (values, index, stackIndex) => {
     const caseDayIndex = likelihoodChartCallbacks.epidemicModel.getCenterCaseDayIndex();
@@ -71,9 +107,6 @@ const likelihoodChartCallbacks = {
     return index < caseDayIndex ? "This case infects case j with a likelihood of " + (values[0] * 100).toPrecision(2) + "%." :
       index > caseDayIndex ? "This case has been infected by case j with a likelihood of " + (values[0] * 100).toPrecision(2) + "%." :
         "Case j has been infected by one of the prior cases and may infect upcoming cases.";
-  },
-  onMouseOver: (value, index, element) => {
-
   }
 };
 
@@ -84,6 +117,7 @@ function renderEpidemic(svg, epidemicData, measuresData) {
   const numStacks = 2;
   const epidemicModel = new EpidemicModel(5, -1, 5);
 
+  epidemicChartCallbacks.epidemicModel = epidemicModel;
   likelihoodChartCallbacks.epidemicModel = epidemicModel;
 
   const startDate = Date.parse(epidemicData.startDate);
