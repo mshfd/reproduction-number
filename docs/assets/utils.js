@@ -476,7 +476,8 @@ function stackedBarchartGen(n, m, callbacks) {
         .attr("y2", function (d, i) { return 0 })
         .attr("stroke-width", 1.5)
         .attr("stroke", col[3][j])
-        .attr("opacity", lineopacity);
+        .attr("opacity", lineopacity)
+        .append("title");
 
       s.push(si);
     }
@@ -518,9 +519,9 @@ function stackedBarchartGen(n, m, callbacks) {
           .attr("y2", function (d, i) { return Y(d.slice(0, j + 1).reduce(add, 0)) })
           .attr("opacity", alpha)
           .attr("stroke-width", lineWidth)
-          .on("mouseover", function (sample, index) { if (callbacks.onMouseOver) { callbacks.onMouseOver(sample, index, j); } })
+          .on("mouseenter", function (sample, index) { if (callbacks.onMouseEnter) { callbacks.onMouseEnter(sample, index, j); } })
           .on("mouseout", function (sample, index) { if (callbacks.onMouseOut) { callbacks.onMouseOut(sample, index, j); } })
-          .append("title").html(function (sample, index) { return callbacks.getBarTitle ? callbacks.getBarTitle(sample, index, j) : null })
+          .select("title").html(function (sample, index) { return callbacks.getBarTitle ? callbacks.getBarTitle(sample, index, j) : null })
           .exit().remove()
       }
 
