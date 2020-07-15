@@ -481,10 +481,7 @@ function stackedBarchartGen(n, m, callbacks) {
       s.push(si);
     }
 
-    if (callbacks.addCustomElements) {
-      let g = graphsvg.append("g");
-      callbacks.addCustomElements(g, stack, X, width, height);
-    }
+    const customElementsG = callbacks.updateCustomElements ? graphsvg.append("g") : null;
 
     if (createCircleTips) {
       graphsvg.append("g").selectAll("circle")
@@ -521,14 +518,14 @@ function stackedBarchartGen(n, m, callbacks) {
           .attr("y2", function (d, i) { return Y(d.slice(0, j + 1).reduce(add, 0)) })
           .attr("opacity", alpha)
           .attr("stroke-width", lineWidth)
-          .on("mouseover", function (sample, index, element) { if (callbacks.onMouseOver) { callbacks.onMouseOver(sample[j], index, element); } })
-          .on("mouseout", function (sample, index, element) { if (callbacks.onMouseOut) { callbacks.onMouseOut(sample[j], index, element); } })
+          .on("mouseover", function (sample, index) { if (callbacks.onMouseOver) { callbacks.onMouseOver(sample, index, j); } })
+          .on("mouseout", function (sample, index) { if (callbacks.onMouseOut) { callbacks.onMouseOut(sample, index, j); } })
           .append("title").html(function (sample, index) { return callbacks.getBarTitle ? callbacks.getBarTitle(sample, index, j) : null })
           .exit().remove()
       }
 
       if (callbacks.updateCustomElements) {
-        callbacks.updateCustomElements(stack, X, width, height);
+        callbacks.updateCustomElements(customElementsG, stacknew, X, Y, width, height);
       }
 
       if (drawgrid) {
