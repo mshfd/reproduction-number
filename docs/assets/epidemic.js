@@ -64,6 +64,9 @@ const updateArrows = (g, data, xScale, yScale, width, height, model, dayOfIntere
 const epidemicChartCallbacks = {
   startDate: 0,
   epidemicModel: null,
+  epidemicData: null,
+  epidemicDataSource: null,
+  epidemicChartUpdate: null,
   _g: null,
   _data: null,
   _xScale: null,
@@ -83,13 +86,26 @@ const epidemicChartCallbacks = {
     const date = new Date(epidemicChartCallbacks.startDate + index * millisecondsPerDay);
     return date.toLocaleDateString() + " - Number of Cases: " + values[stackIndex];
   },
-  onMouseOver: (values, index, stackIndex) => {
+  onMouseEnter: (values, index, stackIndex) => {
     const a = epidemicChartCallbacks;
+
+    for (var i = 0; i < a.epidemicData.length; i++) {
+      a.epidemicData[i][0] = (i === index) ? a.epidemicDataSource[i][0] : 0;
+      a.epidemicData[i][1] = (i === index) ? 0 : a.epidemicDataSource[i][0];
+    }
     updateArrows(a._g, a._data, a._xScale, a._yScale, a._width, a._height, a.epidemicModel, index);
+    epidemicChartCallbacks.epidemicChartUpdate();
     a._g.style("visibility", "visible");
   },
   onMouseOut: (values, index, stackIndex) => {
-    epidemicChartCallbacks._g.style("visibility", "hidden");
+    const a = epidemicChartCallbacks;
+    a._g.style("visibility", "hidden");
+
+    for (var i = 0; i < a.epidemicData.length; i++) {
+      a.epidemicData[i][0] = a.epidemicDataSource[i][0];
+      a.epidemicData[i][1] = a.epidemicDataSource[i][1];
+    }
+    epidemicChartCallbacks.epidemicChartUpdate();
   }
 };
 
@@ -207,7 +223,7 @@ function renderEpidemic(svg, epidemicData, measuresData) {
   for (var i = 0; i < numDays; i++) {
     trace[i] = [0, 0];
     trace[i][0] = epidemicData.data[i];
-    trace[i][1] = 0.0; // without symptoms
+    trace[i][1] = 0.0;
   }
 
   let measureDays = [];
@@ -270,7 +286,12 @@ function renderEpidemic(svg, epidemicData, measuresData) {
     updateLikelihoodWeights(alpha);
 
     epidemicChartCallbacks.startDate = startDate;
-    stackedBar.update(trace, measureDays, maxValue, alpha, 5);
+    epidemicChartCallbacks.epidemicData = trace;
+    epidemicChartCallbacks.epidemicDataSource = JSON.parse(JSON.stringify(trace));
+    epidemicChartCallbacks.epidemicChartUpdate = () => {
+      stackedBar.update(trace, measureDays, maxValue, alpha, 5);
+    };
+    epidemicChartCallbacks.epidemicChartUpdate();
 
     for (var i = 0; i < measures.length; i++) {
       const measureIndex = measures.length - 1 - i;
