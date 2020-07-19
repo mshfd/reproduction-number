@@ -45,14 +45,19 @@ const updateArrows = (g, data, xScale, yScale, width, height, model, dayOfIntere
       let y3 = d.index < caseDayIndex ? y1 + ((i - generationIntervalDays) * heightScale) * yCurveScale : y2 + ((generationIntervalDays - i - 1) * heightScale) * yCurveScale;
 
       if (dayOfInterest !== undefined) {
-        if (d.index < caseDayIndex) {
-          y1 = yScale(data[dayOffset + d.index][0] * (generationIntervalDays - i - 0.5) * relativeHeightScale);
+        if (dayOffset + d.index >= data.length) {
+          y1 = -200;
+          y2 = -200;
+          y3 = -200;
+        }
+        else if (d.index < caseDayIndex) {
+          y1 = yScale(data[dayOffset + d.index][0]);
           y2 = yScale(data[dayOffset + caseDayIndex][0] * (generationIntervalDays - i - 0.5) * relativeHeightScale);
-          y3 = y1;
+          y3 = (y1 + y2) * 0.5;
         } else {
           y1 = yScale(data[dayOffset + caseDayIndex][0] * (i + 0.5 - generationIntervalDays) * relativeHeightScale);
-          y2 = yScale(data[dayOffset + d.index][0] * (i - generationIntervalDays + 0.5) * relativeHeightScale);
-          y3 = y2;
+          y2 = yScale(data[dayOffset + d.index][0]);
+          y3 = (y1 + y2) * 0.5;
         }
       }
 
@@ -74,6 +79,7 @@ const epidemicChartCallbacks = {
   _width: 0,
   _height: 0,
   _hideTimeoutId: 0,
+  _R_i: -1,
   updateCustomElements: (g, data, xScale, yScale, width, height) => {
     epidemicChartCallbacks._g = g;
     epidemicChartCallbacks._data = data;
@@ -85,19 +91,40 @@ const epidemicChartCallbacks = {
   getBarTitle: (values, index, stackIndex) => {
     const millisecondsPerDay = 1000 * 60 * 60 * 24;
     const date = new Date(epidemicChartCallbacks.startDate + index * millisecondsPerDay);
-    return date.toLocaleDateString() + " - Number of Cases: " + values[stackIndex];
+    return date.toLocaleDateString() + " - Number of Cases: " + values[stackIndex] + "\n" +
+      "Reproduction Number: " + ((epidemicChartCallbacks._R_i >= 0) ? epidemicChartCallbacks._R_i.toFixed(2) : "n/a");
   },
   onMouseEnter: (values, index, stackIndex) => {
     const a = epidemicChartCallbacks;
 
     clearTimeout(a._hideTimeoutId);
 
-    //const p_ij = epidemicChartCallbacks.epidemicModel.computeWeightedInfectedLikelihood(Math.abs(i - caseDayIndex));
+    let causedCases = 0;
 
-    for (var i = 0; i < a.epidemicData.length; i++) {
-      a.epidemicData[i][0] = (i === index) ? a.epidemicDataSource[i][0] : 0;
-      a.epidemicData[i][1] = (i === index) ? 0 : a.epidemicDataSource[i][0];
+    for (let i = 0; i < a.epidemicData.length; i++) {
+
+      const p_ij = epidemicChartCallbacks.epidemicModel.computeWeightedInfectedLikelihood(Math.abs(i - index));
+      const isCaseDay = (i === index);
+
+      if (isCaseDay) {
+        a.epidemicData[i][0] = a.epidemicDataSource[i][0];
+        a.epidemicData[i][1] = 0;
+      } else {
+        if (i > index) {
+          causedCases += a.epidemicDataSource[i][0] * p_ij;
+        }
+        a.epidemicData[i][0] = a.epidemicDataSource[i][0] * p_ij;
+        a.epidemicData[i][1] = a.epidemicDataSource[i][0] * (1 - p_ij);
+      }
     }
+
+    if (index + epidemicChartCallbacks.epidemicModel.getCenterCaseDayIndex() < a.epidemicData.length) {
+      a._R_i = causedCases / a.epidemicDataSource[index][0];
+    } else {
+      a._R_i = -1.0;
+    }
+
+
     updateArrows(a._g, a._data, a._xScale, a._yScale, a._width, a._height, a.epidemicModel, index);
     epidemicChartCallbacks.epidemicChartUpdate();
     a._g.style("visibility", "visible");
