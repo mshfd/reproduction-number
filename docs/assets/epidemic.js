@@ -73,6 +73,7 @@ const epidemicChartCallbacks = {
   _yScale: null,
   _width: 0,
   _height: 0,
+  _hideTimeoutId: 0,
   updateCustomElements: (g, data, xScale, yScale, width, height) => {
     epidemicChartCallbacks._g = g;
     epidemicChartCallbacks._data = data;
@@ -89,6 +90,10 @@ const epidemicChartCallbacks = {
   onMouseEnter: (values, index, stackIndex) => {
     const a = epidemicChartCallbacks;
 
+    clearTimeout(a._hideTimeoutId);
+
+    //const p_ij = epidemicChartCallbacks.epidemicModel.computeWeightedInfectedLikelihood(Math.abs(i - caseDayIndex));
+
     for (var i = 0; i < a.epidemicData.length; i++) {
       a.epidemicData[i][0] = (i === index) ? a.epidemicDataSource[i][0] : 0;
       a.epidemicData[i][1] = (i === index) ? 0 : a.epidemicDataSource[i][0];
@@ -96,16 +101,20 @@ const epidemicChartCallbacks = {
     updateArrows(a._g, a._data, a._xScale, a._yScale, a._width, a._height, a.epidemicModel, index);
     epidemicChartCallbacks.epidemicChartUpdate();
     a._g.style("visibility", "visible");
+
   },
   onMouseOut: (values, index, stackIndex) => {
     const a = epidemicChartCallbacks;
-    a._g.style("visibility", "hidden");
 
-    for (var i = 0; i < a.epidemicData.length; i++) {
-      a.epidemicData[i][0] = a.epidemicDataSource[i][0];
-      a.epidemicData[i][1] = a.epidemicDataSource[i][1];
-    }
-    epidemicChartCallbacks.epidemicChartUpdate();
+    a._hideTimeoutId = setTimeout(() => {
+      a._g.style("visibility", "hidden");
+
+      for (var i = 0; i < a.epidemicData.length; i++) {
+        a.epidemicData[i][0] = a.epidemicDataSource[i][0];
+        a.epidemicData[i][1] = a.epidemicDataSource[i][1];
+      }
+      a.epidemicChartUpdate();
+    }, 100);
   }
 };
 
