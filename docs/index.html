@@ -91,10 +91,6 @@
     </figcaption>
 
     <div id="sliderStep" style="position:absolute; left:500px; width:250px; height:100px">
-
-      <div id="opacityEpidemic" class="figtext" style="position:absolute; left:15px; top:0px">
-        Opacity epidemic curve
-      </div>
     </div>
 
     <div id="R" class="figtext3" style="position:absolute; left:0px; top:120px">
@@ -182,6 +178,9 @@
 <script>
 
   const renderGraph = (epidemicData, measures) => {
+
+    d3.select("#chart").selectAll("*").remove();
+
     const graphDiv = d3.select("#chart")
       .style("width", 920 + "px")
       .style("height", 500 + "px")
@@ -205,6 +204,14 @@
     }
 
     const alphaHTML = MathCache("alpha-equals");
+
+    const sliderStep = d3.select("#sliderStep");
+    sliderStep.selectAll("*").remove();
+    sliderStep.append("div")
+        .attr("id", "opacityEpidemic")
+        .attr("class", "figtext")
+        .attr("style", "position:absolute; left:15px; top:0px")
+        .html("Opacity epidemic curve");
 
     const startValue = 0.5;
     const slidera = sliderGen([150, 60])
