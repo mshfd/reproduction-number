@@ -50,6 +50,7 @@ with open(who_covid19_filename) as csvfile:
     for row in reader:
         cases_date = row["Date_reported"]
         country = row["Country"]
+        country_code = row["Country_code"]
         new_cases = int(row["New_cases"])
         new_deaths = int(row["New_deaths"])
         is_germany = country == "Germany"
@@ -59,6 +60,7 @@ with open(who_covid19_filename) as csvfile:
 
         if country not in data:
             data[country] = {
+                'country_code': country_code.lower(),
                 'cases_for_date': {},
                 'num_cases_total': 0,
                 'num_deaths_total': 0
@@ -75,6 +77,7 @@ version_date = datetime.datetime.strptime(version_date_str, "%Y-%m-%d")
 for country in data.keys():
 
     country_data = data[country]
+    country_code = country_data['country_code']
     cases_for_date = country_data['cases_for_date']
     num_cases_total = country_data['num_cases_total']
     num_deaths_total = country_data['num_deaths_total']
@@ -110,7 +113,11 @@ for country in data.keys():
         + " days"
     )
 
-    targetJson = "docs/assets/data/SARS-CoV-2/" + country + "/cases-WHO.json"
+    targetDir = "../../docs/assets/data/SARS-CoV-2/" + country_code
+    if not os.path.exists(targetDir):
+        os.mkdir(targetDir)
+
+    targetJson = targetDir + "/cases-WHO.json"
     print()
     print("Writing results to " + targetJson)
 
@@ -131,5 +138,5 @@ for country in data.keys():
         "data": cases,
     }
 
-    with open("../../" + targetJson, "w") as outfile:
+    with open(targetJson, "w") as outfile:
         json.dump(result, outfile, indent=4)
