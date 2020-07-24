@@ -11,6 +11,7 @@ os.chdir(dname)
 
 who_covid19_filename = "WHO-COVID-19-global-data.csv"
 who_covid19_source_url = "https://covid19.who.int/WHO-COVID-19-global-data.csv"
+base_data_dir = "../../docs/assets/data/SARS-CoV-2/"
 
 
 def parse_date(date_str):
@@ -55,8 +56,8 @@ with open(who_covid19_filename) as csvfile:
         new_deaths = int(row["New_deaths"])
         is_germany = country == "Germany"
 
-        if not is_germany:
-            continue
+        #if not is_germany:
+        #    continue
 
         if country not in data:
             data[country] = {
@@ -113,13 +114,13 @@ for country in data.keys():
         + " days"
     )
 
-    targetDir = "../../docs/assets/data/SARS-CoV-2/" + country_code
+    targetDir = base_data_dir + country_code
     if not os.path.exists(targetDir):
         os.mkdir(targetDir)
 
-    targetJson = targetDir + "/cases-WHO.json"
+    target_json = targetDir + "/cases-WHO.json"
     print()
-    print("Writing results to " + targetJson)
+    print("Writing results to " + target_json)
 
     result = {
         "startDate": str(first_date),
@@ -138,5 +139,52 @@ for country in data.keys():
         "data": cases,
     }
 
-    with open(targetJson, "w") as outfile:
-        json.dump(result, outfile, indent=4)
+    with open(target_json, "w") as outfile:
+        json.dump(result, outfile, indent=4, ensure_ascii=False)
+
+
+##################
+print("Updating datasets " + str(len(data.keys())))
+
+who_dataset = {
+    "title": "WHO COVID-19 Cases",
+    "description": "The WHO coronavirus disease (COVID-19) data presents official daily counts of COVID-19 cases and deaths reported by countries, territories and areas. Caution must be taken when interpreting all data presented, and differences between information products published by WHO, national public health authorities, and other sources using different inclusion criteria and different data cut-off times are to be expected.",
+    "filename": "cases-WHO.json"
+}
+
+dataset_json_filepath = base_data_dir + "dataset.json"
+dataset = {}
+with open(dataset_json_filepath, "r") as dataset_json:
+    dataset = json.load(dataset_json)
+
+    def find_entry(arr, key, id):
+        for x in arr:
+            if x[key] == id:
+                return x
+
+    for country in data.keys():
+        
+        country_data = data[country]
+        country_code = country_data['country_code']
+
+        region = find_entry(dataset["regions"], "path", country_code)
+
+        if region is None:
+            region = {
+                "name": country,
+                "path": country_code,
+                "datasets": [who_dataset]
+            }
+            dataset["regions"].append(region)
+        else:
+            datasetEntry = find_entry(region['datasets'], "title", who_dataset["title"])
+            if datasetEntry is None:
+                region['datasets'].append(who_dataset)
+            else:
+                for k, v in who_dataset.items():
+                    datasetEntry[k] = v
+
+
+print("Writing datasets to " + dataset_json_filepath)
+with open(dataset_json_filepath, "w") as dataset_json:
+    json.dump(dataset, dataset_json, indent=4, ensure_ascii=False)

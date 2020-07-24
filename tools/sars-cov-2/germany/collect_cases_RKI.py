@@ -130,4 +130,4 @@ result = {
 }
 
 with open("../../../" + targetJson, "w") as outfile:
-    json.dump(result, outfile, indent=4)
+    json.dump(result, outfile, indent=4, ensure_ascii=False)
