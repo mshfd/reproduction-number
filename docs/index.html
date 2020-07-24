@@ -14,6 +14,8 @@
 <!-- Katex -->
 <script src="assets/lib/auto-render.min.js"></script>
 <script src="assets/lib/katex.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
 <link rel="stylesheet" href="assets/lib/katex.min.css">
 <link rel="stylesheet" type="text/css" href="assets/widgets.css">
 
@@ -177,6 +179,26 @@
 <script src="assets/epidemic.js"></script>
 <script>
 
+  
+  const automaticResizeSelection = (id) => {
+    return $(id).change(function(){
+      const text = $(this).find('option:selected').text()
+      const $aux = $('<select/>').append($('<option/>').text(text))
+      $(this).after($aux)
+      $(this).width($aux.width())
+      $aux.remove()
+    }).change();
+  };
+  const resizeEpidemicSelection = automaticResizeSelection('#epidemic');
+  const resizeregionSelection = automaticResizeSelection('#region');
+  const resizeDatasetSelection = automaticResizeSelection('#dataset');
+
+  const updateSelectionSizes = () => {
+    resizeEpidemicSelection.change();
+    resizeregionSelection.change();
+    resizeDatasetSelection.change();
+  };
+
   const renderGraph = (epidemicData, measures) => {
 
     d3.select("#chart").selectAll("*").remove();
@@ -275,6 +297,8 @@
   let measures = emptyMeasures;
 
   let loadDataForDataset = () => {
+    updateSelectionSizes();
+
     const selectedRegionOption = regionSelection.options[regionSelection.selectedIndex];
     const selectedDatasetOption = datasetSelection.options[datasetSelection.selectedIndex];
     const selectedRegion = regions.filter(region => region.path === selectedRegionOption.value)[0];
