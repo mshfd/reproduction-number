@@ -28,13 +28,13 @@ if not os.path.exists(who_covid19_filename):
     with urllib.request.urlopen(who_covid19_source_url) as response, open(who_covid19_filename, "wb") as out_file:
         shutil.copyfileobj(response, out_file)
     print("Finished downloading " + who_covid19_filename)
-    
-    print("Removing all whitespaces " + who_covid19_filename)
-    # remove all white spaces from csv file
+
+    # remove white spaces from first line of csv file
     with open(who_covid19_filename, 'r+') as f:
-        txt = f.read().replace(' ', '')
+        txt = f.readlines()
+        txt[0] = txt[0].replace(' ', '')
         f.seek(0)
-        f.write(txt)
+        f.writelines(txt)
         f.truncate()
 
 print()
@@ -55,6 +55,9 @@ with open(who_covid19_filename) as csvfile:
         new_cases = int(row["New_cases"])
         new_deaths = int(row["New_deaths"])
         is_germany = country == "Germany"
+
+        if country == "Other":
+            country_code = "XX"
 
         #if not is_germany:
         #    continue
@@ -98,11 +101,11 @@ for country in data.keys():
             num_cases = cases_for_date[date_key]
 
         cases.append(num_cases)
-        print(str(date) + " had " + str(num_cases) + " new cases")
 
         date += datetime.timedelta(days=1)
 
     print()
+    print(country)
     print("Number of cases in total: " + str(num_cases_total))
     print("Number of deaths in total: " + str(num_deaths_total))
 
