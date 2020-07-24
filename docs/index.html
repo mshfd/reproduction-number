@@ -269,8 +269,10 @@
   let regionSelection = document.getElementById("region");
   let datasetSelection = document.getElementById("dataset");
 
+  const emptyMeasures = { "measures": [] };
+
   let regions = [];
-  let measures = {};
+  let measures = emptyMeasures;
 
   let loadDataForDataset = () => {
     const selectedRegionOption = regionSelection.options[regionSelection.selectedIndex];
@@ -322,6 +324,10 @@
         measures = JSON.parse(this.responseText);
         console.log(measures);
 
+        loadDataForDataset();
+      } else {
+        console.warn("No measures found for " + selectedRegion.path);
+        measures = emptyMeasures;
         loadDataForDataset();
       }
     };
