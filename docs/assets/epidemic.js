@@ -254,12 +254,14 @@ function renderEpidemic(svg, epidemicData, measuresData) {
   }
 
   let trace = [];
-  const updateTrace = (smoothingFactor) => {
+  const updateTrace = () => {
     trace.length = numDays;
 
-    smoothingFactor = 0.0;
-    const smoothing = new zodiac.HoltSmoothing(epidemicData.data, smoothingFactor, 0.1);
-    const data = (smoothingFactor > 0.0) ? smoothing.predict() : epidemicData.data;
+    const smoothingFactor = 0.5;
+    //const smoothing = new zodiac.HoltSmoothing(epidemicData.data, smoothingFactor, 0.1);
+    //const data = (smoothingFactor > 0.0) ? smoothing.predict() : epidemicData.data;
+    const smoothing =  new TimeSeriesSmoothing(smoothingFactor);
+    const data = smoothing.smoothSeries(epidemicData.data);
 
     for (var i = 0; i < numDays; i++) {
       trace[i] = [0, 0];
@@ -267,7 +269,7 @@ function renderEpidemic(svg, epidemicData, measuresData) {
       trace[i][1] = 0.0;
     }
   };
-  updateTrace(0.2);
+  updateTrace();
 
   let measureDays = [];
   let measureDaysEnd = [];
@@ -325,7 +327,7 @@ function renderEpidemic(svg, epidemicData, measuresData) {
 
   const updateChart = (alpha) => {
 
-    updateTrace(0.2);
+    updateTrace();
 
     //updateRPlot();
     updateLikelihoodWeights(alpha);
