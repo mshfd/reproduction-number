@@ -107,7 +107,7 @@ print(
     + " days"
 )
 
-targetJson = "docs/assets/data/SARS-CoV-2/Germany/cases-RKI.json"
+targetJson = "docs/assets/data/SARS-CoV-2/de/cases-RKI.json"
 print()
 print("Writing results to " + targetJson)
 
