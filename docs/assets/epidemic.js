@@ -1,6 +1,6 @@
 
 const updateArrows = (g, data, xScale, yScale, width, height, model, dayOfInterest) => {
-
+  
   let arrows = [];
   const caseDayIndex = model.getCenterCaseDayIndex();
   const dayOffset = (dayOfInterest === undefined) ? 0 : dayOfInterest - caseDayIndex;
@@ -254,13 +254,20 @@ function renderEpidemic(svg, epidemicData, measuresData) {
   }
 
   let trace = [];
-  trace.length = numDays;
+  const updateTrace = (smoothingFactor) => {
+    trace.length = numDays;
 
-  for (var i = 0; i < numDays; i++) {
-    trace[i] = [0, 0];
-    trace[i][0] = epidemicData.data[i];
-    trace[i][1] = 0.0;
-  }
+    smoothingFactor = 0.0;
+    const smoothing = new zodiac.HoltSmoothing(epidemicData.data, smoothingFactor, 0.1);
+    const data = (smoothingFactor > 0.0) ? smoothing.predict() : epidemicData.data;
+
+    for (var i = 0; i < numDays; i++) {
+      trace[i] = [0, 0];
+      trace[i][0] = data[i];
+      trace[i][1] = 0.0;
+    }
+  };
+  updateTrace(0.2);
 
   let measureDays = [];
   let measureDaysEnd = [];
@@ -317,6 +324,8 @@ function renderEpidemic(svg, epidemicData, measuresData) {
   }
 
   const updateChart = (alpha) => {
+
+    updateTrace(0.2);
 
     //updateRPlot();
     updateLikelihoodWeights(alpha);
