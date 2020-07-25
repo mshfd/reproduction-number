@@ -177,6 +177,7 @@
 
 <!-- Figure render queue -->
 <script src="assets/epidemic_model.js"></script>
+<script src="assets/time_series_smoothing.js"></script>
 <script src="assets/epidemic.js"></script>
 <script>
 
@@ -200,6 +201,8 @@
     resizeDatasetSelection.change();
   };
 
+  let opacityValue = 0.5;
+
   const renderGraph = (epidemicData, measures) => {
 
     d3.select("#chart").selectAll("*").remove();
@@ -220,10 +223,10 @@
 
     const updateChart = renderEpidemic(svg, epidemicData, measures);
 
-    const updateChartLocally = (alpha) => {
-      updateChart(alpha);
-      d3.select("#symptoms-indicator").attr("opacity", alpha);
-      d3.select("#no-symptoms-indicator").attr("opacity", alpha);
+    const updateChartLocally = () => {
+      updateChart(opacityValue);
+      d3.select("#symptoms-indicator").attr("opacity", opacityValue);
+      d3.select("#no-symptoms-indicator").attr("opacity", opacityValue);
     }
 
     const alphaHTML = MathCache("alpha-equals");
@@ -236,20 +239,20 @@
         .attr("style", "position:absolute; left:15px; top:0px")
         .html("Opacity epidemic curve");
 
-    const startValue = 0.5;
     const slidera = sliderGen([150, 60])
       .ticks([0, 1])
       .change(function (i) {
         const html = alphaHTML + '<span style="font-weight: normal;">' + i.toFixed(2) + "</span>";
         d3.select("#opacityEpidemic").html("Opacity " + html);
-        updateChartLocally(i);
+        opacityValue = i;
+        updateChartLocally();
       })
       .ticktitles(function (d, i) { return [0, 1, "", 2][i] })
-      .startxval(startValue)
+      .startxval(opacityValue)
       .cRadius(7)
       .shifty(-5)
       .margins(10, 20)(d3.select("#sliderStep"));
-    updateChartLocally(startValue);
+    updateChartLocally();
 
     const rHTML = MathCache("r");
     d3.select("#R").html(rHTML);
