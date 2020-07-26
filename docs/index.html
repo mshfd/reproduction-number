@@ -90,7 +90,7 @@
   </p>
 
   <figure style="position:relative; width:920px; height:580px" id="epidemic_fig">
-    <figcaption style="position:absolute; text-align:left; left:135px; width:350px; height:80px">
+    <figcaption style="position:absolute; text-align:left; left:135px; width:350px; height:80px; font-family:'Open Sans'">
       The shown epidemic curve is a combination of cases
       <svg id="symptoms-indicator" style="position:relative; top:2px; width:3px; height:14px; background:#c51b8a"></svg>
       with known symptom onset and cases without symptoms.
@@ -249,7 +249,7 @@
       .attr("x", 16)
       .attr("y", 12)
       .attr("dy", 0)
-      .attr("class", "caption")
+      .attr("class", "figtext")
       .attr("fill", "gray")
       .text("Show raw data");
 
@@ -283,6 +283,7 @@
 
     svg.append("text")
       .style("font-size", "13px")
+      .style("font-family", "Open Sans")
       .attr("x", 0)
       .attr("y", 120)
       .attr("dy", 0)
@@ -290,13 +291,14 @@
       .attr("class", "caption")
       .attr("text-anchor", "end")
       .attr("fill", "gray")
-      .text("The effective reproduction number for case j is the sum over all cases i, weighted by the relative likelihood that case i has been infected by case j.");
+      .text("The effective reproduction number for case 𝑗 is the sum over all cases 𝑖, weighted by the relative likelihood that case 𝑖 has been infected by case 𝑗.");
 
     const pijHTML = MathCache("pij");
     d3.select("#pij").html(pijHTML);
 
     svg.append("text")
       .style("font-size", "13px")
+      .style("font-family", "Open Sans")
       .attr("x", 0)
       .attr("y", 420)
       .attr("dy", 0)
@@ -304,7 +306,7 @@
       .attr("class", "caption")
       .attr("text-anchor", "end")
       .attr("fill", "gray")
-      .text("The relative likelihood that cases i have been infected by case j and vice versa.");
+      .text("The relative likelihood that cases 𝑖 have been infected by case 𝑗 and vice versa.");
 
     svg.selectAll(".caption").call(wrap, 100);
   };

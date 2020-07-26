@@ -153,12 +153,12 @@ const likelihoodChartCallbacks = {
   getBarTitle: (values, index, stackIndex) => {
     const caseDayIndex = likelihoodChartCallbacks.epidemicModel.getCenterCaseDayIndex();
     if (values[0] === 0) {
-      return index < caseDayIndex ? "This case cannot infect case j." : "This case was not infected by case j.";
+      return index < caseDayIndex ? "This case cannot infect case 𝑗." : "This case was not infected by case 𝑗.";
     }
 
-    return index < caseDayIndex ? "This case infects case j with a likelihood of " + (values[0] * 100).toPrecision(2) + "%." :
-      index > caseDayIndex ? "This case has been infected by case j with a likelihood of " + (values[0] * 100).toPrecision(2) + "%." :
-        "Case j has been infected by one of the prior cases and may infect upcoming cases.";
+    return index < caseDayIndex ? "This case infects case 𝑗 with a likelihood of " + (values[0] * 100).toPrecision(2) + "%." :
+      index > caseDayIndex ? "This case has been infected by case 𝑗 with a likelihood of " + (values[0] * 100).toPrecision(2) + "%." :
+        "Case 𝑗 has been infected by one of the prior cases and may infect upcoming cases.";
   }
 };
 
