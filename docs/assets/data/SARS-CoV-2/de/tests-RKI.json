@@ -1,0 +1,40 @@
+{
+    "startDate": "2020-02-09",
+    "versionDate": "2020-07-22",
+    "type": "pcr_tests_100k",
+    "source": {
+        "name": "Robert Koch-Institut",
+        "url": "https://www.rki.de/DE/Content/InfAZ/N/Neuartiges_Coronavirus/Situationsberichte/2020-07-22-de.pdf",
+        "license": "Data licence Germany - attribution - version 2.0",
+        "licenseUrl": "https://www.govdata.de/dl-de/by-2-0"
+    },
+    "metrics": {
+        "numTestsTotal": 7418812,
+        "numTestsPositive": 238694
+    },
+    "data": [
+        0,0,0,0,0,0,0,
+        0,0,0,250,0,0,0,
+        0,0,0,750,0,0,0,
+        0,0,0,2121,0,0,0,
+        0,0,0,5949,0,0,0,
+        0,0,0,6833,0,0,0,
+        0,0,0,8690,0,0,0,
+        0,0,0,9033,0,0,0,
+        0,0,0,8099,0,0,0,
+        0,0,0,6653,0,0,0,
+        0,0,0,4969,0,0,0,
+        0,0,0,3858,0,0,0,
+        0,0,0,2663,0,0,0,
+        0,0,0,1672,0,0,0,
+        0,0,0,1476,0,0,0,
+        0,0,0,1063,0,0,0,
+        0,0,0,941,0,0,0,
+        0,0,0,834,0,0,0,
+        0,0,0,1336,0,0,0,
+        0,0,0,778,0,0,0,
+        0,0,0,602,0,0,0,
+        0,0,0,582,0,0,0,
+        0,0,0,641,0,0,0
+    ]
+}
