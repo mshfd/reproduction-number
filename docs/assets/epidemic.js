@@ -49,8 +49,11 @@ const updateArrows = (g, data, xScale, yScale, width, height, model, dayOfIntere
           y1 = -200;
           y2 = -200;
           y3 = -200;
-        }
-        else if (d.index < caseDayIndex) {
+        } else if (dayOffset + d.index < 0) {
+          y1 = -200;
+          y2 = -200;
+          y3 = -200;
+        } else if (d.index < caseDayIndex) {
           y1 = yScale(data[dayOffset + d.index][0]);
           y2 = yScale(data[dayOffset + caseDayIndex][0] * (generationIntervalDays - i - 0.5) * relativeHeightScale);
           y3 = (y1 + y2) * 0.5;
@@ -174,7 +177,7 @@ function renderEpidemic(svg, epidemicData, measuresData) {
 
   const startDate = Date.parse(epidemicData.startDate);
 
-  const maxValue = Math.max(...epidemicData.data);
+  let maxValue = 0;
   const measureColors = colorbrewer.Reds[Math.min(Math.max(measures.length, 3), 9)];
 
   const getMeasureColor = (index) => {
@@ -262,10 +265,20 @@ function renderEpidemic(svg, epidemicData, measuresData) {
     //const data = (smoothingFactor > 0.0) ? smoothing.predict() : epidemicData.data;
     const smoothing =  new TimeSeriesSmoothing(smoothingFactor);
     const data = smoothData ? smoothing.smoothSeries(epidemicData.data) : epidemicData.data;
+    const smoothMaxValue = Math.max(...data);
+
+    maxValue = smoothMaxValue;
+
+    let scale = 1.0;
+    if(epidemicData.type == "pcr_tests_100k") {
+      const originalMaxValue = Math.max(...epidemicData.data);
+      maxValue = originalMaxValue;
+      scale = originalMaxValue / smoothMaxValue;
+    }
 
     for (var i = 0; i < numDays; i++) {
       trace[i] = [0, 0];
-      trace[i][0] = data[i];
+      trace[i][0] = Math.round(data[i] * scale);
       trace[i][1] = 0.0;
     }
   };
