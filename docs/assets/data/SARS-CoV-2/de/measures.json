@@ -16,13 +16,19 @@
             "startDate": "2020-03-23",
             "endDate": "2020-06-01",
             "type": "non-pharmaceutical",
-            "description": "Limited Lockdown, contact ban, limiting non-essential economy to home office"
+            "description": "Limited lockdown, contact ban, limiting non-essential economy to home office"
         },
         {
             "startDate": "2020-04-29",
             "endDate": "",
             "type": "non-pharmaceutical",
-            "description": "Mandatory use of face masks in public transport and at retail"
+            "description": "Mandatory use of face masks in public transport and retail"
+        },
+        {
+            "startDate": "2020-06-14",
+            "endDate": "2020-06-22",
+            "type": "non-pharmaceutical",
+            "description": "Conducting PCR tests in meat-processing facilities"
         }
     ]
 }
