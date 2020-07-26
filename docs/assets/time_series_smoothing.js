@@ -26,13 +26,18 @@ class TimeSeriesSmoothing {
           
           const cl = c - l;
           const rc = r - c;
-          const part = Math.max(2, c * 0.01);
+          const part = Math.max(2, c * 0.001);
 
           if(cl < 0 && rc > 0) {
             error++;
             smoothedData[n - 1]--;
             smoothedData[n] += 2;
-            smoothedData[n + 1]--;   
+            smoothedData[n + 1]--;
+          } else if(cl > 0 && rc < 0) {
+            error++;
+            smoothedData[n - 1]++;
+            smoothedData[n] -= 2;
+            smoothedData[n + 1]++;
           } else if(cl >= 0 && rc > part) {
 
             const dx = cl / rc;
@@ -44,18 +49,18 @@ class TimeSeriesSmoothing {
               error++;
               smoothedData[n]--;
               smoothedData[n + 1]++;
-            } 
-          } else if(cl <= 0 && rc < -part) {
+            }
+          } else if(cl < -part && rc <= 0) {
 
-            const dx = cl / rc;
+            const dx = rc / cl;
             if(dx > invThreshold) {
               error++;
-              smoothedData[n - 1]--;
-              smoothedData[n]++;
+              smoothedData[n]--;
+              smoothedData[n - 1]++;
             } else if(dx < threshold) {
               error++;
-              smoothedData[n]--;
-              smoothedData[n + 1]++;
+              smoothedData[n]++;
+              smoothedData[n - 1]--;
             }
           }
         }
