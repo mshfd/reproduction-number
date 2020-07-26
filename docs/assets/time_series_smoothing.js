@@ -7,7 +7,8 @@ class TimeSeriesSmoothing {
       let smoothedData = [];
       smoothedData.length = data.length;
       for (let n = 0; n < data.length; n++) {
-        smoothedData[n] = data[n];
+        // remove negative values to improve smoothing result
+        smoothedData[n] = data[n] > 0 ? data[n] : 0;
       }
 
       const threshold = this._alpha;
