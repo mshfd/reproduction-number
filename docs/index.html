@@ -14,7 +14,7 @@
 <!-- Katex -->
 <script src="assets/lib/auto-render.min.js"></script>
 <script src="assets/lib/katex.min.js"></script>
-<script src="assets/lib/zodiac-ts.js"></script>
+<!--<script src="assets/lib/zodiac-ts.js"></script>-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
 <link rel="stylesheet" href="assets/lib/katex.min.css">
@@ -23,6 +23,9 @@
 <!-- Required -->
 <script src="assets/lib/lib.js"></script>
 <script src="assets/utils.js"></script>
+<script src="assets/lib/d3Slider.js"></script>
+<script src="assets/lib/d3CheckBox.js"></script>
+
 <div id="math-cache" style="display: none;">
   <dt-math class="star">\star</dt-math>
   <dt-math class="plus">+</dt-math>
@@ -94,6 +97,9 @@
     </figcaption>
 
     <div id="sliderStep" style="position:absolute; left:500px; width:250px; height:100px">
+    </div>
+
+    <div id="filterOption" style="position:absolute; left:680px; width:250px; height:100px">
     </div>
 
     <div id="R" class="figtext3" style="position:absolute; left:0px; top:120px">
@@ -202,10 +208,12 @@
   };
 
   let opacityValue = 0.5;
+  let rawEpidemicData = false;
 
   const renderGraph = (epidemicData, measures) => {
 
     d3.select("#chart").selectAll("*").remove();
+    d3.select("#filterOption").selectAll("*").remove();
 
     const graphDiv = d3.select("#chart")
       .style("width", 920 + "px")
@@ -221,13 +229,29 @@
       .style("position", "absolute")
       .style("left", "15px");
 
+    const rawDataOptionSvg = d3.select("#filterOption").append("svg").attr("width", 300).attr("height", 100);
+    const rawDataOption = new d3CheckBox();
+
     const updateChart = renderEpidemic(svg, epidemicData, measures);
 
     const updateChartLocally = () => {
-      updateChart(opacityValue);
+      rawEpidemicData = rawDataOption.checked();
+      updateChart(opacityValue, !rawEpidemicData);
       d3.select("#symptoms-indicator").attr("opacity", opacityValue);
       d3.select("#no-symptoms-indicator").attr("opacity", opacityValue);
     }
+
+    rawDataOption.size(10).x(2).y(2).rx(3).ry(3).checked(rawEpidemicData).clickEvent(updateChartLocally);
+    rawDataOptionSvg.call(rawDataOption);
+
+    rawDataOptionSvg.append("text")
+      .style("font-size", "13px")
+      .attr("x", 16)
+      .attr("y", 12)
+      .attr("dy", 0)
+      .attr("class", "caption")
+      .attr("fill", "gray")
+      .text("Show raw data");
 
     const alphaHTML = MathCache("alpha-equals");
 
