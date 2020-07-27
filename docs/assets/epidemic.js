@@ -165,8 +165,27 @@ const likelihoodChartCallbacks = {
   }
 };
 
-function renderEpidemic(svg, epidemicData, measuresData) {
-  const numDays = epidemicData.data.length;
+const MS_PER_DAY = 1000 * 60 * 60 * 24;
+
+function renderEpidemic(svg, epidemicData, measuresData, region) {
+
+  let startDate = Date.parse(epidemicData.startDate);
+
+  let epidemicSeriesData = epidemicData.data;
+  
+  if(region.roiDateStart) {
+    const newStartDate = Date.parse(region.roiDateStart);
+    const diffDays = Math.floor((newStartDate - startDate) / MS_PER_DAY); 
+    startDate = newStartDate;
+    
+    epidemicSeriesData = [];
+    epidemicSeriesData.length = epidemicData.data.length - diffDays;
+    for (let i = 0; i < epidemicSeriesData.length; i++) {
+      epidemicSeriesData[i] = epidemicData.data[i + diffDays];
+    }
+  }
+
+  const numDays = epidemicSeriesData.length;
   const measures = measuresData.measures;
 
   const numStacks = 2;
@@ -174,8 +193,6 @@ function renderEpidemic(svg, epidemicData, measuresData) {
 
   epidemicChartCallbacks.epidemicModel = epidemicModel;
   likelihoodChartCallbacks.epidemicModel = epidemicModel;
-
-  const startDate = Date.parse(epidemicData.startDate);
 
   let maxValue = 0;
   const measureColors = colorbrewer.Reds[Math.min(Math.max(measures.length, 3), 9)];
@@ -261,22 +278,25 @@ function renderEpidemic(svg, epidemicData, measuresData) {
     trace.length = numDays;
 
     const smoothingFactor = 0.5;
-    //const smoothing = new zodiac.HoltSmoothing(epidemicData.data, smoothingFactor, 0.1);
-    //const data = (smoothingFactor > 0.0) ? smoothing.predict() : epidemicData.data;
+    //const smoothing = new zodiac.HoltSmoothing(epidemicSeriesData, smoothingFactor, 0.1);
+    //const data = (smoothingFactor > 0.0) ? smoothing.predict() : epidemicSeriesData;
     const smoothing =  new TimeSeriesSmoothing(smoothingFactor);
-    const data = smoothData ? smoothing.smoothSeries(epidemicData.data) : epidemicData.data;
+    const data = smoothData ? smoothing.smoothSeries(epidemicSeriesData) : epidemicSeriesData;
     const smoothMaxValue = Math.max(...data);
-
-    maxValue = smoothMaxValue;
+    const originalMaxValue = Math.max(...epidemicSeriesData);
+    const smoothingRatio = originalMaxValue / smoothMaxValue;
 
     let scale = 1.0;
     if(epidemicData.type == "pcr_tests_100k") {
-      const originalMaxValue = Math.max(...epidemicData.data);
       maxValue = originalMaxValue;
-      scale = originalMaxValue / smoothMaxValue;
+      scale = smoothingRatio;
+    } else if (smoothingRatio < 1.5) {
+      maxValue = originalMaxValue;
+    } else {
+      maxValue = smoothMaxValue;
     }
 
-    for (var i = 0; i < numDays; i++) {
+    for (let i = 0; i < numDays; i++) {
       trace[i] = [0, 0];
       trace[i][0] = Math.round(data[i] * scale);
       trace[i][1] = 0.0;
@@ -289,7 +309,7 @@ function renderEpidemic(svg, epidemicData, measuresData) {
   measureDays.length = measures.length;
   measureDaysEnd.length = measures.length;
 
-  for (var i = 0; i < measures.length; i++) {
+  for (let i = 0; i < measures.length; i++) {
     const millisecondsPerDay = 1000 * 60 * 60 * 24;
     const deltaT = (Date.parse(measures[i].startDate) - startDate);
     measureDays[i] = Math.floor(deltaT / (1000 * 60 * 60 * 24));
