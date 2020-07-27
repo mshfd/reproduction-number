@@ -210,7 +210,7 @@
   let opacityValue = 0.5;
   let rawEpidemicData = false;
 
-  const renderGraph = (epidemicData, measures) => {
+  const renderGraph = (epidemicData, measures, region) => {
 
     d3.select("#chart").selectAll("*").remove();
     d3.select("#filterOption").selectAll("*").remove();
@@ -232,7 +232,7 @@
     const rawDataOptionSvg = d3.select("#filterOption").append("svg").attr("width", 300).attr("height", 100);
     const rawDataOption = new d3CheckBox();
 
-    const updateChart = renderEpidemic(svg, epidemicData, measures);
+    const updateChart = renderEpidemic(svg, epidemicData, measures, region);
 
     const updateChartLocally = () => {
       rawEpidemicData = rawDataOption.checked();
@@ -315,9 +315,9 @@
     svg.selectAll(".caption").call(wrap, 100);
   };
 
-  requestGraphUpdate = (epidemicData, measures) => {
+  requestGraphUpdate = (epidemicData, measures, region) => {
     requestAnimationFrame(() => {
-      renderGraph(epidemicData, measures);
+      renderGraph(epidemicData, measures, region);
     });
   }
 
@@ -345,7 +345,7 @@
       if (this.readyState == 4 && this.status == 200) {
         data = JSON.parse(this.responseText);
         console.log(data);
-        requestGraphUpdate(data, measures);
+        requestGraphUpdate(data, measures, selectedRegion);
       }
     };
 

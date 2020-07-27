@@ -48,7 +48,7 @@ class TimeSeriesSmoothing {
             } else if(dx > invThreshold) {
               error++;
               smoothedData[n]--;
-              smoothedData[n + 1]++;
+              smoothedData[n - 1]++;
             }
           } else if(cl < -part && rc <= 0) {
 
@@ -56,7 +56,7 @@ class TimeSeriesSmoothing {
             if(dx > invThreshold) {
               error++;
               smoothedData[n]--;
-              smoothedData[n - 1]++;
+              smoothedData[n + 1]++;
             } else if(dx < threshold) {
               error++;
               smoothedData[n]++;
