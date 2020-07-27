@@ -11,7 +11,17 @@ function d3CheckBox () {
         boxStrokeWidth = 1.5,
         color = "gray",
         checked = false,
-        clickEvent;
+        clickEvent,
+        mark;
+
+    function toggle() {
+        checked = !checked;
+        mark.style("opacity", (checked)? 1 : 0);
+
+        if(clickEvent) {
+            clickEvent();
+        }
+    }
 
     function checkBox (selection) {
 
@@ -23,6 +33,7 @@ function d3CheckBox () {
             .attr("y", y)
             .attr("rx", rx)
             .attr("ry", ry)
+            .style("cursor", "pointer")
             .style("fill-opacity", 0)
             .style("stroke-width", boxStrokeWidth)
             .style("stroke", color);
@@ -39,24 +50,18 @@ function d3CheckBox () {
                 .y(function(d){ return d.y; })
                 .curve(d3.curveBundle, 1.0);
 
-        let mark = g.append("path");
+        mark = g.append("path");
         mark.attr("d", line(coordinates))
+            .style("cursor", "pointer")
             .style("stroke-width", markStrokeWidth)
             .style("stroke", "black")
             .style("fill", "none")
             .style("opacity", (checked)? 1 : 0);
 
         g.on("click", function () {
-            checked = !checked;
-            mark.style("opacity", (checked)? 1 : 0);
-
-            if(clickEvent) {
-                clickEvent();
-            }
-
+            toggle();
             d3.event.stopPropagation();
         });
-
     }
 
     checkBox.size = function (val) {
@@ -107,6 +112,10 @@ function d3CheckBox () {
     checkBox.clickEvent = function (val) {
         clickEvent = val;
         return checkBox;
+    }
+
+    checkBox.toggle = function () {
+        toggle();
     }
 
     return checkBox;

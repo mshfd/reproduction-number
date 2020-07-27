@@ -188,7 +188,6 @@ function sliderGen(dims) {
       d2.exit().remove()
       d2.merge(d2)
         .attr("cx", function (i) { return isNaN(i) ? -100 : x(i); })
-
     }
 
     var handle = slidersvg.insert("g", ".track-overlay")
@@ -200,6 +199,7 @@ function sliderGen(dims) {
       .style("fill", "#ff6600")
       .style("fill-opacity", 1)
       .style("stroke", "white")
+      .style("cursor", "pointer")
       .call(d3.drag()
         .on("start.interrupt", function () { slidersvg.interrupt(); })
         .on("start drag", function () {

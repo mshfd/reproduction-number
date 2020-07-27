@@ -251,7 +251,11 @@
       .attr("dy", 0)
       .attr("class", "figtext")
       .attr("fill", "gray")
-      .text("Show raw data");
+      .style("cursor", "pointer")
+      .text("Show raw data")
+      .on("click", function () {
+        rawDataOption.toggle();
+      });
 
     const alphaHTML = MathCache("alpha-equals");
 
