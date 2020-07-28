@@ -274,7 +274,7 @@ function renderEpidemic(svg, epidemicData, measuresData, region) {
   }
 
   let trace = [];
-  const updateTrace = (smoothData) => {
+  const updateTrace = (smoothData, offsetDays) => {
     trace.length = numDays;
 
     const smoothingFactor = 0.5;
@@ -292,13 +292,18 @@ function renderEpidemic(svg, epidemicData, measuresData, region) {
       maxValue = smoothMaxValue;
     }
 
-    for (let i = 0; i < numDays; i++) {
+    for (let i = 0; i < numDays - offsetDays; i++) {
       trace[i] = [0, 0];
-      trace[i][0] = data[i];
+      trace[i][0] = data[i + offsetDays];
+      trace[i][1] = 0.0;
+    }
+    for (let i = numDays - offsetDays; i < numDays; i++) {
+      trace[i] = [0, 0];
+      trace[i][0] = 0.0;
       trace[i][1] = 0.0;
     }
   };
-  updateTrace(false);
+  updateTrace(false, 0);
 
   let measureDays = [];
   let measureDaysEnd = [];
@@ -354,9 +359,9 @@ function renderEpidemic(svg, epidemicData, measuresData, region) {
     likelihoodWeightsGraph.update(likelihoodWeights, null, maxValue, Math.max(0.25, alpha), null, tickLabels);
   }
 
-  const updateChart = (alpha, smoothData) => {
+  const updateChart = (alpha, smoothData, offsetDays) => {
 
-    updateTrace(smoothData);
+    updateTrace(smoothData, offsetDays);
 
     //updateRPlot();
     updateLikelihoodWeights(alpha);
