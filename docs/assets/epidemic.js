@@ -286,11 +286,7 @@ function renderEpidemic(svg, epidemicData, measuresData, region) {
     const originalMaxValue = Math.max(...epidemicSeriesData);
     const smoothingRatio = originalMaxValue / smoothMaxValue;
 
-    let scale = 1.0;
-    if(epidemicData.type == "pcr_tests_100k") {
-      maxValue = originalMaxValue;
-      scale = smoothingRatio;
-    } else if (smoothingRatio < 1.5) {
+    if (smoothingRatio < 1.5) {
       maxValue = originalMaxValue;
     } else {
       maxValue = smoothMaxValue;
@@ -298,7 +294,7 @@ function renderEpidemic(svg, epidemicData, measuresData, region) {
 
     for (let i = 0; i < numDays; i++) {
       trace[i] = [0, 0];
-      trace[i][0] = Math.round(data[i] * scale);
+      trace[i][0] = data[i];
       trace[i][1] = 0.0;
     }
   };
