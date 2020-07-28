@@ -1,6 +1,6 @@
 {
     "startDate": "2020-03-13",
-    "versionDate": "2020-07-27",
+    "versionDate": "2020-07-28",
     "type": "cases",
     "source": {
         "name": "World Health Organization",
@@ -10,7 +10,7 @@
     },
     "metrics": {
         "numCases": 657,
-        "numDeaths": 3
+        "numDeaths": 4
     },
     "data": [
         3,
@@ -149,6 +149,7 @@
         1,
         8,
         3,
+        0,
         0
     ]
 }
