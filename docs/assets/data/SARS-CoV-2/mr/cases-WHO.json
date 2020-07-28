@@ -1,6 +1,6 @@
 {
     "startDate": "2020-03-14",
-    "versionDate": "2020-07-27",
+    "versionDate": "2020-07-28",
     "type": "cases",
     "source": {
         "name": "World Health Organization",
@@ -9,7 +9,7 @@
         "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/3.0/igo/"
     },
     "metrics": {
-        "numCases": 6171,
+        "numCases": 6208,
         "numDeaths": 156
     },
     "data": [
@@ -148,6 +148,7 @@
         42,
         89,
         0,
-        55
+        55,
+        37
     ]
 }
