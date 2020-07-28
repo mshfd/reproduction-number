@@ -36,6 +36,7 @@
   <dt-math class="beta">\beta</dt-math>
   <dt-math class="r">R_{j}= \displaystyle\sum_{i} p_{ij}</dt-math>
   <dt-math class="alpha-equals">\alpha=</dt-math>
+  <dt-math class="offset-equals">\theta=</dt-math>
   <dt-math class="beta-equals">\beta=</dt-math>
   <dt-math class="beta-equals-zero">\beta = 0</dt-math>
   <dt-math class="beta-equals-one">\beta=1</dt-math>
@@ -96,7 +97,9 @@
       with known symptom onset and cases without symptoms.
     </figcaption>
 
-    <div id="sliderStep" style="position:absolute; left:500px; width:250px; height:100px">
+    <div id="opacitySlider" style="position:absolute; left:500px; width:250px; height:100px">
+    </div>
+    <div id="testResultOffsetSlider" style="position:absolute; left:550px; top:533px; width:250px; height:100px; z-index:1000">
     </div>
 
     <div id="filterOption" style="position:absolute; left:680px; width:250px; height:100px">
@@ -208,6 +211,7 @@
   };
 
   let opacityValue = 0.5;
+  let offsetDays = 5;
   let rawEpidemicData = false;
 
   const renderGraph = (epidemicData, measures, region) => {
@@ -229,6 +233,7 @@
       .style("position", "absolute")
       .style("left", "15px");
 
+    const offsetHTML = MathCache("offset-equals");
     const rawDataOptionSvg = d3.select("#filterOption").append("svg").attr("width", 300).attr("height", 100);
     const rawDataOption = new d3CheckBox();
 
@@ -236,9 +241,12 @@
 
     const updateChartLocally = () => {
       rawEpidemicData = rawDataOption.checked();
-      updateChart(opacityValue, !rawEpidemicData);
+      updateChart(opacityValue, !rawEpidemicData, offsetDays);
       d3.select("#symptoms-indicator").attr("opacity", opacityValue);
       d3.select("#no-symptoms-indicator").attr("opacity", opacityValue);
+      
+      const html = offsetHTML + ' <span style="font-weight: normal;">' + offsetDays + "</span>";
+      d3.select("#offsetEpidemic").html(html);
     }
 
     rawDataOption.size(10).x(2).y(2).rx(3).ry(3).checked(rawEpidemicData).clickEvent(updateChartLocally);
@@ -259,9 +267,9 @@
 
     const alphaHTML = MathCache("alpha-equals");
 
-    const sliderStep = d3.select("#sliderStep");
-    sliderStep.selectAll("*").remove();
-    sliderStep.append("div")
+    const opacitySlider = d3.select("#opacitySlider");
+    opacitySlider.selectAll("*").remove();
+    opacitySlider.append("div")
         .attr("id", "opacityEpidemic")
         .attr("class", "figtext")
         .attr("style", "position:absolute; left:15px; top:0px")
@@ -270,7 +278,7 @@
     const slidera = sliderGen([150, 60])
       .ticks([0, 1])
       .change(function (i) {
-        const html = alphaHTML + '<span style="font-weight: normal;">' + i.toFixed(2) + "</span>";
+        const html = alphaHTML + ' <span style="font-weight: normal;">' + i.toFixed(2) + "</span>";
         d3.select("#opacityEpidemic").html("Opacity " + html);
         opacityValue = i;
         updateChartLocally();
@@ -279,7 +287,28 @@
       .startxval(opacityValue)
       .cRadius(7)
       .shifty(-5)
-      .margins(10, 20)(d3.select("#sliderStep"));
+      .margins(10, 20)(d3.select("#opacitySlider"));
+    
+    const testResultOffsetSlider = d3.select("#testResultOffsetSlider");
+    testResultOffsetSlider.selectAll("*").remove();
+    testResultOffsetSlider.append("div")
+        .attr("id", "offsetEpidemic")
+        .attr("class", "figtext")
+        .attr("style", "position:absolute; left:15px; top:0px")
+        .html("Test Result for Case Offset");
+
+    const sliderb = sliderGen([50, 60])
+      .ticks([0, 10])
+      .change(function (i) {
+        offsetDays = Math.round(i);
+        updateChartLocally();
+      })
+      .ticktitles(function (d, i) { return [0, 10][i] })
+      .startxval(5)
+      .cRadius(7)
+      .shifty(-5)
+      .margins(10, 20)(d3.select("#testResultOffsetSlider"));
+
     updateChartLocally();
 
     const rHTML = MathCache("r");
