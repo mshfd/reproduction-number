@@ -115,6 +115,7 @@ result = {
     "startDate": str(first_date),
     "versionDate": str(version_date.date()),
     "type": "cases",
+    "averageReportToCaseDelayInDays": 0,
     "source": {
         "name": "Robert Koch-Institut",
         "url": "https://www.arcgis.com/home/item.html?id=f10774f1c63e40168479a1feb6c7ca74",
