@@ -1,6 +1,18 @@
 
+const updateInfoText = (g, data, xScale, yScale, width, height, model, dayOfInterest, infoText) => {
+
+  let text = g.select("text");
+  if (text.empty()) {
+    text = g.append("text");
+  }
+  text.attr("class", "figtext2")
+    .attr("style", "position:absolute; left:" + dayOfInterest + "px; top:0px")
+    .attr("fill", "grey")
+    .text(infoText);
+};
+
 const updateArrows = (g, data, xScale, yScale, width, height, model, dayOfInterest) => {
-  
+
   let arrows = [];
   const caseDayIndex = model.getCenterCaseDayIndex();
   const dayOffset = (dayOfInterest === undefined) ? 0 : dayOfInterest - caseDayIndex;
@@ -25,6 +37,7 @@ const updateArrows = (g, data, xScale, yScale, width, height, model, dayOfIntere
   const lineWidth = width / data.length;
 
   const polygon = g.selectAll("path").data(arrows);
+  polygon.exit().remove();
   polygon.enter().append("path").merge(polygon)
     .style("stroke", "#000")
     .attr("stroke-width", 1.5)
@@ -65,8 +78,7 @@ const updateArrows = (g, data, xScale, yScale, width, height, model, dayOfIntere
       }
 
       return d3.line().curve(d3.curveBundle, 0.5)([[x1, y1], [x3, y3], [x2, y2]]);
-    })
-    .exit().remove();
+    });
 };
 
 const epidemicChartCallbacks = {
@@ -75,6 +87,8 @@ const epidemicChartCallbacks = {
   epidemicData: null,
   epidemicDataSource: null,
   epidemicChartUpdate: null,
+  _gg: null,
+  _infoText: null,
   _g: null,
   _data: null,
   _xScale: null,
@@ -82,9 +96,12 @@ const epidemicChartCallbacks = {
   _width: 0,
   _height: 0,
   _hideTimeoutId: 0,
-  _R_i: -1,
   updateCustomElements: (g, data, xScale, yScale, width, height) => {
-    epidemicChartCallbacks._g = g;
+    if (epidemicChartCallbacks._gg !== g) {
+      epidemicChartCallbacks._gg = g;
+      epidemicChartCallbacks._infoText = g.append("g");
+      epidemicChartCallbacks._g = g.append("g");
+    }
     epidemicChartCallbacks._data = data;
     epidemicChartCallbacks._xScale = xScale;
     epidemicChartCallbacks._yScale = yScale;
@@ -92,17 +109,25 @@ const epidemicChartCallbacks = {
     epidemicChartCallbacks._height = height;
   },
   getBarTitle: (values, index, stackIndex) => {
+    const a = epidemicChartCallbacks;
+
+    let infectedCases = 0;
+    for (let i = index + 1; i < a.epidemicData.length; i++) {
+      //const p_ij = a.epidemicModel.computeWeightedInfectedLikelihood(i - index);
+      infectedCases += a.epidemicData[i][0]; // * p_ij; // Stack0 represents already the epidemic relation to the index case
+    }
+    const rValue = infectedCases / a.epidemicData[index][0];
+    const isValidRValue = (index + a.epidemicModel.getCenterCaseDayIndex() < a.epidemicData.length);
+
     const millisecondsPerDay = 1000 * 60 * 60 * 24;
     const date = new Date(epidemicChartCallbacks.startDate + index * millisecondsPerDay);
     return date.toLocaleDateString() + " - Number of Cases: " + values[stackIndex] + "\n" +
-      "Reproduction Number: " + ((epidemicChartCallbacks._R_i >= 0) ? epidemicChartCallbacks._R_i.toFixed(2) : "n/a");
+      "Reproduction Number: " + (isValidRValue ? rValue.toFixed(2) : "n/a");
   },
   onMouseEnter: (values, index, stackIndex) => {
     const a = epidemicChartCallbacks;
 
     clearTimeout(a._hideTimeoutId);
-
-    let causedCases = 0;
 
     for (let i = 0; i < a.epidemicData.length; i++) {
 
@@ -113,30 +138,24 @@ const epidemicChartCallbacks = {
         a.epidemicData[i][0] = a.epidemicDataSource[i][0];
         a.epidemicData[i][1] = 0;
       } else {
-        if (i > index) {
-          causedCases += a.epidemicDataSource[i][0] * p_ij;
-        }
         a.epidemicData[i][0] = a.epidemicDataSource[i][0] * p_ij;
         a.epidemicData[i][1] = a.epidemicDataSource[i][0] * (1 - p_ij);
       }
     }
 
-    if (index + epidemicChartCallbacks.epidemicModel.getCenterCaseDayIndex() < a.epidemicData.length) {
-      a._R_i = causedCases / a.epidemicDataSource[index][0];
-    } else {
-      a._R_i = -1.0;
-    }
-
+    const infoText = a.getBarTitle(values, index, stackIndex);
 
     updateArrows(a._g, a._data, a._xScale, a._yScale, a._width, a._height, a.epidemicModel, index);
+    updateInfoText(a._infoText, a._data, a._xScale, a._yScale, a._width, a._height, a.epidemicModel, index, infoText);
     epidemicChartCallbacks.epidemicChartUpdate();
     a._g.style("visibility", "visible");
-
+    a._infoText.style("visibility", "visible");
   },
   onMouseOut: (values, index, stackIndex) => {
     const a = epidemicChartCallbacks;
 
     a._hideTimeoutId = setTimeout(() => {
+      a._infoText.style("visibility", "hidden");
       a._g.style("visibility", "hidden");
 
       for (var i = 0; i < a.epidemicData.length; i++) {
@@ -150,7 +169,25 @@ const epidemicChartCallbacks = {
 
 const likelihoodChartCallbacks = {
   epidemicModel: null,
+  _infoText: null,
+  _gg: null,
+  _g: null,
+  _data: null,
+  _xScale: null,
+  _yScale: null,
+  _width: 0,
+  _height: 0,
   updateCustomElements: (g, data, xScale, yScale, width, height) => {
+    if (likelihoodChartCallbacks._gg !== g) {
+      likelihoodChartCallbacks._gg = g;
+      likelihoodChartCallbacks._infoText = g.append("g");
+      likelihoodChartCallbacks._g = g.append("g");
+    }
+    likelihoodChartCallbacks._data = data;
+    likelihoodChartCallbacks._xScale = xScale;
+    likelihoodChartCallbacks._yScale = yScale;
+    likelihoodChartCallbacks._width = width;
+    likelihoodChartCallbacks._height = height;
     updateArrows(g, data, xScale, yScale, width, height, likelihoodChartCallbacks.epidemicModel);
   },
   getBarTitle: (values, index, stackIndex) => {
@@ -162,6 +199,18 @@ const likelihoodChartCallbacks = {
     return index < caseDayIndex ? "This case infects case 𝑗 with a likelihood of " + (values[0] * 100).toPrecision(2) + "%." :
       index > caseDayIndex ? "This case has been infected by case 𝑗 with a likelihood of " + (values[0] * 100).toPrecision(2) + "%." :
         "Case 𝑗 has been infected by one of the prior cases and may infect upcoming cases.";
+  },
+  onMouseEnter: (values, index, stackIndex) => {
+    const a = likelihoodChartCallbacks;
+
+    const infoText = a.getBarTitle(values, index, stackIndex);
+
+    a._infoText.style("visibility", "visible");
+    updateInfoText(a._infoText, a._data, a._xScale, a._yScale, a._width, a._height, a.epidemicModel, index, infoText);
+  },
+  onMouseOut: (values, index, stackIndex) => {
+    const a = likelihoodChartCallbacks;
+    a._infoText.style("visibility", "hidden");
   }
 };
 
@@ -172,12 +221,12 @@ function renderEpidemic(svg, epidemicData, measuresData, region) {
   let startDate = Date.parse(epidemicData.startDate);
 
   let epidemicSeriesData = epidemicData.data;
-  
-  if(region.roiDateStart) {
+
+  if (region.roiDateStart) {
     const newStartDate = Date.parse(region.roiDateStart);
-    const diffDays = Math.floor((newStartDate - startDate) / MS_PER_DAY); 
+    const diffDays = Math.floor((newStartDate - startDate) / MS_PER_DAY);
     startDate = newStartDate;
-    
+
     epidemicSeriesData = [];
     epidemicSeriesData.length = epidemicData.data.length - diffDays;
     for (let i = 0; i < epidemicSeriesData.length; i++) {
@@ -229,10 +278,10 @@ function renderEpidemic(svg, epidemicData, measuresData, region) {
     markers.push(marker);
   }
 
-  var stackedBar = stackedBarchartGen(numDays, numStacks, epidemicChartCallbacks)(svg, width, height, false);
+  var stackedBar = stackedBarchartGen(numDays, numStacks, epidemicChartCallbacks)(svg, width, height);
 
   let graphsvg = svg.append("g").attr("transform", "translate(" + 10 + "," + 380 + ")");
-  let likelihoodWeightsGraph = stackedBarchartGen(epidemicModel.getInfectionInOutPeriodDays(), numStacks, likelihoodChartCallbacks)(graphsvg, 400, 100, false);
+  let likelihoodWeightsGraph = stackedBarchartGen(epidemicModel.getInfectionInOutPeriodDays(), numStacks, likelihoodChartCallbacks)(graphsvg, 400, 100);
 
   var measureSeperationY = 14;
 
@@ -275,12 +324,12 @@ function renderEpidemic(svg, epidemicData, measuresData, region) {
 
   let trace = [];
   const updateTrace = (smoothData, offsetDays) => {
-    trace.length = numDays;
+    trace.length = numDays - offsetDays;
 
     const smoothingFactor = 0.5;
     //const smoothing = new zodiac.HoltSmoothing(epidemicSeriesData, smoothingFactor, 0.1);
     //const data = (smoothingFactor > 0.0) ? smoothing.predict() : epidemicSeriesData;
-    const smoothing =  new TimeSeriesSmoothing(smoothingFactor);
+    const smoothing = new TimeSeriesSmoothing(smoothingFactor);
     const data = smoothData ? smoothing.smoothSeries(epidemicSeriesData) : epidemicSeriesData;
     const smoothMaxValue = Math.max(...data);
     const originalMaxValue = Math.max(...epidemicSeriesData);
@@ -292,14 +341,9 @@ function renderEpidemic(svg, epidemicData, measuresData, region) {
       maxValue = smoothMaxValue;
     }
 
-    for (let i = 0; i < numDays - offsetDays; i++) {
+    for (let i = 0; i < trace.length; i++) {
       trace[i] = [0, 0];
       trace[i][0] = data[i + offsetDays];
-      trace[i][1] = 0.0;
-    }
-    for (let i = numDays - offsetDays; i < numDays; i++) {
-      trace[i] = [0, 0];
-      trace[i][0] = 0.0;
       trace[i][1] = 0.0;
     }
   };
@@ -356,7 +400,7 @@ function renderEpidemic(svg, epidemicData, measuresData, region) {
       tickLabels[i] = (i == caseDayIndex) ? "j" : iLabel;
     }
 
-    likelihoodWeightsGraph.update(likelihoodWeights, null, maxValue, Math.max(0.25, alpha), null, tickLabels);
+    likelihoodWeightsGraph.update(likelihoodWeights, maxValue, Math.max(0.25, alpha), null, tickLabels);
   }
 
   const updateChart = (alpha, smoothData, offsetDays) => {
@@ -370,7 +414,7 @@ function renderEpidemic(svg, epidemicData, measuresData, region) {
     epidemicChartCallbacks.epidemicData = trace;
     epidemicChartCallbacks.epidemicDataSource = JSON.parse(JSON.stringify(trace));
     epidemicChartCallbacks.epidemicChartUpdate = () => {
-      stackedBar.update(trace, measureDays, maxValue, alpha, 5);
+      stackedBar.update(trace, maxValue, alpha, 5);
     };
     epidemicChartCallbacks.epidemicChartUpdate();
 
