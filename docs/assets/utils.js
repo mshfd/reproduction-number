@@ -431,20 +431,15 @@ function stemGraphGen(graphWidth, graphHeight, n) {
 }
 
 /* Render a stacked graph. D*/
-function stackedBarchartGen(n, m, callbacks) {
+function stackedBarchartGen(n, numStacks, callbacks) {
 
-  var axis = [0, 1.0];
   var translatex = 110;
   var translatey = 10;
   var col = colorbrewer.RdPu;
-  var highlightcol = "darkred";
   var lineopacity = 1;
-  var cr = 1.75;
-  var copacity = 1;
-  var dotcolor = "black";
   var drawgrid = true;
 
-  function renderStackedGraph(svg, dwidth, dheight, createCircleTips) {
+  function renderStackedGraph(svg, dwidth, dheight) {
 
     var margin = { right: 23, left: 10, top: 10, bottom: 10 };
     var width = dwidth - margin.left - margin.right;
@@ -452,8 +447,7 @@ function stackedBarchartGen(n, m, callbacks) {
 
     var graphsvg = svg.append("g").attr("transform", "translate(" + translatex + "," + translatey + ")");
 
-    var stack = zeros2D(n, m);
-    var axisheight = 10;
+    var stack = zeros2D(n, numStacks);
     let X = d3.scaleLinear().domain([0, stack.length - 1]).range([margin.right, margin.right + width]);
 
     function add(a, b) { return a + b; }
@@ -461,68 +455,34 @@ function stackedBarchartGen(n, m, callbacks) {
     var scaleLeft = graphsvg.append("g");
     var scaleBottom = graphsvg.append("g");
 
-    var s = [];
-    for (let j = 0; j < m; j++) {
-
+    let stacks = [];
+    for (let j = 0; j < numStacks; j++) {
       var si = graphsvg.append("g");
-
-      const currentLine = si.selectAll("line")
-        .data(stack)
-        .enter()
-        .append("line")
-        .attr("x1", function (d, i) { return X(i) })
-        .attr("x2", function (d, i) { return X(i) })
-        .attr("y1", function (d, i) { return 0 })
-        .attr("y2", function (d, i) { return 0 })
-        .attr("stroke-width", 1.5)
-        .attr("stroke", col[3][j])
-        .attr("opacity", lineopacity)
-        .append("title");
-
-      s.push(si);
+      stacks.push(si);
     }
 
     const customElementsG = callbacks.updateCustomElements ? graphsvg.append("g") : null;
 
-    if (createCircleTips) {
-      graphsvg.append("g").selectAll("circle")
-        .data(stack)
-        .enter()
-        .append("circle")
-        .attr("cx", function (d, i) { return X(i) })
-        .attr("cy", function (d, i) { return 0 })
-        .attr("r", 2)
-        .attr("opacity", copacity)
-    }
+    function updateGraph(stacknew, maxValue, alpha, numTicksY, scaleXTickLabels) {
 
-    function updateGraph(stacknew, highlight, maxValue, alpha, numTicksY, scaleXTickLabels) {
-
+      //X = d3.scaleLinear().domain([0, stacknew.length - 1]).range([margin.right, margin.right + width]);
       Y = d3.scaleLinear().domain([maxValue, 0]).range([0, height]);
-
-      var svgdata = graphsvg.selectAll("circle").data(stacknew);
-      if (createCircleTips) {
-        svgdata.enter().append("circle").merge(svgdata)
-          .attr("cx", function (d, i) { return X(i) })
-          .attr("cy", function (d, i) { return Y(d.reduce(add, 0)) })
-          .attr("r", function (d, i) { return highlight.includes(i) ? 2 : cr })
-          .attr("fill", function (d, i) { return highlight.includes(i) ? highlightcol : dotcolor })
-          .attr("opacity", alpha)
-          .exit().remove()
-      }
 
       const lineWidth = (width / stacknew.length) * 0.75;
 
-      for (let j = 0; j < m; j++) {
-        const svgdatai = s[j].selectAll("line").data(stacknew);
-        svgdatai.enter().append("line").merge(svgdatai)
+      for (let j = 0; j < numStacks; j++) {
+        const svgdatai = stacks[j].selectAll("line").data(stacknew);
+        svgdatai.exit().remove();
+        const lines = svgdatai.enter().append("line").merge(svgdatai);
+        lines.attr("x1", function (d, i) { return X(i) })
+          .attr("x2", function (d, i) { return X(i) })
           .attr("y1", function (d, i) { return Y(d.slice(0, j).reduce(add, 0)) })
           .attr("y2", function (d, i) { return Y(d.slice(0, j + 1).reduce(add, 0)) })
           .attr("opacity", alpha)
+          .attr("stroke", col[3][j])
           .attr("stroke-width", lineWidth)
           .on("mouseenter", function (sample, index) { if (callbacks.onMouseEnter) { callbacks.onMouseEnter(sample, index, j); } })
-          .on("mouseout", function (sample, index) { if (callbacks.onMouseOut) { callbacks.onMouseOut(sample, index, j); } })
-          .select("title").html(function (sample, index) { return callbacks.getBarTitle ? callbacks.getBarTitle(sample, index, j) : null })
-          .exit().remove()
+          .on("mouseout", function (sample, index) { if (callbacks.onMouseOut) { callbacks.onMouseOut(sample, index, j); } });
       }
 
       if (callbacks.updateCustomElements) {
@@ -557,12 +517,9 @@ function stackedBarchartGen(n, m, callbacks) {
               .tickSize(2))
         }
       }
-
     }
 
-
-    return { update: updateGraph, stack: s, X: X }
-
+    return { update: updateGraph, stack: stacks, X: X }
   }
 
   renderStackedGraph.highlightcol = function (_) {
