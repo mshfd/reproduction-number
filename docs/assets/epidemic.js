@@ -8,19 +8,41 @@ const updateInfoText = (g, data, xScale, yScale, width, height, model, dayOfInte
     text = g.append("text");
   }
 
+  const lines = infoText.split(/\n/);
   const margin = 2;
+
   let x = xScale(dayOfInterest);
-  const y = Math.max(margin, yScale(data[dayOfInterest][0]));
+  const y = Math.max(margin * 2, yScale(data[dayOfInterest][0]) - 20);
 
   text.attr("class", "figtext2")
     .attr("style", "position:absolute; left:" + dayOfInterest + "px; top:0px")
     .attr("x", x)
     .attr("y", y)
-    .attr("fill", "grey")
-    .text(infoText);
+    .attr("dy", 0)
+    .attr("fill", "grey");
+
+  text.selectAll("tspan").remove();
+
+  let tspans = [];
+  for (let index = 0; index < lines.length; index++) {
+    const line = lines[index];
+    const tspan = text.append("tspan");
+    tspan.attr("x", 0).attr("y", y).attr("dy", (index * 1.1) + "em").text(line);
+    tspans.push(tspan);
+  }
 
   const bbox = text.node().getBBox();
-  x = x - bbox.width / 2;
+
+  if (x < width / 2) {
+    x = x + 20;
+  } else {
+    x = x - bbox.width - 20;
+  }
+
+  for (let index = 0; index < lines.length; index++) {
+    let tspan = tspans[index];
+    tspan.attr("x", x);
+  }
   text.attr("x", x);
 
   rect.attr("x", x - margin)
@@ -229,7 +251,7 @@ const likelihoodChartCallbacks = {
 
     return index < caseDayIndex ? "This case infects case 𝑗 with a likelihood of " + (values[0] * 100).toPrecision(2) + "%." :
       index > caseDayIndex ? "This case has been infected by case 𝑗 with a likelihood of " + (values[0] * 100).toPrecision(2) + "%." :
-        "Case 𝑗 has been infected by one of the prior cases and may infect upcoming cases.";
+        "Case 𝑗 has been infected by one of the prior\ncases and may infect upcoming cases.";
   },
   onMouseEnter: (values, index, stackIndex) => {
     const a = likelihoodChartCallbacks;
