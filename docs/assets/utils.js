@@ -433,10 +433,7 @@ function stemGraphGen(graphWidth, graphHeight, n) {
 /* Render a stacked graph. D*/
 function stackedBarchartGen(n, numStacks, callbacks) {
 
-  var translatex = 110;
-  var translatey = 10;
   var col = colorbrewer.RdPu;
-  var lineopacity = 1;
   var drawgrid = true;
 
   function renderStackedGraph(svg, dwidth, dheight) {
@@ -445,7 +442,7 @@ function stackedBarchartGen(n, numStacks, callbacks) {
     var width = dwidth - margin.left - margin.right;
     var height = dheight - margin.top - margin.bottom;
 
-    let graphsvg = svg.append("g").attr("transform", "translate(" + translatex + "," + translatey + ")");
+    let graphsvg = svg.append("g");
 
     var stack = zeros2D(n, numStacks);
     let X = d3.scaleLinear().domain([0, stack.length - 1]).range([margin.right, margin.right + width]);
@@ -460,8 +457,6 @@ function stackedBarchartGen(n, numStacks, callbacks) {
       var si = graphsvg.append("g");
       stacks.push(si);
     }
-
-    const customElementsG = callbacks.updateCustomElements ? graphsvg.append("g") : null;
 
     function updateGraph(stacknew, maxValue, alpha, numTicksY, scaleXTickLabels) {
 
@@ -486,7 +481,7 @@ function stackedBarchartGen(n, numStacks, callbacks) {
       }
 
       if (callbacks.updateCustomElements) {
-        callbacks.updateCustomElements(customElementsG, stacknew, X, Y, width, height);
+        callbacks.updateCustomElements(stacknew, X, Y, width, height);
       }
 
       if (drawgrid) {
