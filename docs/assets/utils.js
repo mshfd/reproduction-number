@@ -445,7 +445,7 @@ function stackedBarchartGen(n, numStacks, callbacks) {
     var width = dwidth - margin.left - margin.right;
     var height = dheight - margin.top - margin.bottom;
 
-    var graphsvg = svg.append("g").attr("transform", "translate(" + translatex + "," + translatey + ")");
+    let graphsvg = svg.append("g").attr("transform", "translate(" + translatex + "," + translatey + ")");
 
     var stack = zeros2D(n, numStacks);
     let X = d3.scaleLinear().domain([0, stack.length - 1]).range([margin.right, margin.right + width]);

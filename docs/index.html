@@ -92,7 +92,8 @@
   </p>
 
   <figure style="position:relative; width:920px; height:580px" id="epidemic_fig">
-    <figcaption style="position:absolute; text-align:left; left:135px; width:350px; height:80px; font-family:'Open Sans'">
+    <figcaption
+      style="position:absolute; text-align:left; left:135px; width:350px; height:80px; font-family:'Open Sans'">
       The shown epidemic curve comprises all captured cases
       <svg id="symptoms-indicator" style="position:relative; top:2px; width:3px; height:14px; background:#c51b8a"></svg>
       assigned to their given or estimated symptom onset date.
@@ -100,7 +101,8 @@
 
     <div id="opacitySlider" style="position:absolute; left:500px; width:250px; height:100px">
     </div>
-    <div id="testResultOffsetSlider" style="position:absolute; left:550px; top:533px; width:300px; height:100px; z-index:1000">
+    <div id="testResultOffsetSlider"
+      style="position:absolute; left:550px; top:533px; width:300px; height:100px; z-index:1000">
     </div>
 
     <div id="filterOption" style="position:absolute; left:680px; width:250px; height:100px">
@@ -191,9 +193,9 @@
 <script src="assets/epidemic.js"></script>
 <script>
 
-  
+
   const automaticResizeSelection = (id) => {
-    return $(id).change(function(){
+    return $(id).change(function () {
       const text = $(this).find('option:selected').text()
       const $aux = $('<select/>').append($('<option/>').text(text))
       $(this).after($aux)
@@ -247,7 +249,7 @@
       updateChart(opacityValue, !rawEpidemicData, offsetDays);
       d3.select("#symptoms-indicator").attr("opacity", opacityValue);
       d3.select("#no-symptoms-indicator").attr("opacity", opacityValue);
-      
+
       const html = offsetEqualsHTML + ' <span style="font-weight: normal;">' + offsetDays + "</span>";
       d3.select("#offsetEpidemic").html(html);
     }
@@ -273,10 +275,10 @@
     const opacitySlider = d3.select("#opacitySlider");
     opacitySlider.selectAll("*").remove();
     opacitySlider.append("div")
-        .attr("id", "opacityEpidemic")
-        .attr("class", "figtext")
-        .attr("style", "position:absolute; left:15px; top:0px")
-        .html("Opacity epidemic curve");
+      .attr("id", "opacityEpidemic")
+      .attr("class", "figtext")
+      .attr("style", "position:absolute; left:15px; top:0px")
+      .html("Opacity epidemic curve");
 
     const slidera = sliderGen([150, 60])
       .ticks([0, 1])
@@ -291,13 +293,13 @@
       .cRadius(7)
       .shifty(-5)
       .margins(10, 20)(d3.select("#opacitySlider"));
-    
+
     const testResultOffsetSlider = d3.select("#testResultOffsetSlider");
     testResultOffsetSlider.selectAll("*").remove();
     testResultOffsetSlider.append("div")
-        .attr("id", "offsetEpidemic")
-        .attr("class", "figtext")
-        .attr("style", "position:absolute; left:10px; top:0px");
+      .attr("id", "offsetEpidemic")
+      .attr("class", "figtext")
+      .attr("style", "position:absolute; left:10px; top:0px");
 
     const sliderb = sliderGen([50, 60])
       .ticks([0, 10])
@@ -311,12 +313,12 @@
       .shifty(-5)
       .margins(10, 20)(d3.select("#testResultOffsetSlider"));
 
-      const offsetHTML = MathCache("offset");
-      testResultOffsetSlider.append("text")
-        .attr("class", "figtext2")
-        .attr("style", "position:absolute; left:65px; top:0px")
-        .attr("fill", "gray")
-        .html( "Based on the selected data an offset average " + offsetHTML + " needs to be applied to assign the cases to their estimated symptom onset date." );
+    const offsetHTML = MathCache("offset");
+    testResultOffsetSlider.append("text")
+      .attr("class", "figtext2")
+      .attr("style", "position:absolute; left:65px; top:0px")
+      .attr("fill", "gray")
+      .html("Based on the selected data an offset average " + offsetHTML + " needs to be applied to assign the cases to their estimated symptom onset date.");
 
 
     updateChartLocally();
