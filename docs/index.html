@@ -243,10 +243,11 @@
     const rawDataOption = new d3CheckBox();
 
     const updateChart = renderEpidemic(svg, epidemicData, measures, region);
+    let overlay = null;
 
     const updateChartLocally = () => {
       rawEpidemicData = rawDataOption.checked();
-      updateChart(opacityValue, !rawEpidemicData, offsetDays);
+      updateChart(opacityValue, !rawEpidemicData, offsetDays, overlay);
       d3.select("#symptoms-indicator").attr("opacity", opacityValue);
       d3.select("#no-symptoms-indicator").attr("opacity", opacityValue);
 
@@ -320,9 +321,6 @@
       .attr("fill", "gray")
       .html("Based on the selected data an offset average " + offsetHTML + " needs to be applied to assign the cases to their estimated symptom onset date.");
 
-
-    updateChartLocally();
-
     const rHTML = MathCache("r");
     d3.select("#R").html(rHTML);
 
@@ -354,6 +352,10 @@
       .text("The relative likelihood that cases 𝑖 have been infected by case 𝑗 and vice versa.");
 
     svg.selectAll(".caption").call(wrap, 100);
+
+    overlay = svg.append("g");
+
+    updateChartLocally();
   };
 
   requestGraphUpdate = (epidemicData, measures, region) => {

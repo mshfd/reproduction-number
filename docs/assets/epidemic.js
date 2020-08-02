@@ -111,7 +111,8 @@ const epidemicChartCallbacks = {
   epidemicData: null,
   epidemicDataSource: null,
   epidemicChartUpdate: null,
-  _gg: null,
+  overlay: null,
+  transform: null,
   _infoText: null,
   _g: null,
   _data: null,
@@ -120,11 +121,13 @@ const epidemicChartCallbacks = {
   _width: 0,
   _height: 0,
   _hideTimeoutId: 0,
-  updateCustomElements: (g, data, xScale, yScale, width, height) => {
-    if (epidemicChartCallbacks._gg !== g) {
-      epidemicChartCallbacks._gg = g;
-      epidemicChartCallbacks._infoText = g.append("g");
+  updateCustomElements: (data, xScale, yScale, width, height) => {
+    let g = epidemicChartCallbacks.overlay.select("#epidemicChart");
+    if (g.empty()) {
+      g = epidemicChartCallbacks.overlay.append("g").attr("id", "epidemicChart");
+      g.attr("transform", epidemicChartCallbacks.transform);
       epidemicChartCallbacks._g = g.append("g");
+      epidemicChartCallbacks._infoText = g.append("g");
     }
     epidemicChartCallbacks._data = data;
     epidemicChartCallbacks._xScale = xScale;
@@ -194,26 +197,29 @@ const epidemicChartCallbacks = {
 
 const likelihoodChartCallbacks = {
   epidemicModel: null,
+  overlay: null,
+  transform: null,
   _infoText: null,
-  _gg: null,
   _g: null,
   _data: null,
   _xScale: null,
   _yScale: null,
   _width: 0,
   _height: 0,
-  updateCustomElements: (g, data, xScale, yScale, width, height) => {
-    if (likelihoodChartCallbacks._gg !== g) {
-      likelihoodChartCallbacks._gg = g;
-      likelihoodChartCallbacks._infoText = g.append("g");
+  updateCustomElements: (data, xScale, yScale, width, height) => {
+    let g = likelihoodChartCallbacks.overlay.select("#likelihoodOverlay");
+    if (g.empty()) {
+      g = likelihoodChartCallbacks.overlay.append("g").attr("id", "likelihoodOverlay");
+      g.attr("transform", likelihoodChartCallbacks.transform);
       likelihoodChartCallbacks._g = g.append("g");
+      likelihoodChartCallbacks._infoText = g.append("g");
     }
     likelihoodChartCallbacks._data = data;
     likelihoodChartCallbacks._xScale = xScale;
     likelihoodChartCallbacks._yScale = yScale;
     likelihoodChartCallbacks._width = width;
     likelihoodChartCallbacks._height = height;
-    updateArrows(g, data, xScale, yScale, width, height, likelihoodChartCallbacks.epidemicModel);
+    updateArrows(likelihoodChartCallbacks._g, data, xScale, yScale, width, height, likelihoodChartCallbacks.epidemicModel);
   },
   getBarTitle: (values, index, stackIndex) => {
     const caseDayIndex = likelihoodChartCallbacks.epidemicModel.getCenterCaseDayIndex();
@@ -303,10 +309,13 @@ function renderEpidemic(svg, epidemicData, measuresData, region) {
     markers.push(marker);
   }
 
-  var stackedBar = stackedBarchartGen(numDays, numStacks, epidemicChartCallbacks)(svg, width, height);
+  const translatex = 110;
+  const translatey = 10;
+  let epidemicGraphsvg = svg.append("g").attr("transform", "translate(" + translatex + "," + translatey + ")");
+  let likelihoodGraphsvg = svg.append("g").attr("transform", "translate(" + (translatex + 10) + "," + (translatey + 380) + ")");
 
-  let graphsvg = svg.append("g").attr("transform", "translate(" + 10 + "," + 380 + ")");
-  let likelihoodWeightsGraph = stackedBarchartGen(epidemicModel.getInfectionInOutPeriodDays(), numStacks, likelihoodChartCallbacks)(graphsvg, 400, 100);
+  let stackedBar = stackedBarchartGen(numDays, numStacks, epidemicChartCallbacks)(epidemicGraphsvg, width, height);
+  let likelihoodWeightsGraph = stackedBarchartGen(epidemicModel.getInfectionInOutPeriodDays(), numStacks, likelihoodChartCallbacks)(likelihoodGraphsvg, 400, 100);
 
   var measureSeperationY = 14;
 
@@ -405,6 +414,7 @@ function renderEpidemic(svg, epidemicData, measuresData, region) {
 
     let likelihoodWeights = [];
     let tickLabels = [];
+
     likelihoodWeights.length = epidemicModel.getInfectionInOutPeriodDays();
     tickLabels.length = epidemicModel.getInfectionInOutPeriodDays();
 
@@ -428,13 +438,18 @@ function renderEpidemic(svg, epidemicData, measuresData, region) {
     likelihoodWeightsGraph.update(likelihoodWeights, maxValue, Math.max(0.25, alpha), null, tickLabels);
   }
 
-  const updateChart = (alpha, smoothData, offsetDays) => {
+  const updateChart = (alpha, smoothData, offsetDays, overlay) => {
 
     updateTrace(smoothData, offsetDays);
 
     //updateRPlot();
+
+    likelihoodChartCallbacks.overlay = overlay;
+    likelihoodChartCallbacks.transform = likelihoodGraphsvg.attr("transform");
     updateLikelihoodWeights(alpha);
 
+    epidemicChartCallbacks.overlay = overlay;
+    epidemicChartCallbacks.transform = epidemicGraphsvg.attr("transform");
     epidemicChartCallbacks.dataType = epidemicData.type;
     epidemicChartCallbacks.startDate = startDate;
     epidemicChartCallbacks.epidemicData = trace;
