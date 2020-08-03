@@ -129,7 +129,7 @@ for country in data.keys():
         "startDate": str(first_date),
         "versionDate": str(version_date.date()),
         "type": "cases",
-        "averageReportToCaseDelayInDays": 5,
+        "averageReportToCaseDelayInDays": 10,
         "source": {
             "name": "World Health Organization",
             "url": "https://www.who.int/",
