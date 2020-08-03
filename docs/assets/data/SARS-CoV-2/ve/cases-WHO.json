@@ -1,8 +1,8 @@
 {
     "startDate": "2020-03-14",
-    "versionDate": "2020-08-02",
+    "versionDate": "2020-08-03",
     "type": "cases",
-    "averageReportToCaseDelayInDays": 5,
+    "averageReportToCaseDelayInDays": 10,
     "source": {
         "name": "World Health Organization",
         "url": "https://www.who.int/",
@@ -10,8 +10,8 @@
         "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/3.0/igo/"
     },
     "metrics": {
-        "numCases": 18574,
-        "numDeaths": 164
+        "numCases": 19443,
+        "numDeaths": 169
     },
     "data": [
         6,
@@ -155,6 +155,7 @@
         583,
         588,
         700,
-        715
+        715,
+        869
     ]
 }

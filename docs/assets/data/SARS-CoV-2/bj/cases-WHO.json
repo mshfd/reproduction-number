@@ -1,8 +1,8 @@
 {
     "startDate": "2020-03-17",
-    "versionDate": "2020-08-02",
+    "versionDate": "2020-08-03",
     "type": "cases",
-    "averageReportToCaseDelayInDays": 5,
+    "averageReportToCaseDelayInDays": 10,
     "source": {
         "name": "World Health Organization",
         "url": "https://www.who.int/",
@@ -149,6 +149,7 @@
         76,
         0,
         35,
+        0,
         0,
         0,
         0,
