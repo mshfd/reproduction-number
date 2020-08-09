@@ -32,7 +32,7 @@ if not os.path.exists(who_covid19_filename):
     # remove white spaces from first line of csv file
     with open(who_covid19_filename, 'r+') as f:
         txt = f.readlines()
-        txt[0] = txt[0].replace(' ', '')
+        txt[0] = txt[0][3:].replace(' ', '')
         f.seek(0)
         f.writelines(txt)
         f.truncate()
@@ -45,7 +45,7 @@ version_date_str = ""
 data = {}
 
 # Parse the source data and group cases for each country.
-with open(who_covid19_filename) as csvfile:
+with open(who_covid19_filename, encoding='utf-8') as csvfile:
     reader = csv.DictReader(csvfile)
 
     for row in reader:
