@@ -51,7 +51,7 @@ with open(owid_covid19_filename, encoding='utf-8') as csvfile:
         country = entity[:title_split]
         data_type = entity[title_split+3:]
 
-        if data_type != "tests performed":
+        if not data_type.startswith("tests performed"):
             continue
 
         #num_tests = int(row["Daily change in cumulative total"])
