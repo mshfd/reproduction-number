@@ -283,7 +283,7 @@ function renderEpidemic(svg, epidemicData, measuresData, region) {
     epidemicSeriesData = [];
     epidemicSeriesData.length = epidemicData.data.length - diffDays;
     for (let i = 0; i < epidemicSeriesData.length; i++) {
-      epidemicSeriesData[i] = epidemicData.data[i + diffDays];
+      epidemicSeriesData[i] = epidemicData.data[i + diffDays] || 0;
     }
   }
 

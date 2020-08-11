@@ -140,7 +140,7 @@ for country in data.keys():
         "startDate": str(first_date),
         "versionDate": country_data['version_date'],
         "type": "pcr_tests_100k",
-        "averageReportToCaseDelayInDays": 5,
+        "averageReportToCaseDelayInDays": 10,
         "source": {
             "name": "Data collected by OWID from " + country_data['source'],
             "url": country_data['source_url'] if 'source_url' in country_data else '',
