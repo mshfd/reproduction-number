@@ -64,8 +64,8 @@ with open(owid_covid19_filename, encoding='utf-8') as csvfile:
 
         is_germany = country == "Germany"
 
-        if not is_germany:
-            continue
+        #if not is_germany:
+        #    continue
 
         date = row["Date"]
 
@@ -143,7 +143,7 @@ for country in data.keys():
         "averageReportToCaseDelayInDays": 5,
         "source": {
             "name": "Data collected by OWID from " + country_data['source'],
-            "url": country_data['source_url'],
+            "url": country_data['source_url'] if 'source_url' in country_data else '',
             "license": "Attribution 4.0 International (CC BY 4.0)",
             "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
         },
