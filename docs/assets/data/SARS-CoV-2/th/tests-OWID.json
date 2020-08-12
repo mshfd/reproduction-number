@@ -1,11 +1,11 @@
 {
     "startDate": "2020-04-17",
-    "versionDate": "2020-08-09",
+    "versionDate": "2020-08-11",
     "type": "pcr_tests_100k",
     "averageReportToCaseDelayInDays": 10,
     "source": {
         "name": "Data collected by OWID from Department of Disease Control",
-        "url": "https://ddc.moph.go.th/viralpneumonia/file/situation/situation-no219-090863.pdf",
+        "url": "https://ddc.moph.go.th/viralpneumonia/file/situation/situation-no221-110863n.pdf",
         "license": "Attribution 4.0 International (CC BY 4.0)",
         "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
     },
@@ -124,6 +124,8 @@
         55,
         124,
         127,
-        120
+        120,
+        111,
+        118
     ]
 }

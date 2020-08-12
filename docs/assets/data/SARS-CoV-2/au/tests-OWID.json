@@ -1,11 +1,11 @@
 {
     "startDate": "2020-03-29",
-    "versionDate": "2020-08-09",
+    "versionDate": "2020-08-11",
     "type": "pcr_tests_100k",
     "averageReportToCaseDelayInDays": 10,
     "source": {
         "name": "Data collected by OWID from Australian Government Department of Health",
-        "url": "https://www.health.gov.au/sites/default/files/documents/2020/08/coronavirus-covid-19-at-a-glance-9-august-2020.pdf",
+        "url": "https://www.health.gov.au/sites/default/files/documents/2020/08/coronavirus-covid-19-at-a-glance-11-august-2020.pdf",
         "license": "Attribution 4.0 International (CC BY 4.0)",
         "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
     },
@@ -143,6 +143,8 @@
         826,
         788,
         772,
-        696
+        696,
+        595,
+        618
     ]
 }
