@@ -426,10 +426,25 @@ function renderEpidemic(svg, epidemicData, measuresData, region) {
 
   const updateRPlot = () => {
 
-    var graphsvg = svg.append("g").attr("transform", "translate(" + 110 + "," + 10 + ")")
-    const updatePlot = plot2dGen((x) => { return x; }, (y) => { return y * 1; }, () => { return colorbrewer.YlGn[3][0]; })(graphsvg);
+    var graphsvg = svg.append("g");//.attr("transform", "translate(" + 110 + "," + 10 + ")")
+    const updatePlot = plot2dGen((x) => { return x * 3; }, (y) => { return y * 1; }, () => { return "#203020"; })(graphsvg);
 
-    updatePlot([[1, 2], [2, 4], [3, 2], [4, 6], [10, 12], [20, 30], [300, 60]]);
+    let rPlot = [];
+    rPlot.length = trace.length;
+    for (let dayIndex = 0; dayIndex < trace.length; dayIndex++) {
+      let infectedCases = 0;
+      for (let i = dayIndex + 1; i < trace.length; i++) {
+        const p_ij = epidemicModel.computeWeightedInfectedLikelihood(i - dayIndex);
+
+        infectedCases += trace[i][0] * p_ij;
+      }
+      const rValue = infectedCases / trace[dayIndex][0];
+      const isValidRValue = (dayIndex + epidemicModel.getCenterCaseDayIndex() < trace.length);
+
+      rPlot[dayIndex] = [dayIndex, rValue * 10];
+    }
+
+    updatePlot(rPlot);
   }
 
   const updateLikelihoodWeights = (alpha) => {
