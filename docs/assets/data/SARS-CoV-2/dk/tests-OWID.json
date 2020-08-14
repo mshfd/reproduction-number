@@ -1,11 +1,11 @@
 {
     "startDate": "2020-02-27",
-    "versionDate": "2020-08-10",
+    "versionDate": "2020-08-12",
     "type": "pcr_tests_100k",
     "averageReportToCaseDelayInDays": 10,
     "source": {
         "name": "Data collected by OWID from Statens Serum Institut",
-        "url": "https://files.ssi.dk/Data-Epidemiologiske-Rapport-11082020-lok5",
+        "url": "https://www.ssi.dk/-/media/arkiv/dk/sygdomme-beredskab-og-forskning/sygdomsovervaagning/covid19/13_08_2020_zp09/data-epidemiologiske-rapport-13082020-13yt.zip?la=da",
         "license": "Attribution 4.0 International (CC BY 4.0)",
         "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
     },
@@ -174,7 +174,9 @@
         367,
         370,
         399,
-        389,
-        432
+        387,
+        371,
+        468,
+        567
     ]
 }

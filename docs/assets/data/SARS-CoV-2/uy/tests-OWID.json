@@ -1,11 +1,11 @@
 {
     "startDate": "2020-04-04",
-    "versionDate": "2020-08-10",
+    "versionDate": "2020-08-13",
     "type": "pcr_tests_100k",
     "averageReportToCaseDelayInDays": 10,
     "source": {
         "name": "Data collected by OWID from Ministry of Public Health",
-        "url": "https://www.gub.uy/ministerio-salud-publica/comunicacion/noticias/informe-situacion-sobre-coronavirus-covid-19-uruguay-10-agosto",
+        "url": "https://www.gub.uy/ministerio-salud-publica/comunicacion/noticias/informe-situacion-sobre-coronavirus-covid-19-uruguay-13-agosto",
         "license": "Attribution 4.0 International (CC BY 4.0)",
         "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
     },
@@ -138,6 +138,9 @@
         491,
         392,
         381,
-        472
+        472,
+        527,
+        649,
+        686
     ]
 }
