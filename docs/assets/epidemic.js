@@ -438,7 +438,7 @@ function renderEpidemic(svg, epidemicData, measuresData, region) {
     for (let dayIndex = 0; dayIndex < trace.length; dayIndex++) {
 
       const numSourceCases = trace[dayIndex][0];
-      const isValidRValue = (dayIndex + epidemicModel.getCenterCaseDayIndex() < trace.length) && (numSourceCases > 0);
+      const isValidRValue = (dayIndex + epidemicModel.getCenterCaseDayIndex() < trace.length) && (numSourceCases > 20);
 
       if (!isValidRValue) {
         continue;
