@@ -75,7 +75,7 @@ with open(rki_covid19_filename) as csvfile:
         if num_deaths > 0:
             num_days = (parse_date(death_date).date() - parse_date(cases_date).date()).days
             days_until_death[num_days] += num_deaths
-            if 7 <= num_days <= 30: 
+            if 7 <= num_days <= 30:
                 num_real_deaths_total += num_deaths
 
 
