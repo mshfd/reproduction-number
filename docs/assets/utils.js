@@ -460,8 +460,7 @@ function stackedBarchartGen(n, numStacks, callbacks) {
 
     function updateGraph(stacknew, maxValue, alpha, numTicksY, scaleXTickLabels) {
 
-      //X = d3.scaleLinear().domain([0, stacknew.length - 1]).range([margin.right, margin.right + width]);
-      Y = d3.scaleLinear().domain([maxValue, 0]).range([0, height]);
+      const Y = d3.scaleLinear().domain([maxValue, 0]).range([0, height]);
 
       const lineWidth = (width / stacknew.length) * 0.75;
 
@@ -514,7 +513,7 @@ function stackedBarchartGen(n, numStacks, callbacks) {
       }
     }
 
-    return { update: updateGraph, stack: stacks, X: X }
+    return { update: updateGraph, stack: stacks, X: X, height: height }
   }
 
   renderStackedGraph.highlightcol = function (_) {
@@ -580,18 +579,18 @@ function plot2dGen(X, Y, iterColor) {
       .style("fill", "none")
       .style("stroke", strokecolor)
       .style("stroke-width", pathwidth)
-      .style("stroke-linecap", "round")
+      .style("stroke-linecap", "round");
 
     var valueline = d3.line()
       .x(function (d) { return X(d[0]); })
       .y(function (d) { return Y(d[1]); });
 
-    var svgcircle = svg.append("g")
+    var svgcircle = svg.append("g");
 
     var update = function (W) {
 
       // Update Circles
-      var svgdata = svgcircle.selectAll("circle").data(W)
+      var svgdata = svgcircle.selectAll("circle").data(W);
 
       svgdata.enter().append("circle")
         .attr("cx", function (d) { return X(d[0]) })
@@ -599,18 +598,18 @@ function plot2dGen(X, Y, iterColor) {
         .attr("r", cradius)
         .style("box-shadow", "0px 3px 10px rgba(0, 0, 0, 0.4)")
         .attr("opacity", copacity)
-        .attr("fill", function (d, i) { return iterColor(i) })
+        .attr("fill", function (d, i) { return iterColor(i) });
 
       svgdata.merge(svgdata)
         .attr("cx", function (d) { return X(d[0]) })
         .attr("cy", function (d) { return Y(d[1]) })
         .attr("r", cradius)
         .attr("opacity", copacity)
-        .attr("fill", function (d, i) { return iterColor(i) })
-      svgdata.exit().remove()
+        .attr("fill", function (d, i) { return iterColor(i) });
+      svgdata.exit().remove();
 
       // Update Path
-      svgpath.attr("d", valueline(W))
+      svgpath.attr("d", valueline(W));
 
     }
 

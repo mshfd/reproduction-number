@@ -335,6 +335,7 @@ function renderEpidemic(svg, epidemicData, measuresData, region) {
   const translatey = 10;
   let epidemicGraphsvg = svg.append("g").attr("transform", "translate(" + translatex + "," + translatey + ")");
   let likelihoodGraphsvg = svg.append("g").attr("transform", "translate(" + (translatex + 10) + "," + (translatey + 380) + ")");
+  let rValueGraphSvg = epidemicGraphsvg.append("g");
 
   let stackedBar = stackedBarchartGen(numDays, numStacks, epidemicChartCallbacks)(epidemicGraphsvg, width, height);
   let likelihoodWeightsGraph = stackedBarchartGen(epidemicModel.getInfectionInOutPeriodDays(), numStacks, likelihoodChartCallbacks)(likelihoodGraphsvg, 400, 100);
@@ -426,22 +427,32 @@ function renderEpidemic(svg, epidemicData, measuresData, region) {
 
   const updateRPlot = () => {
 
-    var graphsvg = svg.append("g");//.attr("transform", "translate(" + 110 + "," + 10 + ")")
-    const updatePlot = plot2dGen((x) => { return x * 3; }, (y) => { return y * 1; }, () => { return "#203020"; })(graphsvg);
+    const Y = d3.scaleLinear().domain([3, 0]).range([0, stackedBar.height]);
+
+    rValueGraphSvg.selectAll("*").remove();
+    var graphsvg = rValueGraphSvg.append("g");
+    const updatePlot = plot2dGen((x) => { return stackedBar.X(x); }, (y) => { return Y(y); }, () => { return "#203020"; })(graphsvg);
 
     let rPlot = [];
-    rPlot.length = trace.length;
     for (let dayIndex = 0; dayIndex < trace.length; dayIndex++) {
+
+      const numSourceCases = trace[dayIndex][0];
+      const isValidRValue = (dayIndex + epidemicModel.getCenterCaseDayIndex() < trace.length) && (numSourceCases > 0);
+
+      if (!isValidRValue) {
+        continue;
+      }
+
       let infectedCases = 0;
       for (let i = dayIndex + 1; i < trace.length; i++) {
         const p_ij = epidemicModel.computeWeightedInfectedLikelihood(i - dayIndex);
 
         infectedCases += trace[i][0] * p_ij;
       }
-      const rValue = infectedCases / trace[dayIndex][0];
-      const isValidRValue = (dayIndex + epidemicModel.getCenterCaseDayIndex() < trace.length);
 
-      rPlot[dayIndex] = [dayIndex, rValue * 10];
+      const rValue = infectedCases / numSourceCases;
+
+      rPlot.push([dayIndex, rValue]);
     }
 
     updatePlot(rPlot);
@@ -479,7 +490,7 @@ function renderEpidemic(svg, epidemicData, measuresData, region) {
 
     updateTrace(smoothData, offsetDays);
 
-    //updateRPlot();
+    updateRPlot();
 
     likelihoodChartCallbacks.overlay = overlay;
     likelihoodChartCallbacks.transform = likelihoodGraphsvg.attr("transform");
