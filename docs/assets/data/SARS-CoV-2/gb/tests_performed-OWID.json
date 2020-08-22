@@ -1,11 +1,11 @@
 {
     "startDate": "2020-04-07",
-    "versionDate": "2020-08-18",
+    "versionDate": "2020-08-19",
     "type": "pcr_tests_100k",
     "averageReportToCaseDelayInDays": 10,
     "source": {
         "name": "Positive results per 100k tests performed - Data collected by OWID from Public Health England/Department of Health and Social Care",
-        "url": "https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/910491/2020-08-19_COVID-19_UK_testing_time_series.csv",
+        "url": "https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/910857/2020-08-20_COVID-19_UK_testing_time_series.csv",
         "license": "Attribution 4.0 International (CC BY 4.0)",
         "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
     },
@@ -143,6 +143,7 @@
         663,
         685,
         681,
-        668
+        668,
+        660
     ]
 }
