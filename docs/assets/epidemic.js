@@ -450,7 +450,7 @@ function renderEpidemic(svg, epidemicData, measuresData, region) {
     updatePlot(saturationPlot);
   }
 
-  const updateRPlot = () => {
+  const updateRPlot = (showSaturation) => {
 
     const Y = d3.scaleLinear().domain([3, 0]).range([0, stackedBar.height]);
 
@@ -504,7 +504,9 @@ function renderEpidemic(svg, epidemicData, measuresData, region) {
       .attr("y1", Y(1.0))
       .style("visibility", "visible");
 
-    updateSaturationPlot(rValueGraphSvg.append("g"), rPlot, Y);
+    if (showSaturation) {
+      updateSaturationPlot(rValueGraphSvg.append("g"), rPlot, Y);
+    }
   }
 
   const updateLikelihoodWeights = (alpha) => {
@@ -535,11 +537,11 @@ function renderEpidemic(svg, epidemicData, measuresData, region) {
     likelihoodWeightsGraph.update(likelihoodWeights, maxValue, Math.max(0.25, alpha), null, tickLabels);
   }
 
-  const updateChart = (alpha, smoothData, offsetDays, overlay) => {
+  const updateChart = (alpha, smoothData, showSaturation, offsetDays, overlay) => {
 
     updateTrace(smoothData, offsetDays);
 
-    updateRPlot();
+    updateRPlot(showSaturation);
 
     likelihoodChartCallbacks.overlay = overlay;
     likelihoodChartCallbacks.transform = likelihoodGraphsvg.attr("transform");

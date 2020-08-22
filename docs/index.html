@@ -104,13 +104,16 @@
         <circle cx="8" cy="4" r="1.2" fill="#202020"></circle>
       </svg>
       assigned to their given or estimated symptom onset date.
-      The saturation curve
-      <svg style="position:relative; top:-2px; width:5px; height:2px; background:#FF8820"></svg>
-      shows the limited growth trend towards its saturation barrier
-      <svg style="position:relative; top:2px; width:22px; height:10px;">
-        <line style="stroke: black; stroke-width: 1.0; stroke-dasharray: 4" opacity="0.6" x1="2" y1="4" x2="22" y2="4">
-        </line>
-      </svg>.
+      <span id="saturation_legend">
+        The saturation curve
+        <svg style="position:relative; top:-2px; width:5px; height:2px; background:#FF8820"></svg>
+        shows the limited growth trend converging towards its saturation barrier
+        <svg style="position:relative; top:2px; width:22px; height:10px;">
+          <line style="stroke: black; stroke-width: 1.0; stroke-dasharray: 4" opacity="0.6" x1="2" y1="4" x2="22"
+            y2="4">
+          </line>
+        </svg>.
+      </span>
     </figcaption>
 
     <div id="opacitySlider" style="position:absolute; left:500px; width:250px; height:100px">
@@ -119,7 +122,9 @@
       style="position:absolute; left:550px; top:533px; width:300px; height:100px; z-index:1000">
     </div>
 
-    <div id="filterOption" style="position:absolute; left:680px; width:250px; height:100px">
+    <div id="filterOption" style="position:absolute; left:680px; top:0px; width:250px; height:100px">
+    </div>
+    <div id="saturationOption" style="position:absolute; left:680px; top:20px; width:250px; height:100px">
     </div>
 
     <div id="R" class="figtext3" style="position:absolute; left:0px; top:120px">
@@ -230,6 +235,7 @@
   let opacityValue = 0.5;
   let offsetDays = 5;
   let rawEpidemicData = false;
+  let showSaturation = true;
 
   const renderGraph = (epidemicData, measures, region) => {
 
@@ -237,6 +243,7 @@
 
     d3.select("#chart").selectAll("*").remove();
     d3.select("#filterOption").selectAll("*").remove();
+    d3.select("#saturationOption").selectAll("*").remove();
 
     const graphDiv = d3.select("#chart")
       .style("width", 920 + "px")
@@ -255,18 +262,24 @@
     const offsetEqualsHTML = MathCache("offset-equals");
     const rawDataOptionSvg = d3.select("#filterOption").append("svg").attr("width", 300).attr("height", 100);
     const rawDataOption = new d3CheckBox();
+    const saturationOptionSvg = d3.select("#saturationOption").append("svg").attr("width", 300).attr("height", 100);
+    const saturationOption = new d3CheckBox();
 
     const updateChart = renderEpidemic(svg, epidemicData, measures, region);
     let overlay = null;
 
     const updateChartLocally = () => {
       rawEpidemicData = rawDataOption.checked();
-      updateChart(opacityValue, !rawEpidemicData, offsetDays, overlay);
+      showSaturation = saturationOption.checked();
+      updateChart(opacityValue, !rawEpidemicData, showSaturation, offsetDays, overlay);
       d3.select("#symptoms-indicator").attr("opacity", opacityValue);
       d3.select("#no-symptoms-indicator").attr("opacity", opacityValue);
 
       const html = offsetEqualsHTML + ' <span style="font-weight: normal;">' + offsetDays + "</span>";
       d3.select("#offsetEpidemic").html(html);
+
+      d3.select("#saturation_legend").style("visibility", showSaturation ? "visible" : "hidden");
+
     }
 
     rawDataOption.size(10).x(2).y(2).rx(3).ry(3).checked(rawEpidemicData).clickEvent(updateChartLocally);
@@ -283,6 +296,23 @@
       .text("Show raw data")
       .on("click", function () {
         rawDataOption.toggle();
+      });
+
+
+    saturationOption.size(10).x(2).y(2).rx(3).ry(3).checked(showSaturation).clickEvent(updateChartLocally);
+    saturationOptionSvg.call(saturationOption);
+
+    saturationOptionSvg.append("text")
+      .style("font-size", "13px")
+      .attr("x", 16)
+      .attr("y", 12)
+      .attr("dy", 0)
+      .attr("class", "figtext")
+      .attr("fill", "gray")
+      .style("cursor", "pointer")
+      .text("Show growth saturation")
+      .on("click", function () {
+        saturationOption.toggle();
       });
 
     const alphaHTML = MathCache("alpha-equals");
