@@ -564,21 +564,19 @@ function stackedBarchartGen(n, numStacks, callbacks) {
 }
 
 /* 2d "scatterplot" with lines generator */
-function plot2dGen(X, Y, iterColor) {
+function plot2dGen(X, Y, iterColor, strokeColor, pathWidth, cRadius) {
 
-  var cradius = 1.2
-  var copacity = 1
-  var pathopacity = 1
-  var pathwidth = 1
-  var strokecolor = "black"
+  const cradius = cRadius ?? pathWidth * 1.2;
+  const copacity = 1;
+  const pathopacity = 1;
 
   function plot2d(svg) {
 
     var svgpath = svg.append("path")
       .attr("opacity", pathopacity)
       .style("fill", "none")
-      .style("stroke", strokecolor)
-      .style("stroke-width", pathwidth)
+      .style("stroke", strokeColor)
+      .style("stroke-width", pathWidth)
       .style("stroke-linecap", "round");
 
     var valueline = d3.line()
@@ -590,23 +588,24 @@ function plot2dGen(X, Y, iterColor) {
     var update = function (W) {
 
       // Update Circles
-      var svgdata = svgcircle.selectAll("circle").data(W);
+      if (cradius > 0) {
+        var svgdata = svgcircle.selectAll("circle").data(W);
 
-      svgdata.enter().append("circle")
-        .attr("cx", function (d) { return X(d[0]) })
-        .attr("cy", function (d) { return Y(d[1]) })
-        .attr("r", cradius)
-        .style("box-shadow", "0px 3px 10px rgba(0, 0, 0, 0.4)")
-        .attr("opacity", copacity)
-        .attr("fill", function (d, i) { return iterColor(i) });
+        svgdata.enter().append("circle")
+          .attr("cx", function (d) { return X(d[0]) })
+          .attr("cy", function (d) { return Y(d[1]) })
+          .attr("r", cradius)
+          .attr("opacity", copacity)
+          .attr("fill", function (d, i) { return iterColor(i) });
 
-      svgdata.merge(svgdata)
-        .attr("cx", function (d) { return X(d[0]) })
-        .attr("cy", function (d) { return Y(d[1]) })
-        .attr("r", cradius)
-        .attr("opacity", copacity)
-        .attr("fill", function (d, i) { return iterColor(i) });
-      svgdata.exit().remove();
+        svgdata.merge(svgdata)
+          .attr("cx", function (d) { return X(d[0]) })
+          .attr("cy", function (d) { return Y(d[1]) })
+          .attr("r", cradius)
+          .attr("opacity", copacity)
+          .attr("fill", function (d, i) { return iterColor(i) });
+        svgdata.exit().remove();
+      }
 
       // Update Path
       svgpath.attr("d", valueline(W));

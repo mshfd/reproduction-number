@@ -335,10 +335,11 @@ function renderEpidemic(svg, epidemicData, measuresData, region) {
   const translatey = 10;
   let epidemicGraphsvg = svg.append("g").attr("transform", "translate(" + translatex + "," + translatey + ")");
   let likelihoodGraphsvg = svg.append("g").attr("transform", "translate(" + (translatex + 10) + "," + (translatey + 380) + ")");
-  let rValueGraphSvg = epidemicGraphsvg.append("g");
 
   let stackedBar = stackedBarchartGen(numDays, numStacks, epidemicChartCallbacks)(epidemicGraphsvg, width, height);
   let likelihoodWeightsGraph = stackedBarchartGen(epidemicModel.getInfectionInOutPeriodDays(), numStacks, likelihoodChartCallbacks)(likelihoodGraphsvg, 400, 100);
+
+  let rValueGraphSvg = epidemicGraphsvg.append("g");
 
   var measureSeperationY = 14;
 
@@ -425,6 +426,30 @@ function renderEpidemic(svg, epidemicData, measuresData, region) {
     }
   }
 
+
+  const updateSaturationPlot = (graphSvg, rPlot, Y) => {
+
+    const color = "#FF8820";
+    const updatePlot = plot2dGen((x) => { return stackedBar.X(x); }, (y) => { return Y(y); }, () => { return color; }, color, 2, 0)(graphSvg);
+
+    const windowSize = 10;
+    const saturationPlot = [];
+    for (let dayIndex = windowSize; dayIndex < rPlot.length - windowSize; dayIndex++) {
+
+      let accR = 0;
+      for (let i = dayIndex - windowSize; i <= dayIndex + windowSize; i++) {
+        accR += rPlot[i][1];
+      }
+
+      const meanR = accR / (windowSize * 2 + 1);
+      const saturation = 1.0 / meanR;
+
+      saturationPlot.push([rPlot[dayIndex][0], saturation]);
+    }
+
+    updatePlot(saturationPlot);
+  }
+
   const updateRPlot = () => {
 
     const Y = d3.scaleLinear().domain([3, 0]).range([0, stackedBar.height]);
@@ -432,7 +457,9 @@ function renderEpidemic(svg, epidemicData, measuresData, region) {
     rValueGraphSvg.selectAll("*").remove();
     let graphsvg = rValueGraphSvg.append("g");
     let scaleSvg = rValueGraphSvg.append("g");
-    const updatePlot = plot2dGen((x) => { return stackedBar.X(x); }, (y) => { return Y(y); }, () => { return "#203020"; })(graphsvg);
+
+    const color = "#202020";
+    const updatePlot = plot2dGen((x) => { return stackedBar.X(x); }, (y) => { return Y(y); }, () => { return color; }, color, 1)(graphsvg);
 
     let rPlot = [];
     for (let dayIndex = 0; dayIndex < trace.length; dayIndex++) {
@@ -476,6 +503,8 @@ function renderEpidemic(svg, epidemicData, measuresData, region) {
       .attr("x1", stackedBar.X(trace.length))
       .attr("y1", Y(1.0))
       .style("visibility", "visible");
+
+    updateSaturationPlot(rValueGraphSvg.append("g"), rPlot, Y);
   }
 
   const updateLikelihoodWeights = (alpha) => {
