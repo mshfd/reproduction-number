@@ -4,6 +4,8 @@ import urllib.request
 import shutil
 import datetime
 import json
+import matplotlib.pyplot as plt
+import numpy as np
 
 abspath = os.path.abspath(__file__)
 dname = os.path.dirname(abspath)
@@ -38,9 +40,11 @@ print()
 num_cases_total = 0
 num_deaths_total = 0
 num_recovered_total = 0
+num_real_deaths_total = 0
 
 version_date_str = ""
 cases_for_date = {}
+days_until_death = np.zeros((100), dtype=np.int32)
 
 # Parse the source data and accumulate cases for each date where the COVID-19 onset occurred.
 with open(rki_covid19_filename) as csvfile:
@@ -61,11 +65,19 @@ with open(rki_covid19_filename) as csvfile:
         num_deaths_total += num_deaths
         num_recovered_total += num_recovered
 
+        death_date = row["Meldedatum"]
         cases_date = row["Refdatum"]
         if cases_date not in cases_for_date:
             cases_for_date[cases_date] = 0
 
         cases_for_date[cases_date] += num_cases
+
+        if num_deaths > 0:
+            num_days = (parse_date(death_date).date() - parse_date(cases_date).date()).days
+            days_until_death[num_days] += num_deaths
+            if 7 <= num_days <= 30: 
+                num_real_deaths_total += num_deaths
+
 
 version_date = datetime.datetime.strptime(version_date_str, "%d.%m.%Y, %H:%M Uhr")
 
@@ -88,10 +100,20 @@ while date <= last_date:
 
     date += datetime.timedelta(days=1)
 
+
+fig, ax = plt.subplots()
+ax.bar(range(0, days_until_death.size), days_until_death)
+ax.set(xlabel='Symptom onset to death [days]', ylabel='Number of cases',
+       title='Case duration until death')
+ax.grid()
+plt.show()
+
 print()
 print("Number of cases in total: " + str(num_cases_total))
 print("Number of recovered cases in total: " + str(num_recovered_total))
 print("Number of deaths in total: " + str(num_deaths_total))
+print("Probable number of real deaths in total: " + str(num_real_deaths_total))
+
 print(
     "Number of active cases in total on "
     + str(version_date.date())
@@ -132,3 +154,4 @@ result = {
 
 with open("../../../" + targetJson, "w") as outfile:
     json.dump(result, outfile, indent=4, ensure_ascii=False)
+
