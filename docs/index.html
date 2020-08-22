@@ -97,13 +97,18 @@
       The shown epidemic curve comprises all captured cases
       <svg id="symptoms-indicator" style="position:relative; top:2px; width:3px; height:14px; background:#c51b8a"></svg>
       and their effective reproduction number
-      <svg style="position:relative; top:2px; width:3px; height:14px; background:#202020"></svg>
+      <svg style="position:relative; top:2px; width:10px; height:10px;">
+        <line style="stroke: #202020; stroke-width: 1.0;" opacity="1.0" x1="2" y1="4" x2="8" y2="4">
+        </line>
+        <circle cx="2" cy="4" r="1.2" fill="#202020"></circle>
+        <circle cx="8" cy="4" r="1.2" fill="#202020"></circle>
+      </svg>
       assigned to their given or estimated symptom onset date.
       The saturation curve
-      <svg style="position:relative; top:2px; width:3px; height:14px; background:#FF8820"></svg>
+      <svg style="position:relative; top:-2px; width:5px; height:2px; background:#FF8820"></svg>
       shows the limited growth trend towards its saturation barrier
       <svg style="position:relative; top:2px; width:22px; height:10px;">
-        <line style="stroke: black; stroke-width: 1.0; stroke-dasharray: 4" opacity="0.6" x1="2" y1="4" x2="20" y2="4">
+        <line style="stroke: black; stroke-width: 1.0; stroke-dasharray: 4" opacity="0.6" x1="2" y1="4" x2="22" y2="4">
         </line>
       </svg>.
     </figcaption>
