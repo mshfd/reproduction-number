@@ -430,7 +430,8 @@ function renderEpidemic(svg, epidemicData, measuresData, region) {
     const Y = d3.scaleLinear().domain([3, 0]).range([0, stackedBar.height]);
 
     rValueGraphSvg.selectAll("*").remove();
-    var graphsvg = rValueGraphSvg.append("g");
+    let graphsvg = rValueGraphSvg.append("g");
+    let scaleSvg = rValueGraphSvg.append("g");
     const updatePlot = plot2dGen((x) => { return stackedBar.X(x); }, (y) => { return Y(y); }, () => { return "#203020"; })(graphsvg);
 
     let rPlot = [];
@@ -456,6 +457,25 @@ function renderEpidemic(svg, epidemicData, measuresData, region) {
     }
 
     updatePlot(rPlot);
+
+    scaleSvg
+      .attr("class", "grid")
+      .attr("transform", "translate(" + width + ",0)")
+      .attr("opacity", 0.25)
+      .call(d3.axisLeft(Y)
+        .ticks(3)
+        .tickSize(2));
+
+    rValueGraphSvg.append("line")
+      .style("stroke", "black")
+      .style("stroke-width", 1.0)
+      .style("stroke-dasharray", "4")
+      .attr("opacity", 0.6)
+      .attr("x2", stackedBar.X(0))
+      .attr("y2", Y(1.0))
+      .attr("x1", stackedBar.X(trace.length))
+      .attr("y1", Y(1.0))
+      .style("visibility", "visible");
   }
 
   const updateLikelihoodWeights = (alpha) => {
