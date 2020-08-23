@@ -73,6 +73,9 @@ with open(rki_covid19_filename) as csvfile:
         cases_for_date[cases_date] += num_cases
 
         if num_deaths > 0:
+            is_case_date = int(row["IstErkrankungsbeginn"])
+            if is_case_date != 1:
+                cases_date = death_date
             num_days = (parse_date(death_date).date() - parse_date(cases_date).date()).days
             days_until_death[num_days] += num_deaths
             if 7 <= num_days <= 30:
