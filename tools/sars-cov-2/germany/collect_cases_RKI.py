@@ -109,7 +109,7 @@ ax.bar(range(0, days_until_death.size), days_until_death)
 ax.set(xlabel='Symptom onset to death [days]', ylabel='Number of cases',
        title='Case duration until death')
 ax.grid()
-plt.show()
+#plt.show()
 
 print()
 print("Number of cases in total: " + str(num_cases_total))
