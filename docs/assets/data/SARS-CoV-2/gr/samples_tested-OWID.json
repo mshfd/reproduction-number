@@ -1,11 +1,11 @@
 {
     "startDate": "2020-03-10",
-    "versionDate": "2020-08-24",
+    "versionDate": "2020-08-25",
     "type": "pcr_tests_100k",
     "averageReportToCaseDelayInDays": 10,
     "source": {
         "name": "Positive results per 100k samples tested - Data collected by OWID from National Organization of Public Health",
-        "url": "https://eody.gov.gr/covid-gr-daily-report-24-08-2020/",
+        "url": "https://eody.gov.gr/covid-gr-daily-report-25-08-2020/",
         "license": "Attribution 4.0 International (CC BY 4.0)",
         "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
     },
@@ -177,6 +177,7 @@
         1271,
         1232,
         1180,
-        1211
+        1211,
+        1213
     ]
 }
