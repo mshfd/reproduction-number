@@ -105,11 +105,20 @@ while date <= last_date:
 
 
 fig, ax = plt.subplots()
-ax.bar(range(0, days_until_death.size), days_until_death)
-ax.set(xlabel='Symptom onset to death [days]', ylabel='Number of cases',
-       title='Case duration until death')
+
+x = range(0, days_until_death.size)
+y = days_until_death
+ax.bar(x, y)
+ax.set(xlabel='Symptom onset to death [days]', ylabel='Number of deaths',
+       title='Duration until death (Cases total ' + str(num_deaths_total) + ')')
 ax.grid()
-#plt.show()
+
+axins=ax.inset_axes([0.2,0.3,0.6,0.6])
+axins.bar(x[7:30],y[7:30])
+axins.set(title='Deaths caused most likely by COVID-19 total: ' + str(num_real_deaths_total))
+ax.indicate_inset_zoom(axins)
+
+plt.show()
 
 print()
 print("Number of cases in total: " + str(num_cases_total))
