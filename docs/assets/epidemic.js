@@ -135,6 +135,7 @@ const epidemicChartCallbacks = {
   epidemicChartUpdate: null,
   overlay: null,
   transform: null,
+  alpha: 0,
   _infoText: null,
   _g: null,
   _data: null,
@@ -177,6 +178,10 @@ const epidemicChartCallbacks = {
   onMouseEnter: (values, index, stackIndex) => {
     const a = epidemicChartCallbacks;
 
+    if (a.alpha < 0.2) {
+      return;
+    }
+
     clearTimeout(a._hideTimeoutId);
 
     for (let i = 0; i < a.epidemicData.length; i++) {
@@ -203,6 +208,10 @@ const epidemicChartCallbacks = {
   },
   onMouseOut: (values, index, stackIndex) => {
     const a = epidemicChartCallbacks;
+
+    if (a.alpha < 0.2) {
+      return;
+    }
 
     a._hideTimeoutId = setTimeout(() => {
       a._infoText.style("visibility", "hidden");
@@ -553,6 +562,7 @@ function renderEpidemic(svg, epidemicData, measuresData, region) {
     epidemicChartCallbacks.startDate = startDate;
     epidemicChartCallbacks.epidemicData = trace;
     epidemicChartCallbacks.epidemicDataSource = JSON.parse(JSON.stringify(trace));
+    epidemicChartCallbacks.alpha = alpha;
     epidemicChartCallbacks.epidemicChartUpdate = () => {
       stackedBar.update(trace, maxValue, alpha, 5);
     };
