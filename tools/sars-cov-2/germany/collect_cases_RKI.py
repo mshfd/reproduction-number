@@ -42,6 +42,9 @@ num_deaths_total = 0
 num_recovered_total = 0
 num_real_deaths_total = 0
 
+first_day_of_real_death = 7
+last_day_of_real_death = 30
+
 version_date_str = ""
 cases_for_date = {}
 days_until_death = np.zeros((100), dtype=np.int32)
@@ -78,7 +81,7 @@ with open(rki_covid19_filename) as csvfile:
                 cases_date = death_date
             num_days = (parse_date(death_date).date() - parse_date(cases_date).date()).days
             days_until_death[num_days] += num_deaths
-            if 7 <= num_days <= 30:
+            if first_day_of_real_death <= num_days <= last_day_of_real_death:
                 num_real_deaths_total += num_deaths
 
 
@@ -108,13 +111,13 @@ fig, ax = plt.subplots()
 
 x = range(0, days_until_death.size)
 y = days_until_death
-ax.bar(x, y)
+ax.bar(x, y, color=['tab:red' if first_day_of_real_death <= x1 <= last_day_of_real_death else 'tab:blue' for x1 in x])
 ax.set(xlabel='Symptom onset to death [days]', ylabel='Number of deaths',
-       title='Duration until death (Cases total ' + str(num_deaths_total) + ')')
+       title='Number of deaths assigned to their duration of illness (Cases total ' + str(num_deaths_total) + ')')
 ax.grid()
 
 axins=ax.inset_axes([0.2,0.3,0.6,0.6])
-axins.bar(x[7:30],y[7:30])
+axins.bar(x[first_day_of_real_death:last_day_of_real_death+1],y[first_day_of_real_death:last_day_of_real_death+1], color='tab:red')
 axins.set(title='Deaths caused most likely by COVID-19 total: ' + str(num_real_deaths_total))
 ax.indicate_inset_zoom(axins)
 
