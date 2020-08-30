@@ -59,6 +59,10 @@
   function MathCache(id) {
     return document.querySelector("#math-cache ." + id).innerHTML;
   }
+  $.urlParam = function (name) {
+    var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+    return results ? results[1] : undefined;
+  }
 </script>
 
 
@@ -402,13 +406,23 @@
     updateChartLocally();
   };
 
+  let selectedEpidemicParam = 'SARS-CoV-2';
+  let selectedRegionParam = '';
+  let selectedDatasetParam = '';
+
   requestGraphUpdate = (epidemicData, measures, region) => {
     requestAnimationFrame(() => {
       renderGraph(epidemicData, measures, region);
+
+      const urlParams = new URLSearchParams(window.location.search);
+      urlParams.set('epidemic', selectedEpidemicParam);
+      urlParams.set('region', selectedRegionParam);
+      urlParams.set('dataset_index', selectedDatasetParam);
+
+      history.replaceState({}, null, "?" + urlParams.toString());
     });
   }
 
-  const epidemic = "SARS-CoV-2";
   let regionSelection = document.getElementById("region");
   let datasetSelection = document.getElementById("dataset");
 
@@ -425,7 +439,10 @@
     const selectedRegion = regions.filter(region => region.path === selectedRegionOption.value)[0];
     const selectedDataset = selectedRegion.datasets.filter(dataset => dataset.title === selectedDatasetOption.value)[0];
 
-    const dataPath = "assets/data/" + epidemic + "/" + selectedRegion.path + "/" + selectedDataset.filename;
+    const dataPath = "assets/data/" + selectedEpidemicParam + "/" + selectedRegion.path + "/" + selectedDataset.filename;
+
+    selectedRegionParam = selectedRegion.path;
+    selectedDatasetParam = datasetSelection.selectedIndex.toFixed();
 
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function () {
@@ -461,7 +478,17 @@
       isPreselected = false;
     }
 
-    const measuresPath = "assets/data/" + epidemic + "/" + selectedRegion.path + "/measures.json";
+    selectedDatasetParam = $.urlParam('dataset_index') || "0";
+    const datasetIndex = parseInt(selectedDatasetParam);
+    if (datasetIndex < datasetSelection.length) {
+      datasetSelection.selectedIndex = datasetIndex;
+    } else {
+      datasetSelection.selectedIndex = 0;
+      selectedDatasetParam = '0';
+    }
+
+
+    const measuresPath = "assets/data/" + selectedEpidemicParam + "/" + selectedRegion.path + "/measures.json";
 
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function () {
@@ -502,11 +529,24 @@
         isPreselected = false;
       }
 
+      const regionId = $.urlParam('region') || 'de';
+      let preselectedIndex = 0;
+      for (const opton in regionSelection) {
+        if (regionSelection[opton].value === regionId) {
+          regionSelection.selectedIndex = preselectedIndex;
+          break;
+        }
+        preselectedIndex++;
+      }
+
       loadDatasetForRegion();
     }
   };
 
-  xmlhttp.open("GET", "assets/data/" + epidemic + "/dataset.json", true);
+  const epidemicId = $.urlParam('epidemic') || "SARS-CoV-2";
+  selectedEpidemicParam = epidemicId;
+
+  xmlhttp.open("GET", "assets/data/" + epidemicId + "/dataset.json", true);
   xmlhttp.send();
 
 </script>
