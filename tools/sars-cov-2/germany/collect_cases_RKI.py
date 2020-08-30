@@ -5,6 +5,7 @@ import shutil
 import datetime
 import json
 import matplotlib.pyplot as plt
+from matplotlib.patches import Rectangle
 import numpy as np
 
 abspath = os.path.abspath(__file__)
@@ -113,12 +114,15 @@ x = range(0, days_until_death.size)
 y = days_until_death
 ax.bar(x, y, color=['tab:red' if first_day_of_real_death <= x1 <= last_day_of_real_death else 'tab:blue' for x1 in x])
 ax.set(xlabel='Symptom onset to death [days]', ylabel='Number of deaths',
-       title='Number of deaths assigned to their duration of illness (Cases total ' + str(num_deaths_total) + ')')
+       title='Number of deaths assigned to their duration of illness (positive SARS-CoV-2) - Cases total: ' + str(num_deaths_total))
 ax.grid()
+
+extra = Rectangle((0, 0), 1, 1, fill=False, edgecolor='none', linewidth=0)
+ax.legend([extra], ["Germany - " + str(version_date.date())], loc='upper right')
 
 axins=ax.inset_axes([0.2,0.3,0.6,0.6])
 axins.bar(x[first_day_of_real_death:last_day_of_real_death+1],y[first_day_of_real_death:last_day_of_real_death+1], color='tab:red')
-axins.set(title='Deaths caused most likely by COVID-19 total: ' + str(num_real_deaths_total))
+axins.set(title='Deaths caused most likely by COVID-19 - Cases total: ' + str(num_real_deaths_total))
 ax.indicate_inset_zoom(axins)
 
 plt.show()
