@@ -16,48 +16,48 @@ class TimeSeriesSmoothing {
 
       let iterationIndex = 0;
       let error = 1;
-      while(error > 0 && iterationIndex < 100000) {
+      while (error > 0 && iterationIndex < 100000) {
         iterationIndex++;
         error = 0;
         for (let n = 1; n < smoothedData.length - 1; n++) {
           const l = smoothedData[n - 1];
           const c = smoothedData[n];
           const r = smoothedData[n + 1];
-          
+
           const cl = c - l;
           const rc = r - c;
           const part = Math.max(2, c * 0.001);
 
-          if(cl < 0 && rc > 0) {
+          if (cl < 0 && rc > 0 && l > 0 && r > 0) {
             error++;
             smoothedData[n - 1]--;
             smoothedData[n] += 2;
             smoothedData[n + 1]--;
-          } else if(cl > 0 && rc < 0) {
+          } else if (cl > 0 && rc < 0 && c > 1) {
             error++;
             smoothedData[n - 1]++;
             smoothedData[n] -= 2;
             smoothedData[n + 1]++;
-          } else if(cl >= 0 && rc > part) {
+          } else if (cl >= 0 && rc > part) {
 
             const dx = cl / rc;
-            if(dx < threshold) {
+            if (dx < threshold && r > 0) {
               error++;
               smoothedData[n]++;
               smoothedData[n + 1]--;
-            } else if(dx > invThreshold) {
+            } else if (dx > invThreshold && c > 0) {
               error++;
               smoothedData[n]--;
               smoothedData[n - 1]++;
             }
-          } else if(cl < -part && rc <= 0) {
+          } else if (cl < -part && rc <= 0) {
 
             const dx = rc / cl;
-            if(dx > invThreshold) {
+            if (dx > invThreshold && c > 0) {
               error++;
               smoothedData[n]--;
               smoothedData[n + 1]++;
-            } else if(dx < threshold) {
+            } else if (dx < threshold && r > 0) {
               error++;
               smoothedData[n]++;
               smoothedData[n - 1]--;
