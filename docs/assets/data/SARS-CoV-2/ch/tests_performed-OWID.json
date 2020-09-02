@@ -1,11 +1,11 @@
 {
     "startDate": "2020-02-26",
-    "versionDate": "2020-08-29",
+    "versionDate": "2020-08-31",
     "type": "pcr_tests_100k",
     "averageReportToCaseDelayInDays": 10,
     "source": {
         "name": "Positive results per 100k tests performed - Data collected by OWID from Federal Office of Public Health",
-        "url": "https://covid-19-schweiz.bagapps.ch/de-3.html",
+        "url": "https://www.bag.admin.ch/dam/bag/en/dokumente/mt/k-und-i/aktuelle-ausbrueche-pandemien/2019-nCoV/covid-19-basisdaten-labortests.xlsx.download.xlsx/Dashboard_3_COVID19_labtests_positivity.xlsx",
         "license": "Attribution 4.0 International (CC BY 4.0)",
         "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
     },
@@ -184,17 +184,19 @@
         3355,
         3487,
         3423,
-        3236,
-        3077,
-        2987,
+        3235,
+        3076,
+        2986,
         2904,
         2907,
         2939,
         2983,
         2914,
-        2775,
-        2757,
-        2796,
-        2763
+        2774,
+        2755,
+        2791,
+        2753,
+        2849,
+        3016
     ]
 }
