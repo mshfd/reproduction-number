@@ -436,7 +436,7 @@ function stackedBarchartGen(n, numStacks, callbacks) {
   var col = colorbrewer.RdPu;
   var drawgrid = true;
 
-  function renderStackedGraph(svg, dwidth, dheight) {
+  function renderStackedGraph(svg, dwidth, dheight, xAxisTextCallback) {
 
     var margin = { right: 23, left: 10, top: 10, bottom: 10 };
     var width = dwidth - margin.left - margin.right;
@@ -493,16 +493,21 @@ function stackedBarchartGen(n, numStacks, callbacks) {
             .paddingInner(1.0);
         }
 
-        scaleLeft
+
+        const defaultxAxis = (d) => { return d };
+        xAxisTextCallback = xAxisTextCallback || defaultxAxis;
+
+        scaleBottom
           .attr("class", "grid")
           .attr("transform", "translate(0," + (height + 10) + ")")
           .attr("opacity", 0.25)
           .call(d3.axisBottom(xTickLabels ? xTickLabels : X)
-            .ticks(5)
-            .tickSize(2))
+            .ticks(10)
+            .tickSize(2)
+            .tickFormat(xAxisTextCallback))
 
         if (numTicksY) {
-          scaleBottom
+          scaleLeft
             .attr("class", "grid")
             .attr("transform", "translate(12,0)")
             .attr("opacity", 0.25)

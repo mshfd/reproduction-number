@@ -1,4 +1,6 @@
 
+const MS_PER_DAY = 1000 * 60 * 60 * 24;
+
 const updateInfoText = (g, data, xScale, yScale, width, height, model, dayOfInterest, infoText) => {
 
   let text = g.select("text");
@@ -169,9 +171,8 @@ const epidemicChartCallbacks = {
     const rValue = infectedCases / a.epidemicData[index][0];
     const isValidRValue = (index + a.epidemicModel.getCenterCaseDayIndex() < a.epidemicData.length);
 
-    const millisecondsPerDay = 1000 * 60 * 60 * 24;
     const typeString = (a.dataType == "pcr_tests_100k") ? "Number of Cases per 100K PCR tests" : "Number of Cases"
-    const date = new Date(a.startDate + index * millisecondsPerDay);
+    const date = new Date(a.startDate + index * MS_PER_DAY);
     return date.toLocaleDateString() + " - " + typeString + ": " + values[stackIndex] + "\n" +
       "Reproduction Number: " + (isValidRValue ? rValue.toFixed(2) : "n/a");
   },
@@ -276,7 +277,6 @@ const likelihoodChartCallbacks = {
   }
 };
 
-const MS_PER_DAY = 1000 * 60 * 60 * 24;
 
 function renderEpidemic(svg, epidemicData, measuresData, region) {
 
@@ -345,7 +345,8 @@ function renderEpidemic(svg, epidemicData, measuresData, region) {
   let epidemicGraphsvg = svg.append("g").attr("transform", "translate(" + translatex + "," + translatey + ")");
   let likelihoodGraphsvg = svg.append("g").attr("transform", "translate(" + (translatex + 10) + "," + (translatey + 380) + ")");
 
-  let stackedBar = stackedBarchartGen(numDays, numStacks, epidemicChartCallbacks)(epidemicGraphsvg, width, height);
+  const xAxis = (d) => { return new Date(startDate + d * MS_PER_DAY).toLocaleDateString() };
+  let stackedBar = stackedBarchartGen(numDays, numStacks, epidemicChartCallbacks)(epidemicGraphsvg, width, height, xAxis);
   let likelihoodWeightsGraph = stackedBarchartGen(epidemicModel.getInfectionInOutPeriodDays(), numStacks, likelihoodChartCallbacks)(likelihoodGraphsvg, 400, 100);
 
   let rValueGraphSvg = epidemicGraphsvg.append("g");
@@ -422,14 +423,13 @@ function renderEpidemic(svg, epidemicData, measuresData, region) {
   measureDaysEnd.length = measures.length;
 
   for (let i = 0; i < measures.length; i++) {
-    const millisecondsPerDay = 1000 * 60 * 60 * 24;
     const deltaT = (Date.parse(measures[i].startDate) - startDate);
-    measureDays[i] = Math.floor(deltaT / (1000 * 60 * 60 * 24));
+    measureDays[i] = Math.floor(deltaT / MS_PER_DAY);
 
     const endDate = Date.parse(measures[i].endDate);
     if (endDate > 0) {
       const deltaTEnd = (endDate - startDate);
-      measureDaysEnd[i] = Math.floor(deltaTEnd / (1000 * 60 * 60 * 24));
+      measureDaysEnd[i] = Math.floor(deltaTEnd / MS_PER_DAY);
     } else {
       measureDaysEnd[i] = 0;
     }
