@@ -1,11 +1,11 @@
 {
     "startDate": "2020-04-04",
-    "versionDate": "2020-09-01",
+    "versionDate": "2020-09-03",
     "type": "pcr_tests_100k",
     "averageReportToCaseDelayInDays": 10,
     "source": {
         "name": "Positive results per 100k tests performed - Data collected by OWID from Ministry of Public Health",
-        "url": "https://www.gub.uy/ministerio-salud-publica/comunicacion/noticias/informe-situacion-sobre-coronavirus-covid-19-uruguay-1-setiembre",
+        "url": "https://www.gub.uy/ministerio-salud-publica/comunicacion/noticias/informe-situacion-sobre-coronavirus-covid-19-uruguay-3-setiembre",
         "license": "Attribution 4.0 International (CC BY 4.0)",
         "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
     },
@@ -160,6 +160,8 @@
         319,
         413,
         504,
-        519
+        519,
+        619,
+        664
     ]
 }
