@@ -59,7 +59,7 @@ with open(who_covid19_filename, encoding='utf-8') as csvfile:
         if country == "Other":
             country_code = "XX"
 
-        #if not is_germany:
+        # if not is_germany:
         #    continue
 
         if country not in data:
@@ -167,7 +167,7 @@ with open(dataset_json_filepath, "r") as dataset_json:
                 return x
 
     for country in data.keys():
-        
+
         country_data = data[country]
         country_code = country_data['country_code']
 
@@ -181,7 +181,8 @@ with open(dataset_json_filepath, "r") as dataset_json:
             }
             dataset["regions"].append(region)
         else:
-            datasetEntry = find_entry(region['datasets'], "title", who_dataset["title"])
+            datasetEntry = find_entry(
+                region['datasets'], "title", who_dataset["title"])
             if datasetEntry is None:
                 region['datasets'].append(who_dataset)
             else:
