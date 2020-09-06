@@ -80,13 +80,15 @@ with open(rki_covid19_filename) as csvfile:
             is_case_date = int(row["IstErkrankungsbeginn"])
             if is_case_date != 1:
                 cases_date = death_date
-            num_days = (parse_date(death_date).date() - parse_date(cases_date).date()).days
+            num_days = (parse_date(death_date).date() -
+                        parse_date(cases_date).date()).days
             days_until_death[num_days] += num_deaths
             if first_day_of_real_death <= num_days <= last_day_of_real_death:
                 num_real_deaths_total += num_deaths
 
 
-version_date = datetime.datetime.strptime(version_date_str, "%d.%m.%Y, %H:%M Uhr")
+version_date = datetime.datetime.strptime(
+    version_date_str, "%d.%m.%Y, %H:%M Uhr")
 
 dates = sorted(cases_for_date.keys())
 first_date = parse_date(dates[0]).date()
@@ -112,7 +114,8 @@ fig, ax = plt.subplots()
 
 x = range(0, days_until_death.size)
 y = days_until_death
-ax.bar(x, y, color=['tab:red' if first_day_of_real_death <= x1 <= last_day_of_real_death else 'tab:blue' for x1 in x])
+ax.bar(x, y, color=['tab:red' if first_day_of_real_death <=
+                    x1 <= last_day_of_real_death else 'tab:blue' for x1 in x])
 ax.set(xlabel='Symptom onset to death [days]', ylabel='Number of deaths',
        title='Number of deaths assigned to their duration of illness (positive SARS-CoV-2) - Cases total: ' + str(num_deaths_total))
 ax.grid()
@@ -120,9 +123,11 @@ ax.grid()
 extra = Rectangle((0, 0), 1, 1, fill=False, edgecolor='none', linewidth=0)
 ax.legend([extra], ["Germany - " + str(version_date.date())], loc='upper right')
 
-axins=ax.inset_axes([0.2,0.3,0.6,0.6])
-axins.bar(x[first_day_of_real_death:last_day_of_real_death+1],y[first_day_of_real_death:last_day_of_real_death+1], color='tab:red')
-axins.set(title='Deaths caused most likely by COVID-19 - Cases total: ' + str(num_real_deaths_total))
+axins = ax.inset_axes([0.2, 0.3, 0.6, 0.6])
+axins.bar(x[first_day_of_real_death:last_day_of_real_death+1],
+          y[first_day_of_real_death:last_day_of_real_death+1], color='tab:red')
+axins.set(title='Deaths caused or induced most likely by COVID-19 - Cases total: ' +
+          str(num_real_deaths_total))
 ax.indicate_inset_zoom(axins)
 
 plt.show()
@@ -173,4 +178,3 @@ result = {
 
 with open("../../../" + targetJson, "w") as outfile:
     json.dump(result, outfile, indent=4, ensure_ascii=False)
-

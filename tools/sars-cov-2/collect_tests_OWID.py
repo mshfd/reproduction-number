@@ -52,7 +52,7 @@ with open(owid_covid19_filename, encoding='utf-8') as csvfile:
         country = entity[:title_split]
         data_type = entity[title_split+3:]
 
-        #if not data_type.startswith("tests performed"):
+        # if not data_type.startswith("tests performed"):
         #    continue
 
         #num_tests = int(row["Daily change in cumulative total"])
@@ -65,7 +65,7 @@ with open(owid_covid19_filename, encoding='utf-8') as csvfile:
 
         is_germany = country == "Germany"
 
-        #if not is_germany:
+        # if not is_germany:
         #    continue
 
         date = row["Date"]
@@ -188,19 +188,20 @@ with open(dataset_json_filepath, "r") as dataset_json:
                 return x
 
     for country in data.keys():
-        
+
         country_data = data[country]
         country_code = country_data['country_code']
         if len(country_code) > 2:
             continue
-        
+
         region = find_entry(dataset["regions"], "path", country_code)
 
         for data_by_type_key in country_data['data_by_type'].keys():
 
             data_by_type = country_data['data_by_type'][data_by_type_key]
 
-            owid_dataset['title'] = "Positive results per 100k " + data_by_type['title'] + " (OWID)"
+            owid_dataset['title'] = "Positive results per 100k " + \
+                data_by_type['title'] + " (OWID)"
             owid_dataset['filename'] = data_by_type['file_name']
 
             if region is None:
@@ -211,7 +212,8 @@ with open(dataset_json_filepath, "r") as dataset_json:
                 }
                 dataset["regions"].append(region)
             else:
-                datasetEntry = find_entry(region['datasets'], "title", owid_dataset["title"])
+                datasetEntry = find_entry(
+                    region['datasets'], "title", owid_dataset["title"])
                 if datasetEntry is None:
                     region['datasets'].append(copy.deepcopy(owid_dataset))
                 else:
