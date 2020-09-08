@@ -157,7 +157,7 @@ for day in range(0, days_until_death_mean):
 print(str(days_until_death_real))
 print("median: " + str(median))
 
-num_real_deaths_total = sum(days_until_death_real)
+num_real_deaths_total = int(sum(days_until_death_real))
 
 fig, ax = plt.subplots(figsize=(16, 9))
 x = range(0, days_until_death.size)
