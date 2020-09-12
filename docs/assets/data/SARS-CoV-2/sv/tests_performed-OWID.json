@@ -1,11 +1,11 @@
 {
     "startDate": "2020-04-17",
-    "versionDate": "2020-09-06",
+    "versionDate": "2020-09-09",
     "type": "pcr_tests_100k",
     "averageReportToCaseDelayInDays": 10,
     "source": {
         "name": "Positive results per 100k tests performed - Data collected by OWID from Government of El Salvador",
-        "url": "https://www.facebook.com/nayibbukele/posts/3218834668202702",
+        "url": "https://covid-19-gis-hub-el-salvador-esri-sv.hub.arcgis.com/",
         "license": "Attribution 4.0 International (CC BY 4.0)",
         "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
     },
@@ -60,14 +60,14 @@
         3608,
         3515,
         3435,
-        3321,
+        3339,
         2440,
         2929,
         3069,
         3193,
         3371,
         4146,
-        3759,
+        3739,
         3974,
         4164,
         4241,
@@ -152,6 +152,9 @@
         4426,
         4145,
         3940,
-        3880
+        3880,
+        3349,
+        3435,
+        3523
     ]
 }
