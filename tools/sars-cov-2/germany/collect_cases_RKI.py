@@ -10,7 +10,6 @@ from matplotlib.patches import Rectangle
 from matplotlib.transforms import Bbox
 import numpy as np
 from scipy.stats import norm
-import numpy.random as rand
 
 abspath = os.path.abspath(__file__)
 dname = os.path.dirname(abspath)
