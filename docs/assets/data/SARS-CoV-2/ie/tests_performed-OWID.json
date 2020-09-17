@@ -1,11 +1,11 @@
 {
     "startDate": "2020-03-25",
-    "versionDate": "2020-09-12",
+    "versionDate": "2020-09-15",
     "type": "pcr_tests_100k",
     "averageReportToCaseDelayInDays": 10,
     "source": {
         "name": "Positive results per 100k tests performed - Data collected by OWID from Government of Ireland",
-        "url": "https://covid19ireland-geohive.hub.arcgis.com/",
+        "url": "https://covid19ireland-geohive.hub.arcgis.com/pages/hospitals-icu--testing",
         "license": "Attribution 4.0 International (CC BY 4.0)",
         "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
     },
@@ -157,14 +157,14 @@
         1029,
         994,
         989,
-        1281,
+        1258,
         1185,
         1213,
         1318,
         1359,
         1368,
         1523,
-        1272,
+        1295,
         1482,
         1432,
         1434,
@@ -181,6 +181,9 @@
         1467,
         1463,
         1630,
-        1769
+        1769,
+        1681,
+        1755,
+        1860
     ]
 }
