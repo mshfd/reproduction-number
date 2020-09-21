@@ -1,11 +1,11 @@
 {
     "startDate": "2020-03-10",
-    "versionDate": "2020-09-17",
+    "versionDate": "2020-09-20",
     "type": "pcr_tests_100k",
     "averageReportToCaseDelayInDays": 10,
     "source": {
         "name": "Positive results per 100k people tested - Data collected by OWID from Department of Disease Control",
-        "url": "https://ddc.moph.go.th/viralpneumonia/file/situation/situation-no258-170963.pdf",
+        "url": "https://ddc.moph.go.th/viralpneumonia/file/situation/situation-no261-200963.pdf",
         "license": "Attribution 4.0 International (CC BY 4.0)",
         "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
     },
@@ -201,6 +201,9 @@
         347,
         411,
         549,
-        460
+        460,
+        477,
+        483,
+        470
     ]
 }
