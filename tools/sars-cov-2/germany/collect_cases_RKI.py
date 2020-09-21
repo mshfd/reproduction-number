@@ -133,8 +133,8 @@ cdf_sum = sum(cdf)
 print(str(num_deaths_after_mean) + " : " + str(cdf_sum))
 
 it = 0
-median = calcMedian(days_until_death_real)
-while median > days_until_death_mean:
+
+while (median := calcMedian(days_until_death_real)) > days_until_death_mean:
     for day in range(0, days_until_death_mean):
         if days_until_death[day] > 0:
             days_until_death_real[day] += cdf[day]
@@ -145,8 +145,6 @@ while median > days_until_death_mean:
         it = 0
         print(str(days_until_death_real))
         print("median: " + str(median))
-
-    median = calcMedian(days_until_death_real)
 
 
 for day in range(0, days_until_death_mean):
