@@ -1,11 +1,11 @@
 {
     "startDate": "2020-01-28",
-    "versionDate": "2020-09-20",
+    "versionDate": "2020-09-23",
     "type": "pcr_tests_100k",
     "averageReportToCaseDelayInDays": 10,
     "source": {
-        "name": "Positive results per 100k people tested - Data collected by OWID from South Korea CDC",
-        "url": "https://www.cdc.go.kr/board/board.es?mid=&bid=0030&act=view&list_no=368433&tag=&nPage=1",
+        "name": "Positive results per 100k people tested - Data collected by OWID from Ministry of Health and Welfare",
+        "url": "http://ncov.mohw.go.kr/en/",
         "license": "Attribution 4.0 International (CC BY 4.0)",
         "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
     },
@@ -246,6 +246,9 @@
         916,
         948,
         965,
-        920
+        920,
+        889,
+        845,
+        854
     ]
 }
