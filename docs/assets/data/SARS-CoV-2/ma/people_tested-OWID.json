@@ -1,11 +1,11 @@
 {
     "startDate": "2020-03-10",
-    "versionDate": "2020-09-23",
+    "versionDate": "2020-09-27",
     "type": "pcr_tests_100k",
     "averageReportToCaseDelayInDays": 10,
     "source": {
         "name": "Positive results per 100k people tested - Data collected by OWID from Morocco Ministry of Health",
-        "url": "http://www.covidmaroc.ma/Documents/BULLETIN/BQ_SARS-CoV-2.23.9.20.pdf",
+        "url": "http://www.covidmaroc.ma/Documents/BULLETIN/BQ_SARS-CoV-2.27.9.20.pdf",
         "license": "Attribution 4.0 International (CC BY 4.0)",
         "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
     },
@@ -207,6 +207,10 @@
         9671,
         9480,
         9333,
-        9298
+        9298,
+        9702,
+        9577,
+        9348,
+        9392
     ]
 }
