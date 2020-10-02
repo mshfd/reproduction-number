@@ -1,4 +1,3 @@
-
 import csv
 import os
 import urllib.request
@@ -58,8 +57,8 @@ num_real_deaths_total = 0
 
 version_date_str = ""
 cases_for_date = {}
-days_until_death = np.zeros((100), dtype=np.float64)
-days_until_death_real = np.zeros((100), dtype=np.float64)
+days_until_death = np.zeros((51), dtype=np.float64)
+days_until_death_real = np.zeros((51), dtype=np.float64)
 
 # Parse the source data and accumulate cases for each date where the COVID-19 onset occurred.
 with open(rki_covid19_filename) as csvfile:
@@ -91,13 +90,21 @@ with open(rki_covid19_filename) as csvfile:
             is_case_date = int(row["IstErkrankungsbeginn"])
             if is_case_date != 1:
                 cases_date = death_date
-            num_days = (parse_date(death_date).date() -
-                        parse_date(cases_date).date()).days
+            num_days = (
+                parse_date(death_date).date() - parse_date(cases_date).date()
+            ).days
+
+            num_days = 0 if num_days < 0 else num_days
+            num_days = (
+                days_until_death.size - 1
+                if num_days >= days_until_death.size
+                else num_days
+            )
+
             days_until_death[num_days] += num_deaths
 
 
-version_date = datetime.datetime.strptime(
-    version_date_str, "%d.%m.%Y, %H:%M Uhr")
+version_date = datetime.datetime.strptime(version_date_str, "%d.%m.%Y, %H:%M Uhr")
 
 dates = sorted(cases_for_date.keys())
 first_date = parse_date(dates[0]).date()
@@ -161,25 +168,40 @@ x = range(0, days_until_death.size)
 y = days_until_death
 y2 = days_until_death_real
 
-ax.bar(x, y2, color='tab:red')
-ax.bar(x, y, bottom=y2, color='tab:blue')
+x_labels = ["0", "0", "10", "20", "30", "40", "50+"]
 
-ax.set(xlabel='Symptom onset to death [days]', ylabel='Number of deaths',
-       title='Number of deaths assigned to their duration of illness (positive SARS-CoV-2) - Cases total: ' + str(num_deaths_total))
+ax.bar(x, y2, color="tab:red")
+ax.bar(x, y, bottom=y2, color="tab:blue")
+ax.set_xticklabels(x_labels)
+
+ax.set(
+    xlabel="Symptom onset to death [days]",
+    ylabel="Number of deaths",
+    title="Number of deaths assigned to their duration of illness (positive SARS-CoV-2) - Cases total: "
+    + str(num_deaths_total),
+)
 ax.grid()
 
-extra = Rectangle((0, 0), 1, 1, fill=False, edgecolor='none', linewidth=0)
-ax.legend([extra], ["Germany - " + str(version_date.date())], loc='upper right')
+extra = Rectangle((0, 0), 1, 1, fill=False, edgecolor="none", linewidth=0)
+ax.legend([extra], ["Germany - " + str(version_date.date())], loc="upper right")
 
 axins = ax.inset_axes([0.2, 0.3, 0.6, 0.6])
-axins.bar(x, y2, color='tab:red')
-axins.set(title='Deaths caused or induced most likely by COVID-19 - Cases total: ' +
-          str(num_real_deaths_total))
+axins.bar(x, y2, color="tab:red")
+axins.set(
+    title="Deaths caused or induced most likely by COVID-19 - Cases total: "
+    + str(num_real_deaths_total)
+)
+axins.set_xticklabels(x_labels)
+
 ax.indicate_inset_zoom(axins)
 
 # plt.show()
-plt.savefig("symptom-onset-to-death.png", dpi=200, pad_inches=0.1,
-            bbox_inches=Bbox.from_bounds(0, 0, 16, 9))
+plt.savefig(
+    "symptom-onset-to-death.png",
+    dpi=200,
+    pad_inches=0.1,
+    bbox_inches=Bbox.from_bounds(0, 0, 16, 9),
+)
 
 print()
 print("Number of cases in total: " + str(num_cases_total))
