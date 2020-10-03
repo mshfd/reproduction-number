@@ -158,7 +158,8 @@ for day in range(0, days_until_death_mean):
     days_until_death_real[day] = round(days_until_death_real[day])
     days_until_death[day] = round(days_until_death[day])
 
-print(str(days_until_death_real))
+print("days_until_death: " + str(days_until_death))
+print("days_until_death_real: " + str(days_until_death_real))
 print("median: " + str(median))
 
 num_real_deaths_total = int(sum(days_until_death_real))
@@ -168,10 +169,12 @@ x = range(0, days_until_death.size)
 y = days_until_death
 y2 = days_until_death_real
 
-x_labels = ["0", "0", "10", "20", "30", "40", "50+"]
+x_ticks = [0, 10, 20, 30, 40, 50]
+x_labels = ["0", "10", "20", "30", "40", "50+"]
 
 ax.bar(x, y2, color="tab:red")
 ax.bar(x, y, bottom=y2, color="tab:blue")
+ax.set_xticks(x_ticks)
 ax.set_xticklabels(x_labels)
 
 ax.set(
@@ -191,6 +194,7 @@ axins.set(
     title="Deaths caused or induced most likely by COVID-19 - Cases total: "
     + str(num_real_deaths_total)
 )
+axins.set_xticks(x_ticks)
 axins.set_xticklabels(x_labels)
 
 ax.indicate_inset_zoom(axins)
