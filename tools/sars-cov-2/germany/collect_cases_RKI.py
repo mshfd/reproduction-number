@@ -18,14 +18,12 @@ rki_covid19_filename = "RKI_COVID19.csv"
 rki_covid19_source_url = "https://www.arcgis.com/sharing/rest/content/items/f10774f1c63e40168479a1feb6c7ca74/data"
 
 
-def calcMedian(x):
-    median_point = sum(x) / 2
-    acc = 0
-    for i, v in enumerate(x):
-        acc += v
-        if acc >= median_point:
-            return i
-    return 0
+def calcMedian(days_until_death):
+    days_per_case = []
+    for i, v in enumerate(days_until_death):
+        for c in range(int(v)):
+            days_per_case.append(i)
+    return np.median(days_per_case)
 
 
 def parse_date(date_str):
@@ -125,36 +123,23 @@ while date <= last_date:
 
     date += datetime.timedelta(days=1)
 
-# take all days after mean
-days_until_death_mean = 13
-for day in range(days_until_death_mean, days_until_death.size):
+# take all days after median
+days_until_death_median = 13
+for day in range(days_until_death_median, days_until_death.size):
     days_until_death_real[day] = days_until_death[day]
     days_until_death[day] = 0
 
-num_deaths_after_mean = sum(days_until_death_real[days_until_death_mean:])
-
-# make sure the mean is reached by adding a normalized distribution before the target mean
-cdf = norm.cdf(np.arange(-2, 2, 4 / (days_until_death_mean)))
-print(str(cdf))
+# make sure the median is reached by adding a normalized distribution before the target median
+cdf = norm.cdf(np.arange(-2, 2, 4 / (days_until_death_median)))
 cdf_sum = sum(cdf)
-print(str(num_deaths_after_mean) + " : " + str(cdf_sum))
 
-it = 0
-
-while (median := calcMedian(days_until_death_real)) > days_until_death_mean:
-    for day in range(0, days_until_death_mean):
+while (median := calcMedian(days_until_death_real)) > days_until_death_median:
+    for day in range(0, days_until_death_median):
         if days_until_death[day] > 0:
             days_until_death_real[day] += cdf[day]
             days_until_death[day] -= cdf[day]
 
-    it += 1
-    if it > 1000:
-        it = 0
-        print(str(days_until_death_real))
-        print("median: " + str(median))
-
-
-for day in range(0, days_until_death_mean):
+for day in range(0, days_until_death_median):
     days_until_death_real[day] = round(days_until_death_real[day])
     days_until_death[day] = round(days_until_death[day])
 
