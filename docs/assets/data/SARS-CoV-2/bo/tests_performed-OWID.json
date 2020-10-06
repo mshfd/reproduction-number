@@ -1,11 +1,11 @@
 {
     "startDate": "2020-03-21",
-    "versionDate": "2020-09-30",
+    "versionDate": "2020-10-02",
     "type": "pcr_tests_100k",
     "averageReportToCaseDelayInDays": 10,
     "source": {
         "name": "Positive results per 100k tests performed - Data collected by OWID from Ministry of Health",
-        "url": "https://minsalud.gob.bo/4701-covid-19-se-reportan-670-contagios-nuevos-y-34-decesos-en-el-pais",
+        "url": "https://minsalud.gob.bo/4723-ministerio-de-salud-reporta-503-contagios-nuevos-de-covid-19-y-el-total-sube-a-136-219",
         "license": "Attribution 4.0 International (CC BY 4.0)",
         "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
     },
@@ -203,6 +203,8 @@
         30239,
         31407,
         33750,
-        32300
+        32300,
+        35298,
+        31192
     ]
 }
