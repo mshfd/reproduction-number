@@ -1,6 +1,6 @@
 {
     "startDate": "2020-01-03",
-    "versionDate": "2020-10-04",
+    "versionDate": "2020-10-05",
     "type": "cases",
     "averageReportToCaseDelayInDays": 10,
     "source": {
@@ -11,7 +11,7 @@
     },
     "metrics": {
         "numCases": 5370,
-        "numDeaths": 189
+        "numDeaths": 185
     },
     "data": [
         0,
@@ -289,6 +289,7 @@
         67,
         142,
         97,
-        159
+        159,
+        0
     ]
 }
