@@ -1,11 +1,11 @@
 {
     "startDate": "2020-02-21",
-    "versionDate": "2020-10-04",
+    "versionDate": "2020-10-05",
     "type": "pcr_tests_100k",
     "averageReportToCaseDelayInDays": 10,
     "source": {
         "name": "Positive results per 100k people tested - Data collected by OWID from Ministry of Health Malaysia",
-        "url": "http://covid-19.moh.gov.my/terkini/102020/situasi-terkini-04-oktober-2020",
+        "url": "http://covid-19.moh.gov.my/terkini/102020/situasi-terkini-05-oktober-2020",
         "license": "Attribution 4.0 International (CC BY 4.0)",
         "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
     },
@@ -236,6 +236,7 @@
         768,
         1037,
         1246,
-        1260
+        1260,
+        1349
     ]
 }
