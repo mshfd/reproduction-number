@@ -1,11 +1,11 @@
 {
     "startDate": "2020-03-21",
-    "versionDate": "2020-10-04",
+    "versionDate": "2020-10-05",
     "type": "pcr_tests_100k",
     "averageReportToCaseDelayInDays": 10,
     "source": {
         "name": "Positive results per 100k tests performed - Data collected by OWID from Ministry of Health",
-        "url": "https://minsalud.gob.bo/4730-sube-a-97-547-el-numero-de-pacientes-recuperados-de-coronavirus-en-una-jornada-con-299-nuevos-contagios",
+        "url": "https://minsalud.gob.bo/4735-bolivia-supera-los-98-000-pacientes-recuperados-de-coronavirus",
         "license": "Attribution 4.0 International (CC BY 4.0)",
         "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
     },
@@ -25,14 +25,14 @@
         15385,
         11794,
         11324,
-        8756,
+        9870,
         10187,
         9635,
         9170,
         13891,
         12781,
         11247,
-        13180,
+        12088,
         12883,
         12913,
         13770,
@@ -207,6 +207,7 @@
         35298,
         31192,
         30148,
-        30202
+        30202,
+        30257
     ]
 }
