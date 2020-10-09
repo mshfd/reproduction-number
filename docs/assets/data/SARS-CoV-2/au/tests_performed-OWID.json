@@ -1,11 +1,11 @@
 {
     "startDate": "2020-03-29",
-    "versionDate": "2020-10-06",
+    "versionDate": "2020-10-07",
     "type": "pcr_tests_100k",
     "averageReportToCaseDelayInDays": 10,
     "source": {
         "name": "Positive results per 100k tests performed - Data collected by OWID from Australian Government Department of Health",
-        "url": "https://www.health.gov.au/sites/default/files/documents/2020/10/coronavirus-covid-19-at-a-glance-6-october-2020.pdf",
+        "url": "https://www.health.gov.au/sites/default/files/documents/2020/10/coronavirus-covid-19-at-a-glance-7-october-2020_0.pdf",
         "license": "Attribution 4.0 International (CC BY 4.0)",
         "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
     },
@@ -201,6 +201,7 @@
         50,
         48,
         42,
-        46
+        46,
+        52
     ]
 }

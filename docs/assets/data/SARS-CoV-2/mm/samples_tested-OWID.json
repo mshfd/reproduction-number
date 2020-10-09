@@ -1,11 +1,11 @@
 {
     "startDate": "2020-04-10",
-    "versionDate": "2020-10-04",
+    "versionDate": "2020-10-05",
     "type": "pcr_tests_100k",
     "averageReportToCaseDelayInDays": 10,
     "source": {
         "name": "Positive results per 100k samples tested - Data collected by OWID from Myanmar Ministry of Health and Sports",
-        "url": "https://mohs.gov.mm/Main/content/publication/2019-ncov",
+        "url": "http://mohs.gov.mm/su/mkrl5405MK",
         "license": "Attribution 4.0 International (CC BY 4.0)",
         "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
     },
@@ -88,14 +88,14 @@
         257,
         258,
         61,
-        62,
+        63,
         78,
         76,
         70,
         66,
         106,
         107,
-        127,
+        126,
         179,
         150,
         188,
@@ -187,6 +187,7 @@
         18850,
         17825,
         17892,
-        17238
+        17238,
+        17895
     ]
 }

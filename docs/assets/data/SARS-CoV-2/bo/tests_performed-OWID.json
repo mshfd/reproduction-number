@@ -1,11 +1,11 @@
 {
     "startDate": "2020-03-21",
-    "versionDate": "2020-10-05",
+    "versionDate": "2020-10-07",
     "type": "pcr_tests_100k",
     "averageReportToCaseDelayInDays": 10,
     "source": {
         "name": "Positive results per 100k tests performed - Data collected by OWID from Ministry of Health",
-        "url": "https://minsalud.gob.bo/4735-bolivia-supera-los-98-000-pacientes-recuperados-de-coronavirus",
+        "url": "https://minsalud.gob.bo/4756-bolivia-acumula-137-706-casos-positivos-de-covid-19-y-los-pacientes-recuperados-llegan-a-99-268",
         "license": "Attribution 4.0 International (CC BY 4.0)",
         "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
     },
@@ -208,6 +208,8 @@
         31192,
         30148,
         30202,
-        30257
+        30257,
+        28441,
+        30157
     ]
 }
