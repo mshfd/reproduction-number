@@ -58,6 +58,8 @@ cases_for_date = {}
 days_until_death = np.zeros((51), dtype=np.float64)
 days_until_death_real = np.zeros((51), dtype=np.float64)
 
+num_unkown_onset_deaths = 0
+
 # Parse the source data and accumulate cases for each date where the COVID-19 onset occurred.
 with open(rki_covid19_filename) as csvfile:
     reader = csv.DictReader(csvfile)
@@ -88,6 +90,8 @@ with open(rki_covid19_filename) as csvfile:
             is_case_date = int(row["IstErkrankungsbeginn"])
             if is_case_date != 1:
                 cases_date = death_date
+                num_unkown_onset_deaths += 1
+
             num_days = (
                 parse_date(death_date).date() - parse_date(cases_date).date()
             ).days
@@ -103,6 +107,7 @@ with open(rki_covid19_filename) as csvfile:
 
 
 version_date = datetime.datetime.strptime(version_date_str, "%d.%m.%Y, %H:%M Uhr")
+
 
 dates = sorted(cases_for_date.keys())
 first_date = parse_date(dates[0]).date()
@@ -197,6 +202,7 @@ print("Number of cases in total: " + str(num_cases_total))
 print("Number of recovered cases in total: " + str(num_recovered_total))
 print("Number of deaths in total: " + str(num_deaths_total))
 print("Probable number of real deaths in total: " + str(num_real_deaths_total))
+print("Number of deaths without known onset date: " + str(num_unkown_onset_deaths))
 
 print(
     "Number of active cases in total on "
