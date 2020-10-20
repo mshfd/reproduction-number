@@ -1,11 +1,11 @@
 {
     "startDate": "2020-03-05",
-    "versionDate": "2020-10-14",
+    "versionDate": "2020-10-15",
     "type": "pcr_tests_100k",
     "averageReportToCaseDelayInDays": 10,
     "source": {
         "name": "Positive results per 100k tests performed - Data collected by OWID from Statens Serum Institut",
-        "url": "https://files.ssi.dk/Data-epidemiologisk-rapport-15102020-1hit",
+        "url": "https://files.ssi.dk/Data-Epidemiologiske-Rapport-16102020-4tt9",
         "license": "Attribution 4.0 International (CC BY 4.0)",
         "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
     },
@@ -233,6 +233,7 @@
         935,
         961,
         1028,
-        1188
+        1076,
+        1342
     ]
 }
