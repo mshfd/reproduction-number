@@ -90,13 +90,13 @@ with open(rki_covid19_filename) as csvfile:
             is_case_date = int(row["IstErkrankungsbeginn"])
             if is_case_date != 1:
                 cases_date = death_date
-                num_unkown_onset_deaths += 1
+                num_unkown_onset_deaths += num_deaths
 
             num_days = (
                 parse_date(death_date).date() - parse_date(cases_date).date()
             ).days
 
-            num_days = 0 if num_days < 0 else num_days
+            num_days = abs(num_days)
             num_days = (
                 days_until_death.size - 1
                 if num_days >= days_until_death.size
