@@ -45,14 +45,20 @@ num_real_deaths_total = 0
 
 version_date_str = ""
 cases_for_date = {}
-days_until_death = np.zeros((51), dtype=np.float64)
-days_until_death_real = np.zeros((51), dtype=np.float64)
+days_until_death = np.zeros((81), dtype=np.float64)
+days_until_death_real = np.zeros((81), dtype=np.float64)
 
 num_unkown_onset_deaths = 0
+publish_death_delay_days = 2
+
+num_onset_after_death = 0
+num_extreme_late_deaths = 0
 
 start_date = datetime.datetime.strptime("2020-04-08", "%Y-%m-%d")
-end_date = datetime.datetime.strptime("2020-05-21", "%Y-%m-%d")
-# end_date = datetime.datetime.strptime("2020-10-21", "%Y-%m-%d")
+end_date = datetime.datetime.strptime("2020-10-21", "%Y-%m-%d")
+
+# start_date = datetime.datetime.strptime("2020-10-10", "%Y-%m-%d")
+# end_date = datetime.datetime.strptime("2020-05-15", "%Y-%m-%d")
 
 date = start_date - datetime.timedelta(days=1)
 while date < end_date:
@@ -85,30 +91,42 @@ while date < end_date:
 
             num_deaths = int(float(row["AnzahlTodesfall"]))
 
-            death_date = row["Meldedatum"]
+            issue_date = row["Meldedatum"]
             cases_date = row["Refdatum"]
 
             if num_deaths > 0:
-                # TODO: only if death_date != cases_date???
-
                 num_deaths_total += num_deaths
 
-                num_days = (date.date() - parse_date(cases_date).date()).days
+                num_days = (
+                    date.date() - parse_date(cases_date).date()
+                ).days - publish_death_delay_days
 
-                num_days = abs(num_days)
+                case_date_is_known = issue_date != cases_date or (
+                    "IstErkrankungsbeginn" in row
+                    and int(float(row["IstErkrankungsbeginn"])) == 1
+                )
+
+                if num_days < 0:
+                    # symptom onset after death is not possible
+                    case_date_is_known = False
+                    num_onset_after_death += num_deaths
+
+                if num_days >= days_until_death.size:
+                    num_extreme_late_deaths += num_deaths
+
+                num_days = 0 if num_days < 0 else num_days
                 num_days = (
                     days_until_death.size - 1
                     if num_days >= days_until_death.size
                     else num_days
                 )
 
-                if death_date != cases_date:
-                    days_until_death[num_days] += num_deaths
-                else:
+                if case_date_is_known:
                     days_until_death_real[num_days] += num_deaths
+                else:
+                    days_until_death[num_days] += num_deaths
+                    num_unkown_onset_deaths += num_deaths
 
-
-version_date = end_date
 
 # take all days after median
 days_until_death_median = calcMedian(days_until_death_real)
@@ -126,9 +144,9 @@ cdf_sum = sum(cdf)
 #            days_until_death_real[day] += cdf[day]
 #            days_until_death[day] -= cdf[day]
 
-for day in range(0, days_until_death_median):
-    days_until_death_real[day] = round(days_until_death_real[day])
-    days_until_death[day] = round(days_until_death[day])
+# for day in range(0, days_until_death_median):
+#    days_until_death_real[day] = round(days_until_death_real[day])
+#    days_until_death[day] = round(days_until_death[day])
 
 print("days_until_death: " + str(days_until_death))
 print("days_until_death_real: " + str(days_until_death_real))
@@ -141,8 +159,8 @@ x = range(0, days_until_death.size)
 y = days_until_death
 y2 = days_until_death_real
 
-x_ticks = [0, 10, 20, 30, 40, 50]
-x_labels = ["0", "10", "20", "30", "40", "50+"]
+x_ticks = [0, 10, 20, 30, 40, 50, 60, 70, 80]
+x_labels = ["0", "10", "20", "30", "40", "50", "60", "70", "80+"]
 
 ax.bar(x, y2, color="tab:red")
 ax.bar(x, y, bottom=y2, color="tab:blue")
@@ -153,23 +171,28 @@ ax.set(
     xlabel="Symptom onset to death [days]",
     ylabel="Number of deaths",
     title="Number of deaths assigned to their duration of illness (positive SARS-CoV-2) - Cases total: "
-    + str(num_deaths_total),
+    + str(num_deaths_total)
+    + "\nDeaths caused or induced most likely by COVID-19 - Cases total: "
+    + str(num_real_deaths_total),
 )
 ax.grid()
 
 extra = Rectangle((0, 0), 1, 1, fill=False, edgecolor="none", linewidth=0)
-ax.legend([extra], ["Germany - " + str(version_date.date())], loc="upper right")
-
-axins = ax.inset_axes([0.2, 0.3, 0.6, 0.6])
-axins.bar(x, y2, color="tab:red")
-axins.set(
-    title="Deaths caused or induced most likely by COVID-19 - Cases total: "
-    + str(num_real_deaths_total)
+ax.legend(
+    [extra],
+    ["Germany between " + str(start_date.date()) + " - " + str(end_date.date())],
+    loc="upper right",
 )
-axins.set_xticks(x_ticks)
-axins.set_xticklabels(x_labels)
 
-ax.indicate_inset_zoom(axins)
+# axins = ax.inset_axes([0.2, 0.3, 0.6, 0.6])
+# axins.bar(x, y2, color="tab:red")
+# axins.set(
+#    title="Deaths caused or induced most likely by COVID-19 - Cases total: "
+#    + str(num_real_deaths_total)
+# )
+# axins.set_xticks(x_ticks)
+# axins.set_xticklabels(x_labels)
+# ax.indicate_inset_zoom(axins)
 
 # plt.show()
 plt.savefig(
@@ -180,10 +203,7 @@ plt.savefig(
 )
 
 
-print(
-    "Data is from "
-    + str(version_date.date())
-    + " and spans "
-    + str((end_date - start_date).days)
-    + " days"
-)
+print("Data spans " + str((end_date - start_date).days) + " days")
+
+print("Number of onset after death " + str(num_onset_after_death))
+print("Number of extreme late deaths: " + str(num_extreme_late_deaths))

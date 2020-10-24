@@ -18,14 +18,6 @@ rki_covid19_filename = "RKI_COVID19.csv"
 rki_covid19_source_url = "https://www.arcgis.com/sharing/rest/content/items/f10774f1c63e40168479a1feb6c7ca74/data"
 
 
-def calcMedian(days_until_death):
-    days_per_case = []
-    for i, v in enumerate(days_until_death):
-        for c in range(int(v)):
-            days_per_case.append(i)
-    return np.median(days_per_case)
-
-
 def parse_date(date_str):
     return datetime.datetime.strptime(date_str, "%Y/%m/%d %H:%M:%S")
 
@@ -51,12 +43,9 @@ print()
 num_cases_total = 0
 num_deaths_total = 0
 num_recovered_total = 0
-num_real_deaths_total = 0
 
 version_date_str = ""
 cases_for_date = {}
-days_until_death = np.zeros((51), dtype=np.float64)
-days_until_death_real = np.zeros((51), dtype=np.float64)
 
 num_unkown_onset_deaths = 0
 
@@ -89,21 +78,7 @@ with open(rki_covid19_filename) as csvfile:
         if num_deaths > 0:
             is_case_date = int(row["IstErkrankungsbeginn"])
             if is_case_date != 1:
-                cases_date = death_date
                 num_unkown_onset_deaths += num_deaths
-
-            num_days = (
-                parse_date(death_date).date() - parse_date(cases_date).date()
-            ).days
-
-            num_days = abs(num_days)
-            num_days = (
-                days_until_death.size - 1
-                if num_days >= days_until_death.size
-                else num_days
-            )
-
-            days_until_death[num_days] += num_deaths
 
 
 version_date = datetime.datetime.strptime(version_date_str, "%d.%m.%Y, %H:%M Uhr")
@@ -128,80 +103,11 @@ while date <= last_date:
 
     date += datetime.timedelta(days=1)
 
-# take all days after median
-days_until_death_median = 13
-for day in range(days_until_death_median, days_until_death.size):
-    days_until_death_real[day] = days_until_death[day]
-    days_until_death[day] = 0
-
-# make sure the median is reached by adding a normalized distribution before the target median
-cdf = norm.cdf(np.arange(-2, 2, 4 / (days_until_death_median)))
-cdf_sum = sum(cdf)
-
-while (median := calcMedian(days_until_death_real)) > days_until_death_median:
-    for day in range(0, days_until_death_median):
-        if days_until_death[day] > 0:
-            days_until_death_real[day] += cdf[day]
-            days_until_death[day] -= cdf[day]
-
-for day in range(0, days_until_death_median):
-    days_until_death_real[day] = round(days_until_death_real[day])
-    days_until_death[day] = round(days_until_death[day])
-
-print("days_until_death: " + str(days_until_death))
-print("days_until_death_real: " + str(days_until_death_real))
-print("median: " + str(median))
-
-num_real_deaths_total = int(sum(days_until_death_real))
-
-fig, ax = plt.subplots(figsize=(16, 9))
-x = range(0, days_until_death.size)
-y = days_until_death
-y2 = days_until_death_real
-
-x_ticks = [0, 10, 20, 30, 40, 50]
-x_labels = ["0", "10", "20", "30", "40", "50+"]
-
-ax.bar(x, y2, color="tab:red")
-ax.bar(x, y, bottom=y2, color="tab:blue")
-ax.set_xticks(x_ticks)
-ax.set_xticklabels(x_labels)
-
-ax.set(
-    xlabel="Symptom onset to death [days]",
-    ylabel="Number of deaths",
-    title="Number of deaths assigned to their duration of illness (positive SARS-CoV-2) - Cases total: "
-    + str(num_deaths_total),
-)
-ax.grid()
-
-extra = Rectangle((0, 0), 1, 1, fill=False, edgecolor="none", linewidth=0)
-ax.legend([extra], ["Germany - " + str(version_date.date())], loc="upper right")
-
-axins = ax.inset_axes([0.2, 0.3, 0.6, 0.6])
-axins.bar(x, y2, color="tab:red")
-axins.set(
-    title="Deaths caused or induced most likely by COVID-19 - Cases total: "
-    + str(num_real_deaths_total)
-)
-axins.set_xticks(x_ticks)
-axins.set_xticklabels(x_labels)
-
-ax.indicate_inset_zoom(axins)
-
-# plt.show()
-plt.savefig(
-    "symptom-onset-to-death.png",
-    dpi=200,
-    pad_inches=0.1,
-    bbox_inches=Bbox.from_bounds(0, 0, 16, 9),
-)
 
 print()
 print("Number of cases in total: " + str(num_cases_total))
 print("Number of recovered cases in total: " + str(num_recovered_total))
 print("Number of deaths in total: " + str(num_deaths_total))
-print("Probable number of real deaths in total: " + str(num_real_deaths_total))
 print("Number of deaths without known onset date: " + str(num_unkown_onset_deaths))
 
 print(
