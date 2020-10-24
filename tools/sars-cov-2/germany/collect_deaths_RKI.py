@@ -61,6 +61,7 @@ end_date = datetime.datetime.strptime("2020-10-21", "%Y-%m-%d")
 # end_date = datetime.datetime.strptime("2020-05-15", "%Y-%m-%d")
 
 date = start_date - datetime.timedelta(days=1)
+include_previous_day = False
 while date < end_date:
 
     date += datetime.timedelta(days=1)
@@ -74,7 +75,7 @@ while date < end_date:
     # See https://www.arcgis.com/home/item.html?id=f10774f1c63e40168479a1feb6c7ca74 for details on how to interpret the data.
 
     if not os.path.isfile(rki_covid19_filename):
-        # TODO: mark next file to look at previous day as well
+        include_previous_day = True
         continue
 
     with open(rki_covid19_filename) as csvfile:
@@ -86,7 +87,13 @@ while date < end_date:
 
             new_death = int(float(row["NeuerTodesfall"]))
 
-            if new_death != 1:
+            is_new_death_from_today = new_death == 1
+            is_new_death_from_yesterday = include_previous_day and (new_death == -1)
+
+            process_this_case = is_new_death_from_today or is_new_death_from_yesterday
+            skip_this_case = not process_this_case
+
+            if skip_this_case:
                 continue
 
             num_deaths = int(float(row["AnzahlTodesfall"]))
@@ -97,9 +104,11 @@ while date < end_date:
             if num_deaths > 0:
                 num_deaths_total += num_deaths
 
-                num_days = (
-                    date.date() - parse_date(cases_date).date()
-                ).days - publish_death_delay_days
+                num_days = (date.date() - parse_date(cases_date).date()).days - (
+                    publish_death_delay_days - 1
+                    if is_new_death_from_yesterday
+                    else publish_death_delay_days
+                )
 
                 case_date_is_known = issue_date != cases_date or (
                     "IstErkrankungsbeginn" in row
@@ -126,6 +135,8 @@ while date < end_date:
                 else:
                     days_until_death[num_days] += num_deaths
                     num_unkown_onset_deaths += num_deaths
+
+    include_previous_day = False
 
 
 # take all days after median
