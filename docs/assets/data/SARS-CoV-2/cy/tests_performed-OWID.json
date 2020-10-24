@@ -1,11 +1,11 @@
 {
     "startDate": "2020-04-04",
-    "versionDate": "2020-10-21",
+    "versionDate": "2020-10-22",
     "type": "pcr_tests_100k",
     "averageReportToCaseDelayInDays": 10,
     "source": {
         "name": "Positive results per 100k tests performed - Data collected by OWID from Ministry of Health",
-        "url": "https://www.data.gov.cy/sites/default/files/CY%20Covid19%20Open%20Data_48.csv",
+        "url": "https://www.data.gov.cy/sites/default/files/CY%20Covid19%20Open%20Data_49.csv",
         "license": "Attribution 4.0 International (CC BY 4.0)",
         "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
     },
@@ -210,6 +210,7 @@
         1626,
         2729,
         2573,
-        3059
+        3059,
+        3176
     ]
 }
