@@ -1,17 +1,17 @@
 {
     "startDate": "2020-09-01",
-    "versionDate": "2020-10-24",
+    "versionDate": "2020-10-25",
     "type": "cases",
     "averageReportToCaseDelayInDays": 10,
     "source": {
         "name": "Robert Koch-Institut",
-        "url": "https://www.rki.de/DE/Content/InfAZ/N/Neuartiges_Coronavirus/Situationsberichte/Okt_2020/2020-10-24-de.pdf?__blob=publicationFile",
+        "url": "https://www.rki.de/DE/Content/InfAZ/N/Neuartiges_Coronavirus/Situationsberichte/Okt_2020/2020-10-25-de.pdf?__blob=publicationFile",
         "license": "Data licence Germany - attribution - version 2.0",
         "licenseUrl": "https://www.govdata.de/dl-de/by-2-0"
     },
     "metrics": {
-        "numCases": 20744,
-        "numDeaths": 4487
+        "numCases": 20928,
+        "numDeaths": 4500
     },
     "data": [
         33,
@@ -67,6 +67,7 @@
         189,
         261,
         256,
-        229
+        229,
+        184
     ]
 }
