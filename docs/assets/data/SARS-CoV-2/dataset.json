@@ -6,6 +6,11 @@
             "roiDateStart": "2020-02-01",
             "datasets": [
                 {
+                    "title": "RKI COVID-19 cases with admission to ICU",
+                    "description": "Tägliche Neubelegung von Intensivbetten mit COVID-19 Patienten in Deutschland - Bundesweit einheitlich erfasste und an das Robert Koch-Institut (RKI) übermittelte Daten zu bestätigten COVID-19-Fällen. COVID-19-Verdachtsfälle und -Erkrankungen sowie Nachweise von SARS-CoV-2 werden gemäß Infektionsschutzgesetz an das zuständige Gesundheitsamt gemeldet. Die Gesundheitsämter ermitteln ggf. zusätzliche Informationen, bewerten den Fall und leiten die notwendigen Infektionsschutzmaßnahmen ein. Die Daten werden spätestens am nächsten Arbeitstag vom Gesundheitsamt elektronisch an die zuständige Landesbehörde und von dort an das RKI übermittelt. Am RKI werden sie mittels weitgehend automatisierter Algorithmen validiert.",
+                    "filename": "cases-ICU-RKI.json"
+                },
+                {
                     "title": "Positive results per 100k PCR tests (RKI)",
                     "description": "Positive SARS-CoV-2 PCR-Tests pro 100.000 Tests in Deutschland - Bundesweit einheitlich erfasste und an das Robert Koch-Institut (RKI) übermittelte Daten zu bestätigten COVID-19-Fällen. COVID-19-Verdachtsfälle und -Erkrankungen sowie Nachweise von SARS-CoV-2 werden gemäß Infektionsschutzgesetz an das zuständige Gesundheitsamt gemeldet. Die Gesundheitsämter ermitteln ggf. zusätzliche Informationen, bewerten den Fall und leiten die notwendigen Infektionsschutzmaßnahmen ein. Die Daten werden spätestens am nächsten Arbeitstag vom Gesundheitsamt elektronisch an die zuständige Landesbehörde und von dort an das RKI übermittelt. Am RKI werden sie mittels weitgehend automatisierter Algorithmen validiert.",
                     "filename": "tests-RKI.json"
