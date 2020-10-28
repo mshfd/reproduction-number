@@ -1,11 +1,11 @@
 {
     "startDate": "2020-04-14",
-    "versionDate": "2020-10-24",
+    "versionDate": "2020-10-27",
     "type": "pcr_tests_100k",
     "averageReportToCaseDelayInDays": 10,
     "source": {
         "name": "Positive results per 100k samples tested - Data collected by OWID from Rwanda Ministry of Health",
-        "url": "https://twitter.com/RwandaHealth/status/1320073615128264712/photo/1",
+        "url": "https://gis.rbc.gov.rw/server/rest/services/Hosted/service_b580a3db9319449e82045881f1667b01/FeatureServer/0/query",
         "license": "Attribution 4.0 International (CC BY 4.0)",
         "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
     },
@@ -203,6 +203,9 @@
         525,
         542,
         537,
-        650
+        650,
+        696,
+        749,
+        666
     ]
 }
