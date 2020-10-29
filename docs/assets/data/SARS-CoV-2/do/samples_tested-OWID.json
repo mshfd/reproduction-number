@@ -1,11 +1,11 @@
 {
     "startDate": "2020-03-25",
-    "versionDate": "2020-10-22",
+    "versionDate": "2020-10-25",
     "type": "pcr_tests_100k",
     "averageReportToCaseDelayInDays": 10,
     "source": {
         "name": "Positive results per 100k samples tested - Data collected by OWID from Ministry of Public Health and Social Assistance",
-        "url": "https://www.msp.gob.do/web/wp-content/uploads/2020/10/Boletin-especial-218-COVID-19.pdf",
+        "url": "https://www.msp.gob.do/web/wp-content/uploads/2020/10/Boletin-COVID-19-no.221.pdf",
         "license": "Attribution 4.0 International (CC BY 4.0)",
         "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
     },
@@ -221,6 +221,9 @@
         11908,
         12642,
         12750,
-        11819
+        11819,
+        11927,
+        12003,
+        12246
     ]
 }
