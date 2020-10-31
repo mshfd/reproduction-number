@@ -19,10 +19,18 @@
             "description": "Limited lockdown, contact ban, limiting non-essential economy to home office"
         },
         {
-            "startDate": "2020-04-29",
+            "startDate": [
+                "2020-04-29",
+                "2020-08-10",
+                "2020-10-03"
+            ],
             "endDate": "",
             "type": "non-pharmaceutical",
-            "description": "Mandatory use of face masks in public transport and retail"
+            "description": [
+                "Obligatory use of face masks in public transport and retail",
+                "&#65291; Obligatory use of face masks in schools (except during lessons)",
+                "&#65291; Obligatory use of face masks in administrative buildings (except at desk)"
+            ]
         },
         {
             "startDate": "2020-06-13",
