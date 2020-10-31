@@ -1,11 +1,11 @@
 {
     "startDate": "2020-03-21",
-    "versionDate": "2020-10-24",
+    "versionDate": "2020-10-29",
     "type": "pcr_tests_100k",
     "averageReportToCaseDelayInDays": 10,
     "source": {
         "name": "Positive results per 100k samples tested - Data collected by OWID from Kenya Ministry of Health",
-        "url": "https://twitter.com/MOH_Kenya/status/1320009919148556288",
+        "url": "https://services7.arcgis.com/1Cyg6S9yGgIqdFPO/ArcGIS/rest/services/cases_today/FeatureServer/0/query",
         "license": "Attribution 4.0 International (CC BY 4.0)",
         "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
     },
@@ -227,6 +227,11 @@
         11950,
         10923,
         11892,
-        11788
+        11788,
+        12716,
+        12362,
+        12282,
+        12945,
+        15270
     ]
 }
