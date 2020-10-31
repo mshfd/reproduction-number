@@ -25,14 +25,16 @@ def key_for_date(date):
 # Download source data if necessary.
 if not os.path.exists(who_covid19_filename):
     print("Downloading " + who_covid19_filename)
-    with urllib.request.urlopen(who_covid19_source_url) as response, open(who_covid19_filename, "wb") as out_file:
+    with urllib.request.urlopen(who_covid19_source_url) as response, open(
+        who_covid19_filename, "wb"
+    ) as out_file:
         shutil.copyfileobj(response, out_file)
     print("Finished downloading " + who_covid19_filename)
 
     # remove white spaces from first line of csv file
-    with open(who_covid19_filename, 'r+') as f:
+    with open(who_covid19_filename, "r+") as f:
         txt = f.readlines()
-        txt[0] = txt[0][3:].replace(' ', '')
+        txt[0] = txt[0][3:].replace(" ", "")
         f.seek(0)
         f.writelines(txt)
         f.truncate()
@@ -45,7 +47,7 @@ version_date_str = ""
 data = {}
 
 # Parse the source data and group cases for each country.
-with open(who_covid19_filename, encoding='utf-8') as csvfile:
+with open(who_covid19_filename, encoding="utf-8") as csvfile:
     reader = csv.DictReader(csvfile)
 
     for row in reader:
@@ -64,16 +66,16 @@ with open(who_covid19_filename, encoding='utf-8') as csvfile:
 
         if country not in data:
             data[country] = {
-                'country_code': country_code.lower(),
-                'cases_for_date': {},
-                'num_cases_total': 0,
-                'num_deaths_total': 0
+                "country_code": country_code.lower(),
+                "cases_for_date": {},
+                "num_cases_total": 0,
+                "num_deaths_total": 0,
             }
 
-        data[country]['num_cases_total'] += new_cases
-        data[country]['num_deaths_total'] += new_deaths
+        data[country]["num_cases_total"] += new_cases
+        data[country]["num_deaths_total"] += new_deaths
 
-        data[country]['cases_for_date'][cases_date] = new_cases
+        data[country]["cases_for_date"][cases_date] = new_cases
         version_date_str = cases_date
 
 version_date = datetime.datetime.strptime(version_date_str, "%Y-%m-%d")
@@ -81,10 +83,10 @@ version_date = datetime.datetime.strptime(version_date_str, "%Y-%m-%d")
 for country in data.keys():
 
     country_data = data[country]
-    country_code = country_data['country_code']
-    cases_for_date = country_data['cases_for_date']
-    num_cases_total = country_data['num_cases_total']
-    num_deaths_total = country_data['num_deaths_total']
+    country_code = country_data["country_code"]
+    cases_for_date = country_data["cases_for_date"]
+    num_cases_total = country_data["num_cases_total"]
+    num_deaths_total = country_data["num_deaths_total"]
 
     dates = sorted(cases_for_date.keys())
     first_date = parse_date(dates[0]).date()
@@ -153,7 +155,7 @@ print("Updating datasets " + str(len(data.keys())))
 who_dataset = {
     "title": "WHO COVID-19 Cases",
     "description": "The WHO coronavirus disease (COVID-19) data presents official daily counts of COVID-19 cases and deaths reported by countries, territories and areas. Caution must be taken when interpreting all data presented, and differences between information products published by WHO, national public health authorities, and other sources using different inclusion criteria and different data cut-off times are to be expected.",
-    "filename": "cases-WHO.json"
+    "filename": "cases-WHO.json",
 }
 
 dataset_json_filepath = base_data_dir + "dataset.json"
@@ -169,26 +171,23 @@ with open(dataset_json_filepath, "r") as dataset_json:
     for country in data.keys():
 
         country_data = data[country]
-        country_code = country_data['country_code']
+        country_code = country_data["country_code"]
 
         region = find_entry(dataset["regions"], "path", country_code)
 
         if region is None:
-            region = {
-                "name": country,
-                "path": country_code,
-                "datasets": [who_dataset]
-            }
+            region = {"name": country, "path": country_code, "datasets": [who_dataset]}
             dataset["regions"].append(region)
         else:
-            datasetEntry = find_entry(
-                region['datasets'], "title", who_dataset["title"])
+            datasetEntry = find_entry(region["datasets"], "title", who_dataset["title"])
             if datasetEntry is None:
-                region['datasets'].append(who_dataset)
+                region["datasets"].append(who_dataset)
             else:
                 for k, v in who_dataset.items():
                     datasetEntry[k] = v
 
+
+dataset["regions"].sort(key=lambda x: x["name"])
 
 print("Writing datasets to " + dataset_json_filepath)
 with open(dataset_json_filepath, "w") as dataset_json:

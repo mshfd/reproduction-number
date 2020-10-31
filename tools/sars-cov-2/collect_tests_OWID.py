@@ -32,7 +32,9 @@ def key_for_date(date):
 # Download source data if necessary.
 if not os.path.exists(owid_covid19_filename):
     print("Downloading " + owid_covid19_filename)
-    with urllib.request.urlopen(owid_covid19_source_url) as response, open(owid_covid19_filename, "wb") as out_file:
+    with urllib.request.urlopen(owid_covid19_source_url) as response, open(
+        owid_covid19_filename, "wb"
+    ) as out_file:
         shutil.copyfileobj(response, out_file)
     print("Finished downloading " + owid_covid19_filename)
 
@@ -43,19 +45,19 @@ print()
 data = {}
 
 # Parse the source data and group cases for each country.
-with open(owid_covid19_filename, encoding='utf-8') as csvfile:
+with open(owid_covid19_filename, encoding="utf-8") as csvfile:
     reader = csv.DictReader(csvfile)
 
     for row in reader:
         entity = row["Entity"]
-        title_split = entity.find(' - ')
+        title_split = entity.find(" - ")
         country = entity[:title_split]
-        data_type = entity[title_split+3:]
+        data_type = entity[title_split + 3 :]
 
         # if not data_type.startswith("tests performed"):
         #    continue
 
-        #num_tests = int(row["Daily change in cumulative total"])
+        # num_tests = int(row["Daily change in cumulative total"])
         tests_per_case_entry = row["Short-term tests per case"]
 
         if not tests_per_case_entry:
@@ -78,40 +80,42 @@ with open(owid_covid19_filename, encoding='utf-8') as csvfile:
                     country_code = cc["alpha-2"]
                     break
 
-            data[entity] = {
-                'country_code': country_code.lower(),
-                'data_by_type': {}
-            }
+            data[entity] = {"country_code": country_code.lower(), "data_by_type": {}}
 
-        if data_type not in data[entity]['data_by_type']:
+        if data_type not in data[entity]["data_by_type"]:
             data_type_parts = data_type.split()
 
-            data[entity]['data_by_type'][data_type] = {
-                'title': data_type,
-                'positive_tests_for_date': {},
-                'file_name': data_type_parts[0] + "_" + data_type_parts[1] + "-OWID.json"
+            data[entity]["data_by_type"][data_type] = {
+                "title": data_type,
+                "positive_tests_for_date": {},
+                "file_name": data_type_parts[0]
+                + "_"
+                + data_type_parts[1]
+                + "-OWID.json",
             }
 
         source_url = row["Source URL"]
         if source_url:
-            data[entity]['source_url'] = source_url
+            data[entity]["source_url"] = source_url
 
         source_label = row["Source label"]
         if source_label:
-            data[entity]['source'] = source_label
+            data[entity]["source"] = source_label
 
-        data[entity]['data_by_type'][data_type]['positive_tests_for_date'][date] = 100000 / tests_per_case
-        data[entity]['data_by_type'][data_type]['version_date'] = date
+        data[entity]["data_by_type"][data_type]["positive_tests_for_date"][date] = (
+            100000 / tests_per_case
+        )
+        data[entity]["data_by_type"][data_type]["version_date"] = date
 
 for country in data.keys():
 
     country_data = data[country]
-    country_code = country_data['country_code']
+    country_code = country_data["country_code"]
 
-    for data_by_type_key in country_data['data_by_type'].keys():
+    for data_by_type_key in country_data["data_by_type"].keys():
 
-        data_by_type = country_data['data_by_type'][data_by_type_key]
-        cases_for_date = data_by_type['positive_tests_for_date']
+        data_by_type = country_data["data_by_type"][data_by_type_key]
+        cases_for_date = data_by_type["positive_tests_for_date"]
 
         dates = sorted(cases_for_date.keys())
         first_date = parse_date(dates[0]).date()
@@ -136,7 +140,7 @@ for country in data.keys():
 
         print(
             "Data is from "
-            + data_by_type['version_date']
+            + data_by_type["version_date"]
             + " and spans "
             + str((last_date - first_date).days)
             + " days"
@@ -146,18 +150,23 @@ for country in data.keys():
         if not os.path.exists(targetDir):
             os.mkdir(targetDir)
 
-        target_json = targetDir + "/" + data_by_type['file_name']
+        target_json = targetDir + "/" + data_by_type["file_name"]
         print()
         print("Writing results to " + target_json)
 
         result = {
             "startDate": str(first_date),
-            "versionDate": data_by_type['version_date'],
+            "versionDate": data_by_type["version_date"],
             "type": "pcr_tests_100k",
             "averageReportToCaseDelayInDays": 10,
             "source": {
-                "name": "Positive results per 100k " + data_by_type['title'] + " - Data collected by OWID from " + country_data['source'],
-                "url": country_data['source_url'] if 'source_url' in country_data else '',
+                "name": "Positive results per 100k "
+                + data_by_type["title"]
+                + " - Data collected by OWID from "
+                + country_data["source"],
+                "url": country_data["source_url"]
+                if "source_url" in country_data
+                else "",
                 "license": "Attribution 4.0 International (CC BY 4.0)",
                 "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
             },
@@ -174,7 +183,7 @@ print("Updating datasets " + str(len(data.keys())))
 owid_dataset = {
     "title": "",
     "description": "Based on data collected by 'Our World in Data'.",
-    "filename": ""
+    "filename": "",
 }
 
 dataset_json_filepath = base_data_dir + "dataset.json"
@@ -190,36 +199,39 @@ with open(dataset_json_filepath, "r") as dataset_json:
     for country in data.keys():
 
         country_data = data[country]
-        country_code = country_data['country_code']
+        country_code = country_data["country_code"]
         if len(country_code) > 2:
             continue
 
         region = find_entry(dataset["regions"], "path", country_code)
 
-        for data_by_type_key in country_data['data_by_type'].keys():
+        for data_by_type_key in country_data["data_by_type"].keys():
 
-            data_by_type = country_data['data_by_type'][data_by_type_key]
+            data_by_type = country_data["data_by_type"][data_by_type_key]
 
-            owid_dataset['title'] = "Positive results per 100k " + \
-                data_by_type['title'] + " (OWID)"
-            owid_dataset['filename'] = data_by_type['file_name']
+            owid_dataset["title"] = (
+                "Positive results per 100k " + data_by_type["title"] + " (OWID)"
+            )
+            owid_dataset["filename"] = data_by_type["file_name"]
 
             if region is None:
                 region = {
                     "name": country,
                     "path": country_code,
-                    "datasets": [copy.deepcopy(owid_dataset)]
+                    "datasets": [copy.deepcopy(owid_dataset)],
                 }
                 dataset["regions"].append(region)
             else:
                 datasetEntry = find_entry(
-                    region['datasets'], "title", owid_dataset["title"])
+                    region["datasets"], "title", owid_dataset["title"]
+                )
                 if datasetEntry is None:
-                    region['datasets'].append(copy.deepcopy(owid_dataset))
+                    region["datasets"].append(copy.deepcopy(owid_dataset))
                 else:
                     for k, v in owid_dataset.items():
                         datasetEntry[k] = copy.deepcopy(v)
 
+dataset["regions"].sort(key=lambda x: x["name"])
 
 print("Writing datasets to " + dataset_json_filepath)
 with open(dataset_json_filepath, "w") as dataset_json:

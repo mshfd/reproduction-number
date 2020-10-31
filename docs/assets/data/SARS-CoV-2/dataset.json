@@ -1,60 +1,6 @@
 {
     "regions": [
         {
-            "name": "Germany",
-            "path": "de",
-            "roiDateStart": "2020-02-01",
-            "datasets": [
-                {
-                    "title": "RKI COVID-19 cases with admission to ICU",
-                    "description": "Tägliche Neubelegung von Intensivbetten mit COVID-19 Patienten in Deutschland - Bundesweit einheitlich erfasste und an das Robert Koch-Institut (RKI) übermittelte Daten zu bestätigten COVID-19-Fällen. COVID-19-Verdachtsfälle und -Erkrankungen sowie Nachweise von SARS-CoV-2 werden gemäß Infektionsschutzgesetz an das zuständige Gesundheitsamt gemeldet. Die Gesundheitsämter ermitteln ggf. zusätzliche Informationen, bewerten den Fall und leiten die notwendigen Infektionsschutzmaßnahmen ein. Die Daten werden spätestens am nächsten Arbeitstag vom Gesundheitsamt elektronisch an die zuständige Landesbehörde und von dort an das RKI übermittelt. Am RKI werden sie mittels weitgehend automatisierter Algorithmen validiert.",
-                    "filename": "cases-ICU-RKI.json"
-                },
-                {
-                    "title": "Positive results per 100k PCR tests (RKI)",
-                    "description": "Positive SARS-CoV-2 PCR-Tests pro 100.000 Tests in Deutschland - Bundesweit einheitlich erfasste und an das Robert Koch-Institut (RKI) übermittelte Daten zu bestätigten COVID-19-Fällen. COVID-19-Verdachtsfälle und -Erkrankungen sowie Nachweise von SARS-CoV-2 werden gemäß Infektionsschutzgesetz an das zuständige Gesundheitsamt gemeldet. Die Gesundheitsämter ermitteln ggf. zusätzliche Informationen, bewerten den Fall und leiten die notwendigen Infektionsschutzmaßnahmen ein. Die Daten werden spätestens am nächsten Arbeitstag vom Gesundheitsamt elektronisch an die zuständige Landesbehörde und von dort an das RKI übermittelt. Am RKI werden sie mittels weitgehend automatisierter Algorithmen validiert.",
-                    "filename": "tests-RKI.json"
-                },
-                {
-                    "title": "Positive results per 100k tests performed (OWID)",
-                    "description": "Based on data collected by 'Our World in Data'.",
-                    "filename": "tests_performed-OWID.json"
-                },
-                {
-                    "title": "RKI COVID-19 Fallzahlen",
-                    "description": "COVID-19 Fallzahlen in Deutschland - Bundesweit einheitlich erfasste und an das Robert Koch-Institut (RKI) übermittelte Daten zu bestätigten COVID-19-Fällen. COVID-19-Verdachtsfälle und -Erkrankungen sowie Nachweise von SARS-CoV-2 werden gemäß Infektionsschutzgesetz an das zuständige Gesundheitsamt gemeldet. Die Gesundheitsämter ermitteln ggf. zusätzliche Informationen, bewerten den Fall und leiten die notwendigen Infektionsschutzmaßnahmen ein. Die Daten werden spätestens am nächsten Arbeitstag vom Gesundheitsamt elektronisch an die zuständige Landesbehörde und von dort an das RKI übermittelt. Am RKI werden sie mittels weitgehend automatisierter Algorithmen validiert.",
-                    "filename": "cases-RKI.json"
-                },
-                {
-                    "title": "WHO COVID-19 Cases",
-                    "description": "The WHO coronavirus disease (COVID-19) data presents official daily counts of COVID-19 cases and deaths reported by countries, territories and areas. Caution must be taken when interpreting all data presented, and differences between information products published by WHO, national public health authorities, and other sources using different inclusion criteria and different data cut-off times are to be expected.",
-                    "filename": "cases-WHO.json"
-                }
-            ]
-        },
-        {
-            "name": "Japan",
-            "path": "jp",
-            "roiDateStart": "2020-02-15",
-            "datasets": [
-                {
-                    "title": "WHO COVID-19 Cases",
-                    "description": "The WHO coronavirus disease (COVID-19) data presents official daily counts of COVID-19 cases and deaths reported by countries, territories and areas. Caution must be taken when interpreting all data presented, and differences between information products published by WHO, national public health authorities, and other sources using different inclusion criteria and different data cut-off times are to be expected.",
-                    "filename": "cases-WHO.json"
-                },
-                {
-                    "title": "Positive results per 100k people tested (incl. non-PCR) (OWID)",
-                    "description": "Based on data collected by 'Our World in Data'.",
-                    "filename": "people_tested-OWID.json"
-                },
-                {
-                    "title": "Positive results per 100k tests performed (OWID)",
-                    "description": "Based on data collected by 'Our World in Data'.",
-                    "filename": "tests_performed-OWID.json"
-                }
-            ]
-        },
-        {
             "name": "Afghanistan",
             "path": "af",
             "datasets": [
@@ -79,6 +25,17 @@
         {
             "name": "Algeria",
             "path": "dz",
+            "datasets": [
+                {
+                    "title": "WHO COVID-19 Cases",
+                    "description": "The WHO coronavirus disease (COVID-19) data presents official daily counts of COVID-19 cases and deaths reported by countries, territories and areas. Caution must be taken when interpreting all data presented, and differences between information products published by WHO, national public health authorities, and other sources using different inclusion criteria and different data cut-off times are to be expected.",
+                    "filename": "cases-WHO.json"
+                }
+            ]
+        },
+        {
+            "name": "American Samoa",
+            "path": "as",
             "datasets": [
                 {
                     "title": "WHO COVID-19 Cases",
@@ -622,6 +579,17 @@
             ]
         },
         {
+            "name": "Cook Islands",
+            "path": "ck",
+            "datasets": [
+                {
+                    "title": "WHO COVID-19 Cases",
+                    "description": "The WHO coronavirus disease (COVID-19) data presents official daily counts of COVID-19 cases and deaths reported by countries, territories and areas. Caution must be taken when interpreting all data presented, and differences between information products published by WHO, national public health authorities, and other sources using different inclusion criteria and different data cut-off times are to be expected.",
+                    "filename": "cases-WHO.json"
+                }
+            ]
+        },
+        {
             "name": "Costa Rica",
             "path": "cr",
             "datasets": [
@@ -634,22 +602,6 @@
                     "title": "Positive results per 100k people tested (OWID)",
                     "description": "Based on data collected by 'Our World in Data'.",
                     "filename": "people_tested-OWID.json"
-                }
-            ]
-        },
-        {
-            "name": "Côte d’Ivoire",
-            "path": "ci",
-            "datasets": [
-                {
-                    "title": "WHO COVID-19 Cases",
-                    "description": "The WHO coronavirus disease (COVID-19) data presents official daily counts of COVID-19 cases and deaths reported by countries, territories and areas. Caution must be taken when interpreting all data presented, and differences between information products published by WHO, national public health authorities, and other sources using different inclusion criteria and different data cut-off times are to be expected.",
-                    "filename": "cases-WHO.json"
-                },
-                {
-                    "title": "Positive results per 100k samples tested (OWID)",
-                    "description": "Based on data collected by 'Our World in Data'.",
-                    "filename": "samples_tested-OWID.json"
                 }
             ]
         },
@@ -725,6 +677,33 @@
                     "title": "Positive results per 100k tests performed (OWID)",
                     "description": "Based on data collected by 'Our World in Data'.",
                     "filename": "tests_performed-OWID.json"
+                }
+            ]
+        },
+        {
+            "name": "Côte d’Ivoire",
+            "path": "ci",
+            "datasets": [
+                {
+                    "title": "WHO COVID-19 Cases",
+                    "description": "The WHO coronavirus disease (COVID-19) data presents official daily counts of COVID-19 cases and deaths reported by countries, territories and areas. Caution must be taken when interpreting all data presented, and differences between information products published by WHO, national public health authorities, and other sources using different inclusion criteria and different data cut-off times are to be expected.",
+                    "filename": "cases-WHO.json"
+                },
+                {
+                    "title": "Positive results per 100k samples tested (OWID)",
+                    "description": "Based on data collected by 'Our World in Data'.",
+                    "filename": "samples_tested-OWID.json"
+                }
+            ]
+        },
+        {
+            "name": "Democratic People's Republic of Korea",
+            "path": "kp",
+            "datasets": [
+                {
+                    "title": "WHO COVID-19 Cases",
+                    "description": "The WHO coronavirus disease (COVID-19) data presents official daily counts of COVID-19 cases and deaths reported by countries, territories and areas. Caution must be taken when interpreting all data presented, and differences between information products published by WHO, national public health authorities, and other sources using different inclusion criteria and different data cut-off times are to be expected.",
+                    "filename": "cases-WHO.json"
                 }
             ]
         },
@@ -1025,6 +1004,38 @@
             "name": "Georgia",
             "path": "ge",
             "datasets": [
+                {
+                    "title": "WHO COVID-19 Cases",
+                    "description": "The WHO coronavirus disease (COVID-19) data presents official daily counts of COVID-19 cases and deaths reported by countries, territories and areas. Caution must be taken when interpreting all data presented, and differences between information products published by WHO, national public health authorities, and other sources using different inclusion criteria and different data cut-off times are to be expected.",
+                    "filename": "cases-WHO.json"
+                }
+            ]
+        },
+        {
+            "name": "Germany",
+            "path": "de",
+            "roiDateStart": "2020-02-01",
+            "datasets": [
+                {
+                    "title": "RKI COVID-19 cases with admission to ICU",
+                    "description": "Tägliche Neubelegung von Intensivbetten mit COVID-19 Patienten in Deutschland - Bundesweit einheitlich erfasste und an das Robert Koch-Institut (RKI) übermittelte Daten zu bestätigten COVID-19-Fällen. COVID-19-Verdachtsfälle und -Erkrankungen sowie Nachweise von SARS-CoV-2 werden gemäß Infektionsschutzgesetz an das zuständige Gesundheitsamt gemeldet. Die Gesundheitsämter ermitteln ggf. zusätzliche Informationen, bewerten den Fall und leiten die notwendigen Infektionsschutzmaßnahmen ein. Die Daten werden spätestens am nächsten Arbeitstag vom Gesundheitsamt elektronisch an die zuständige Landesbehörde und von dort an das RKI übermittelt. Am RKI werden sie mittels weitgehend automatisierter Algorithmen validiert.",
+                    "filename": "cases-ICU-RKI.json"
+                },
+                {
+                    "title": "Positive results per 100k PCR tests (RKI)",
+                    "description": "Positive SARS-CoV-2 PCR-Tests pro 100.000 Tests in Deutschland - Bundesweit einheitlich erfasste und an das Robert Koch-Institut (RKI) übermittelte Daten zu bestätigten COVID-19-Fällen. COVID-19-Verdachtsfälle und -Erkrankungen sowie Nachweise von SARS-CoV-2 werden gemäß Infektionsschutzgesetz an das zuständige Gesundheitsamt gemeldet. Die Gesundheitsämter ermitteln ggf. zusätzliche Informationen, bewerten den Fall und leiten die notwendigen Infektionsschutzmaßnahmen ein. Die Daten werden spätestens am nächsten Arbeitstag vom Gesundheitsamt elektronisch an die zuständige Landesbehörde und von dort an das RKI übermittelt. Am RKI werden sie mittels weitgehend automatisierter Algorithmen validiert.",
+                    "filename": "tests-RKI.json"
+                },
+                {
+                    "title": "Positive results per 100k tests performed (OWID)",
+                    "description": "Based on data collected by 'Our World in Data'.",
+                    "filename": "tests_performed-OWID.json"
+                },
+                {
+                    "title": "RKI COVID-19 Fallzahlen",
+                    "description": "COVID-19 Fallzahlen in Deutschland - Bundesweit einheitlich erfasste und an das Robert Koch-Institut (RKI) übermittelte Daten zu bestätigten COVID-19-Fällen. COVID-19-Verdachtsfälle und -Erkrankungen sowie Nachweise von SARS-CoV-2 werden gemäß Infektionsschutzgesetz an das zuständige Gesundheitsamt gemeldet. Die Gesundheitsämter ermitteln ggf. zusätzliche Informationen, bewerten den Fall und leiten die notwendigen Infektionsschutzmaßnahmen ein. Die Daten werden spätestens am nächsten Arbeitstag vom Gesundheitsamt elektronisch an die zuständige Landesbehörde und von dort an das RKI übermittelt. Am RKI werden sie mittels weitgehend automatisierter Algorithmen validiert.",
+                    "filename": "cases-RKI.json"
+                },
                 {
                     "title": "WHO COVID-19 Cases",
                     "description": "The WHO coronavirus disease (COVID-19) data presents official daily counts of COVID-19 cases and deaths reported by countries, territories and areas. Caution must be taken when interpreting all data presented, and differences between information products published by WHO, national public health authorities, and other sources using different inclusion criteria and different data cut-off times are to be expected.",
@@ -1396,6 +1407,28 @@
             ]
         },
         {
+            "name": "Japan",
+            "path": "jp",
+            "roiDateStart": "2020-02-15",
+            "datasets": [
+                {
+                    "title": "WHO COVID-19 Cases",
+                    "description": "The WHO coronavirus disease (COVID-19) data presents official daily counts of COVID-19 cases and deaths reported by countries, territories and areas. Caution must be taken when interpreting all data presented, and differences between information products published by WHO, national public health authorities, and other sources using different inclusion criteria and different data cut-off times are to be expected.",
+                    "filename": "cases-WHO.json"
+                },
+                {
+                    "title": "Positive results per 100k people tested (incl. non-PCR) (OWID)",
+                    "description": "Based on data collected by 'Our World in Data'.",
+                    "filename": "people_tested-OWID.json"
+                },
+                {
+                    "title": "Positive results per 100k tests performed (OWID)",
+                    "description": "Based on data collected by 'Our World in Data'.",
+                    "filename": "tests_performed-OWID.json"
+                }
+            ]
+        },
+        {
             "name": "Jersey",
             "path": "je",
             "datasets": [
@@ -1446,6 +1479,17 @@
                     "title": "Positive results per 100k samples tested (OWID)",
                     "description": "Based on data collected by 'Our World in Data'.",
                     "filename": "samples_tested-OWID.json"
+                }
+            ]
+        },
+        {
+            "name": "Kiribati",
+            "path": "ki",
+            "datasets": [
+                {
+                    "title": "WHO COVID-19 Cases",
+                    "description": "The WHO coronavirus disease (COVID-19) data presents official daily counts of COVID-19 cases and deaths reported by countries, territories and areas. Caution must be taken when interpreting all data presented, and differences between information products published by WHO, national public health authorities, and other sources using different inclusion criteria and different data cut-off times are to be expected.",
+                    "filename": "cases-WHO.json"
                 }
             ]
         },
@@ -1703,6 +1747,17 @@
             ]
         },
         {
+            "name": "Marshall Islands",
+            "path": "mh",
+            "datasets": [
+                {
+                    "title": "WHO COVID-19 Cases",
+                    "description": "The WHO coronavirus disease (COVID-19) data presents official daily counts of COVID-19 cases and deaths reported by countries, territories and areas. Caution must be taken when interpreting all data presented, and differences between information products published by WHO, national public health authorities, and other sources using different inclusion criteria and different data cut-off times are to be expected.",
+                    "filename": "cases-WHO.json"
+                }
+            ]
+        },
+        {
             "name": "Martinique",
             "path": "mq",
             "datasets": [
@@ -1764,6 +1819,17 @@
                     "title": "Positive results per 100k people tested (OWID)",
                     "description": "Based on data collected by 'Our World in Data'.",
                     "filename": "people_tested-OWID.json"
+                }
+            ]
+        },
+        {
+            "name": "Micronesia (Federated States of)",
+            "path": "fm",
+            "datasets": [
+                {
+                    "title": "WHO COVID-19 Cases",
+                    "description": "The WHO coronavirus disease (COVID-19) data presents official daily counts of COVID-19 cases and deaths reported by countries, territories and areas. Caution must be taken when interpreting all data presented, and differences between information products published by WHO, national public health authorities, and other sources using different inclusion criteria and different data cut-off times are to be expected.",
+                    "filename": "cases-WHO.json"
                 }
             ]
         },
@@ -1876,6 +1942,17 @@
             ]
         },
         {
+            "name": "Nauru",
+            "path": "nr",
+            "datasets": [
+                {
+                    "title": "WHO COVID-19 Cases",
+                    "description": "The WHO coronavirus disease (COVID-19) data presents official daily counts of COVID-19 cases and deaths reported by countries, territories and areas. Caution must be taken when interpreting all data presented, and differences between information products published by WHO, national public health authorities, and other sources using different inclusion criteria and different data cut-off times are to be expected.",
+                    "filename": "cases-WHO.json"
+                }
+            ]
+        },
+        {
             "name": "Nepal",
             "path": "np",
             "datasets": [
@@ -1973,6 +2050,17 @@
             ]
         },
         {
+            "name": "Niue",
+            "path": "nu",
+            "datasets": [
+                {
+                    "title": "WHO COVID-19 Cases",
+                    "description": "The WHO coronavirus disease (COVID-19) data presents official daily counts of COVID-19 cases and deaths reported by countries, territories and areas. Caution must be taken when interpreting all data presented, and differences between information products published by WHO, national public health authorities, and other sources using different inclusion criteria and different data cut-off times are to be expected.",
+                    "filename": "cases-WHO.json"
+                }
+            ]
+        },
+        {
             "name": "North Macedonia",
             "path": "mk",
             "datasets": [
@@ -2016,22 +2104,6 @@
             ]
         },
         {
-            "name": "occupied Palestinian territory, including east Jerusalem",
-            "path": "ps",
-            "datasets": [
-                {
-                    "title": "WHO COVID-19 Cases",
-                    "description": "The WHO coronavirus disease (COVID-19) data presents official daily counts of COVID-19 cases and deaths reported by countries, territories and areas. Caution must be taken when interpreting all data presented, and differences between information products published by WHO, national public health authorities, and other sources using different inclusion criteria and different data cut-off times are to be expected.",
-                    "filename": "cases-WHO.json"
-                },
-                {
-                    "title": "Positive results per 100k tests performed (OWID)",
-                    "description": "Based on data collected by 'Our World in Data'.",
-                    "filename": "tests_performed-OWID.json"
-                }
-            ]
-        },
-        {
             "name": "Oman",
             "path": "om",
             "datasets": [
@@ -2048,6 +2120,17 @@
             ]
         },
         {
+            "name": "Other",
+            "path": "xx",
+            "datasets": [
+                {
+                    "title": "WHO COVID-19 Cases",
+                    "description": "The WHO coronavirus disease (COVID-19) data presents official daily counts of COVID-19 cases and deaths reported by countries, territories and areas. Caution must be taken when interpreting all data presented, and differences between information products published by WHO, national public health authorities, and other sources using different inclusion criteria and different data cut-off times are to be expected.",
+                    "filename": "cases-WHO.json"
+                }
+            ]
+        },
+        {
             "name": "Pakistan",
             "path": "pk",
             "datasets": [
@@ -2060,6 +2143,17 @@
                     "title": "Positive results per 100k tests performed (OWID)",
                     "description": "Based on data collected by 'Our World in Data'.",
                     "filename": "tests_performed-OWID.json"
+                }
+            ]
+        },
+        {
+            "name": "Palau",
+            "path": "pw",
+            "datasets": [
+                {
+                    "title": "WHO COVID-19 Cases",
+                    "description": "The WHO coronavirus disease (COVID-19) data presents official daily counts of COVID-19 cases and deaths reported by countries, territories and areas. Caution must be taken when interpreting all data presented, and differences between information products published by WHO, national public health authorities, and other sources using different inclusion criteria and different data cut-off times are to be expected.",
+                    "filename": "cases-WHO.json"
                 }
             ]
         },
@@ -2130,6 +2224,17 @@
                     "title": "Positive results per 100k people tested (OWID)",
                     "description": "Based on data collected by 'Our World in Data'.",
                     "filename": "people_tested-OWID.json"
+                }
+            ]
+        },
+        {
+            "name": "Pitcairn Islands",
+            "path": "pn",
+            "datasets": [
+                {
+                    "title": "WHO COVID-19 Cases",
+                    "description": "The WHO coronavirus disease (COVID-19) data presents official daily counts of COVID-19 cases and deaths reported by countries, territories and areas. Caution must be taken when interpreting all data presented, and differences between information products published by WHO, national public health authorities, and other sources using different inclusion criteria and different data cut-off times are to be expected.",
+                    "filename": "cases-WHO.json"
                 }
             ]
         },
@@ -2225,17 +2330,6 @@
             ]
         },
         {
-            "name": "Réunion",
-            "path": "re",
-            "datasets": [
-                {
-                    "title": "WHO COVID-19 Cases",
-                    "description": "The WHO coronavirus disease (COVID-19) data presents official daily counts of COVID-19 cases and deaths reported by countries, territories and areas. Caution must be taken when interpreting all data presented, and differences between information products published by WHO, national public health authorities, and other sources using different inclusion criteria and different data cut-off times are to be expected.",
-                    "filename": "cases-WHO.json"
-                }
-            ]
-        },
-        {
             "name": "Romania",
             "path": "ro",
             "datasets": [
@@ -2284,8 +2378,30 @@
             ]
         },
         {
+            "name": "Réunion",
+            "path": "re",
+            "datasets": [
+                {
+                    "title": "WHO COVID-19 Cases",
+                    "description": "The WHO coronavirus disease (COVID-19) data presents official daily counts of COVID-19 cases and deaths reported by countries, territories and areas. Caution must be taken when interpreting all data presented, and differences between information products published by WHO, national public health authorities, and other sources using different inclusion criteria and different data cut-off times are to be expected.",
+                    "filename": "cases-WHO.json"
+                }
+            ]
+        },
+        {
             "name": "Saint Barthélemy",
             "path": "bl",
+            "datasets": [
+                {
+                    "title": "WHO COVID-19 Cases",
+                    "description": "The WHO coronavirus disease (COVID-19) data presents official daily counts of COVID-19 cases and deaths reported by countries, territories and areas. Caution must be taken when interpreting all data presented, and differences between information products published by WHO, national public health authorities, and other sources using different inclusion criteria and different data cut-off times are to be expected.",
+                    "filename": "cases-WHO.json"
+                }
+            ]
+        },
+        {
+            "name": "Saint Helena",
+            "path": "sh",
             "datasets": [
                 {
                     "title": "WHO COVID-19 Cases",
@@ -2341,6 +2457,17 @@
         {
             "name": "Saint Vincent and the Grenadines",
             "path": "vc",
+            "datasets": [
+                {
+                    "title": "WHO COVID-19 Cases",
+                    "description": "The WHO coronavirus disease (COVID-19) data presents official daily counts of COVID-19 cases and deaths reported by countries, territories and areas. Caution must be taken when interpreting all data presented, and differences between information products published by WHO, national public health authorities, and other sources using different inclusion criteria and different data cut-off times are to be expected.",
+                    "filename": "cases-WHO.json"
+                }
+            ]
+        },
+        {
+            "name": "Samoa",
+            "path": "ws",
             "datasets": [
                 {
                     "title": "WHO COVID-19 Cases",
@@ -2503,6 +2630,17 @@
                     "title": "Positive results per 100k tests performed (OWID)",
                     "description": "Based on data collected by 'Our World in Data'.",
                     "filename": "tests_performed-OWID.json"
+                }
+            ]
+        },
+        {
+            "name": "Solomon Islands",
+            "path": "sb",
+            "datasets": [
+                {
+                    "title": "WHO COVID-19 Cases",
+                    "description": "The WHO coronavirus disease (COVID-19) data presents official daily counts of COVID-19 cases and deaths reported by countries, territories and areas. Caution must be taken when interpreting all data presented, and differences between information products published by WHO, national public health authorities, and other sources using different inclusion criteria and different data cut-off times are to be expected.",
+                    "filename": "cases-WHO.json"
                 }
             ]
         },
@@ -2743,6 +2881,28 @@
             ]
         },
         {
+            "name": "Tokelau",
+            "path": "tk",
+            "datasets": [
+                {
+                    "title": "WHO COVID-19 Cases",
+                    "description": "The WHO coronavirus disease (COVID-19) data presents official daily counts of COVID-19 cases and deaths reported by countries, territories and areas. Caution must be taken when interpreting all data presented, and differences between information products published by WHO, national public health authorities, and other sources using different inclusion criteria and different data cut-off times are to be expected.",
+                    "filename": "cases-WHO.json"
+                }
+            ]
+        },
+        {
+            "name": "Tonga",
+            "path": "to",
+            "datasets": [
+                {
+                    "title": "WHO COVID-19 Cases",
+                    "description": "The WHO coronavirus disease (COVID-19) data presents official daily counts of COVID-19 cases and deaths reported by countries, territories and areas. Caution must be taken when interpreting all data presented, and differences between information products published by WHO, national public health authorities, and other sources using different inclusion criteria and different data cut-off times are to be expected.",
+                    "filename": "cases-WHO.json"
+                }
+            ]
+        },
+        {
             "name": "Trinidad and Tobago",
             "path": "tt",
             "datasets": [
@@ -2786,8 +2946,30 @@
             ]
         },
         {
+            "name": "Turkmenistan",
+            "path": "tm",
+            "datasets": [
+                {
+                    "title": "WHO COVID-19 Cases",
+                    "description": "The WHO coronavirus disease (COVID-19) data presents official daily counts of COVID-19 cases and deaths reported by countries, territories and areas. Caution must be taken when interpreting all data presented, and differences between information products published by WHO, national public health authorities, and other sources using different inclusion criteria and different data cut-off times are to be expected.",
+                    "filename": "cases-WHO.json"
+                }
+            ]
+        },
+        {
             "name": "Turks and Caicos Islands",
             "path": "tc",
+            "datasets": [
+                {
+                    "title": "WHO COVID-19 Cases",
+                    "description": "The WHO coronavirus disease (COVID-19) data presents official daily counts of COVID-19 cases and deaths reported by countries, territories and areas. Caution must be taken when interpreting all data presented, and differences between information products published by WHO, national public health authorities, and other sources using different inclusion criteria and different data cut-off times are to be expected.",
+                    "filename": "cases-WHO.json"
+                }
+            ]
+        },
+        {
+            "name": "Tuvalu",
+            "path": "tv",
             "datasets": [
                 {
                     "title": "WHO COVID-19 Cases",
@@ -2856,6 +3038,17 @@
             ]
         },
         {
+            "name": "United States Virgin Islands",
+            "path": "vi",
+            "datasets": [
+                {
+                    "title": "WHO COVID-19 Cases",
+                    "description": "The WHO coronavirus disease (COVID-19) data presents official daily counts of COVID-19 cases and deaths reported by countries, territories and areas. Caution must be taken when interpreting all data presented, and differences between information products published by WHO, national public health authorities, and other sources using different inclusion criteria and different data cut-off times are to be expected.",
+                    "filename": "cases-WHO.json"
+                }
+            ]
+        },
+        {
             "name": "United States of America",
             "path": "us",
             "roiDateStart": "2020-03-01",
@@ -2874,17 +3067,6 @@
                     "title": "Positive results per 100k tests performed (OWID)",
                     "description": "Based on data collected by 'Our World in Data'.",
                     "filename": "tests_performed-OWID.json"
-                }
-            ]
-        },
-        {
-            "name": "United States Virgin Islands",
-            "path": "vi",
-            "datasets": [
-                {
-                    "title": "WHO COVID-19 Cases",
-                    "description": "The WHO coronavirus disease (COVID-19) data presents official daily counts of COVID-19 cases and deaths reported by countries, territories and areas. Caution must be taken when interpreting all data presented, and differences between information products published by WHO, national public health authorities, and other sources using different inclusion criteria and different data cut-off times are to be expected.",
-                    "filename": "cases-WHO.json"
                 }
             ]
         },
@@ -2917,6 +3099,17 @@
             ]
         },
         {
+            "name": "Vanuatu",
+            "path": "vu",
+            "datasets": [
+                {
+                    "title": "WHO COVID-19 Cases",
+                    "description": "The WHO coronavirus disease (COVID-19) data presents official daily counts of COVID-19 cases and deaths reported by countries, territories and areas. Caution must be taken when interpreting all data presented, and differences between information products published by WHO, national public health authorities, and other sources using different inclusion criteria and different data cut-off times are to be expected.",
+                    "filename": "cases-WHO.json"
+                }
+            ]
+        },
+        {
             "name": "Venezuela (Bolivarian Republic of)",
             "path": "ve",
             "datasets": [
@@ -2940,6 +3133,17 @@
                     "title": "Positive results per 100k samples tested (OWID)",
                     "description": "Based on data collected by 'Our World in Data'.",
                     "filename": "samples_tested-OWID.json"
+                }
+            ]
+        },
+        {
+            "name": "Wallis and Futuna",
+            "path": "wf",
+            "datasets": [
+                {
+                    "title": "WHO COVID-19 Cases",
+                    "description": "The WHO coronavirus disease (COVID-19) data presents official daily counts of COVID-19 cases and deaths reported by countries, territories and areas. Caution must be taken when interpreting all data presented, and differences between information products published by WHO, national public health authorities, and other sources using different inclusion criteria and different data cut-off times are to be expected.",
+                    "filename": "cases-WHO.json"
                 }
             ]
         },
@@ -2987,222 +3191,18 @@
             ]
         },
         {
-            "name": "Other",
-            "path": "xx",
+            "name": "occupied Palestinian territory, including east Jerusalem",
+            "path": "ps",
             "datasets": [
                 {
                     "title": "WHO COVID-19 Cases",
                     "description": "The WHO coronavirus disease (COVID-19) data presents official daily counts of COVID-19 cases and deaths reported by countries, territories and areas. Caution must be taken when interpreting all data presented, and differences between information products published by WHO, national public health authorities, and other sources using different inclusion criteria and different data cut-off times are to be expected.",
                     "filename": "cases-WHO.json"
-                }
-            ]
-        },
-        {
-            "name": "American Samoa",
-            "path": "as",
-            "datasets": [
+                },
                 {
-                    "title": "WHO COVID-19 Cases",
-                    "description": "The WHO coronavirus disease (COVID-19) data presents official daily counts of COVID-19 cases and deaths reported by countries, territories and areas. Caution must be taken when interpreting all data presented, and differences between information products published by WHO, national public health authorities, and other sources using different inclusion criteria and different data cut-off times are to be expected.",
-                    "filename": "cases-WHO.json"
-                }
-            ]
-        },
-        {
-            "name": "Cook Islands",
-            "path": "ck",
-            "datasets": [
-                {
-                    "title": "WHO COVID-19 Cases",
-                    "description": "The WHO coronavirus disease (COVID-19) data presents official daily counts of COVID-19 cases and deaths reported by countries, territories and areas. Caution must be taken when interpreting all data presented, and differences between information products published by WHO, national public health authorities, and other sources using different inclusion criteria and different data cut-off times are to be expected.",
-                    "filename": "cases-WHO.json"
-                }
-            ]
-        },
-        {
-            "name": "Democratic People's Republic of Korea",
-            "path": "kp",
-            "datasets": [
-                {
-                    "title": "WHO COVID-19 Cases",
-                    "description": "The WHO coronavirus disease (COVID-19) data presents official daily counts of COVID-19 cases and deaths reported by countries, territories and areas. Caution must be taken when interpreting all data presented, and differences between information products published by WHO, national public health authorities, and other sources using different inclusion criteria and different data cut-off times are to be expected.",
-                    "filename": "cases-WHO.json"
-                }
-            ]
-        },
-        {
-            "name": "Kiribati",
-            "path": "ki",
-            "datasets": [
-                {
-                    "title": "WHO COVID-19 Cases",
-                    "description": "The WHO coronavirus disease (COVID-19) data presents official daily counts of COVID-19 cases and deaths reported by countries, territories and areas. Caution must be taken when interpreting all data presented, and differences between information products published by WHO, national public health authorities, and other sources using different inclusion criteria and different data cut-off times are to be expected.",
-                    "filename": "cases-WHO.json"
-                }
-            ]
-        },
-        {
-            "name": "Marshall Islands",
-            "path": "mh",
-            "datasets": [
-                {
-                    "title": "WHO COVID-19 Cases",
-                    "description": "The WHO coronavirus disease (COVID-19) data presents official daily counts of COVID-19 cases and deaths reported by countries, territories and areas. Caution must be taken when interpreting all data presented, and differences between information products published by WHO, national public health authorities, and other sources using different inclusion criteria and different data cut-off times are to be expected.",
-                    "filename": "cases-WHO.json"
-                }
-            ]
-        },
-        {
-            "name": "Micronesia (Federated States of)",
-            "path": "fm",
-            "datasets": [
-                {
-                    "title": "WHO COVID-19 Cases",
-                    "description": "The WHO coronavirus disease (COVID-19) data presents official daily counts of COVID-19 cases and deaths reported by countries, territories and areas. Caution must be taken when interpreting all data presented, and differences between information products published by WHO, national public health authorities, and other sources using different inclusion criteria and different data cut-off times are to be expected.",
-                    "filename": "cases-WHO.json"
-                }
-            ]
-        },
-        {
-            "name": "Nauru",
-            "path": "nr",
-            "datasets": [
-                {
-                    "title": "WHO COVID-19 Cases",
-                    "description": "The WHO coronavirus disease (COVID-19) data presents official daily counts of COVID-19 cases and deaths reported by countries, territories and areas. Caution must be taken when interpreting all data presented, and differences between information products published by WHO, national public health authorities, and other sources using different inclusion criteria and different data cut-off times are to be expected.",
-                    "filename": "cases-WHO.json"
-                }
-            ]
-        },
-        {
-            "name": "Niue",
-            "path": "nu",
-            "datasets": [
-                {
-                    "title": "WHO COVID-19 Cases",
-                    "description": "The WHO coronavirus disease (COVID-19) data presents official daily counts of COVID-19 cases and deaths reported by countries, territories and areas. Caution must be taken when interpreting all data presented, and differences between information products published by WHO, national public health authorities, and other sources using different inclusion criteria and different data cut-off times are to be expected.",
-                    "filename": "cases-WHO.json"
-                }
-            ]
-        },
-        {
-            "name": "Palau",
-            "path": "pw",
-            "datasets": [
-                {
-                    "title": "WHO COVID-19 Cases",
-                    "description": "The WHO coronavirus disease (COVID-19) data presents official daily counts of COVID-19 cases and deaths reported by countries, territories and areas. Caution must be taken when interpreting all data presented, and differences between information products published by WHO, national public health authorities, and other sources using different inclusion criteria and different data cut-off times are to be expected.",
-                    "filename": "cases-WHO.json"
-                }
-            ]
-        },
-        {
-            "name": "Pitcairn Islands",
-            "path": "pn",
-            "datasets": [
-                {
-                    "title": "WHO COVID-19 Cases",
-                    "description": "The WHO coronavirus disease (COVID-19) data presents official daily counts of COVID-19 cases and deaths reported by countries, territories and areas. Caution must be taken when interpreting all data presented, and differences between information products published by WHO, national public health authorities, and other sources using different inclusion criteria and different data cut-off times are to be expected.",
-                    "filename": "cases-WHO.json"
-                }
-            ]
-        },
-        {
-            "name": "Saint Helena",
-            "path": "sh",
-            "datasets": [
-                {
-                    "title": "WHO COVID-19 Cases",
-                    "description": "The WHO coronavirus disease (COVID-19) data presents official daily counts of COVID-19 cases and deaths reported by countries, territories and areas. Caution must be taken when interpreting all data presented, and differences between information products published by WHO, national public health authorities, and other sources using different inclusion criteria and different data cut-off times are to be expected.",
-                    "filename": "cases-WHO.json"
-                }
-            ]
-        },
-        {
-            "name": "Samoa",
-            "path": "ws",
-            "datasets": [
-                {
-                    "title": "WHO COVID-19 Cases",
-                    "description": "The WHO coronavirus disease (COVID-19) data presents official daily counts of COVID-19 cases and deaths reported by countries, territories and areas. Caution must be taken when interpreting all data presented, and differences between information products published by WHO, national public health authorities, and other sources using different inclusion criteria and different data cut-off times are to be expected.",
-                    "filename": "cases-WHO.json"
-                }
-            ]
-        },
-        {
-            "name": "Solomon Islands",
-            "path": "sb",
-            "datasets": [
-                {
-                    "title": "WHO COVID-19 Cases",
-                    "description": "The WHO coronavirus disease (COVID-19) data presents official daily counts of COVID-19 cases and deaths reported by countries, territories and areas. Caution must be taken when interpreting all data presented, and differences between information products published by WHO, national public health authorities, and other sources using different inclusion criteria and different data cut-off times are to be expected.",
-                    "filename": "cases-WHO.json"
-                }
-            ]
-        },
-        {
-            "name": "Tokelau",
-            "path": "tk",
-            "datasets": [
-                {
-                    "title": "WHO COVID-19 Cases",
-                    "description": "The WHO coronavirus disease (COVID-19) data presents official daily counts of COVID-19 cases and deaths reported by countries, territories and areas. Caution must be taken when interpreting all data presented, and differences between information products published by WHO, national public health authorities, and other sources using different inclusion criteria and different data cut-off times are to be expected.",
-                    "filename": "cases-WHO.json"
-                }
-            ]
-        },
-        {
-            "name": "Tonga",
-            "path": "to",
-            "datasets": [
-                {
-                    "title": "WHO COVID-19 Cases",
-                    "description": "The WHO coronavirus disease (COVID-19) data presents official daily counts of COVID-19 cases and deaths reported by countries, territories and areas. Caution must be taken when interpreting all data presented, and differences between information products published by WHO, national public health authorities, and other sources using different inclusion criteria and different data cut-off times are to be expected.",
-                    "filename": "cases-WHO.json"
-                }
-            ]
-        },
-        {
-            "name": "Turkmenistan",
-            "path": "tm",
-            "datasets": [
-                {
-                    "title": "WHO COVID-19 Cases",
-                    "description": "The WHO coronavirus disease (COVID-19) data presents official daily counts of COVID-19 cases and deaths reported by countries, territories and areas. Caution must be taken when interpreting all data presented, and differences between information products published by WHO, national public health authorities, and other sources using different inclusion criteria and different data cut-off times are to be expected.",
-                    "filename": "cases-WHO.json"
-                }
-            ]
-        },
-        {
-            "name": "Tuvalu",
-            "path": "tv",
-            "datasets": [
-                {
-                    "title": "WHO COVID-19 Cases",
-                    "description": "The WHO coronavirus disease (COVID-19) data presents official daily counts of COVID-19 cases and deaths reported by countries, territories and areas. Caution must be taken when interpreting all data presented, and differences between information products published by WHO, national public health authorities, and other sources using different inclusion criteria and different data cut-off times are to be expected.",
-                    "filename": "cases-WHO.json"
-                }
-            ]
-        },
-        {
-            "name": "Vanuatu",
-            "path": "vu",
-            "datasets": [
-                {
-                    "title": "WHO COVID-19 Cases",
-                    "description": "The WHO coronavirus disease (COVID-19) data presents official daily counts of COVID-19 cases and deaths reported by countries, territories and areas. Caution must be taken when interpreting all data presented, and differences between information products published by WHO, national public health authorities, and other sources using different inclusion criteria and different data cut-off times are to be expected.",
-                    "filename": "cases-WHO.json"
-                }
-            ]
-        },
-        {
-            "name": "Wallis and Futuna",
-            "path": "wf",
-            "datasets": [
-                {
-                    "title": "WHO COVID-19 Cases",
-                    "description": "The WHO coronavirus disease (COVID-19) data presents official daily counts of COVID-19 cases and deaths reported by countries, territories and areas. Caution must be taken when interpreting all data presented, and differences between information products published by WHO, national public health authorities, and other sources using different inclusion criteria and different data cut-off times are to be expected.",
-                    "filename": "cases-WHO.json"
+                    "title": "Positive results per 100k tests performed (OWID)",
+                    "description": "Based on data collected by 'Our World in Data'.",
+                    "filename": "tests_performed-OWID.json"
                 }
             ]
         }
