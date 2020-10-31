@@ -297,7 +297,7 @@ function renderEpidemic(svg, epidemicData, measuresData, region) {
   }
 
   const numDays = epidemicSeriesData.length;
-  const measures = measuresData.measures;
+  const measures = measuresData.measures.reverse();
 
   const numStacks = 2;
   const epidemicModel = new EpidemicModel(5, -1, 5);
@@ -309,7 +309,7 @@ function renderEpidemic(svg, epidemicData, measuresData, region) {
   const measureColors = colorbrewer.Reds[Math.min(Math.max(measures.length, 3), 9)];
 
   const getMeasureColor = (index) => {
-    return measureColors[(measures.length - 1 - i) % measureColors.length];
+    return measureColors[(measures.length - 1 - index) % measureColors.length];
   };
 
   const width = 800;
@@ -325,9 +325,9 @@ function renderEpidemic(svg, epidemicData, measuresData, region) {
     .append("path")
     .attr("d", "M 0,0 V 4 L4,2 Z"); //this is actual shape for arrowhead
 
-  var markers = [];
-  for (var i = 0; i < measures.length; i++) {
-    var marker = svg.append("defs").append("marker")
+  let markers = [];
+  for (let i = 0; i < measures.length; i++) {
+    let marker = svg.append("defs").append("marker")
       .attr("id", "arrowhead" + i)
       .attr("refX", 0)
       .attr("refY", 1)
@@ -351,43 +351,67 @@ function renderEpidemic(svg, epidemicData, measuresData, region) {
 
   let rValueGraphSvg = epidemicGraphsvg.append("g");
 
-  var measureSeperationY = 14;
+  const measureSeperationY = 14;
 
-  let r = [];
+  let arrows = [];
   let lines = [];
   let linesDashed = [];
 
-  var controlMeasureTimeline = svg.append("g");
-  for (var i = 0; i < measures.length; i++) {
-    var ri = controlMeasureTimeline.append("line")
-      .attr("x1", stackedBar.X(-1) + "px")
-      .attr("y1", (height + 20 + i * measureSeperationY) + "px")
-      .attr("stroke", getMeasureColor(i))
-      .attr("y2", (height + 20 + i * measureSeperationY) + "px")
-      .attr("stroke-width", 4);
-    r.push(ri);
+  let controlMeasureTimeline = svg.append("g");
+  for (let i = 0; i < measures.length; i++) {
 
-    let linei = controlMeasureTimeline.append("line")
-      .style("stroke", "black")
-      .style("stroke-width", 1.5)
-      .attr("marker-end", "url(#arrowhead)")
-      .attr("opacity", 0.6);
-    lines.push(linei);
+    measures[i].startDate = Array.isArray(measures[i].startDate) ? measures[i].startDate : [measures[i].startDate];
+    measures[i].description = Array.isArray(measures[i].description) ? measures[i].description : [measures[i].description];
+    measures[i].endDate = Array.isArray(measures[i].endDate) ? measures[i].endDate : [measures[i].endDate];
+    measures[i].startDays = [];
+    measures[i].endDays = [];
 
-    let lineDashed = controlMeasureTimeline.append("line")
-      .style("stroke", "black")
-      .style("stroke-width", 1.0)
-      .style("stroke-dasharray", "4")
-      .attr("opacity", 0.6);
-    linesDashed.push(lineDashed);
+    for (let d = 0; d < measures[i].startDate.length; d++) {
+      const deltaT = (Date.parse(measures[i].startDate[d]) - startDate);
+      measures[i].startDays[d] = Math.floor(deltaT / MS_PER_DAY);
 
-    controlMeasureTimeline.append("text")
-      .attr("class", "figtext2")
-      .attr("x", 0)
-      .attr("y", height + 18 + i * measureSeperationY)
-      .attr("text-anchor", "end")
-      .attr("fill", "gray")
-      .html((i == 0) ? "Control Measure " + (measures.length - i) : (measures.length - i));
+      const endDate = Date.parse(measures[i].endDate[d]);
+      if (endDate > 0) {
+        const deltaTEnd = (endDate - startDate);
+        measures[i].endDays[d] = Math.floor(deltaTEnd / MS_PER_DAY);
+      } else {
+        measures[i].endDays[d] = 0;
+      }
+    }
+
+
+    for (let d = 0; d < measures[i].startDate.length; d++) {
+
+      const y = (height + 20 + i * measureSeperationY);
+      const arrow = controlMeasureTimeline.append("line")
+        .attr("y1", y + "px")
+        .attr("stroke", getMeasureColor(i))
+        .attr("y2", y + "px")
+        .attr("stroke-width", 4);
+      arrows.push(arrow);
+
+      let linei = controlMeasureTimeline.append("line")
+        .style("stroke", "black")
+        .style("stroke-width", 1.5)
+        .attr("marker-end", "url(#arrowhead)")
+        .attr("opacity", 0.6);
+      lines.push(linei);
+
+      let lineDashed = controlMeasureTimeline.append("line")
+        .style("stroke", "black")
+        .style("stroke-width", 1.0)
+        .style("stroke-dasharray", "4")
+        .attr("opacity", 0.6);
+      linesDashed.push(lineDashed);
+
+      controlMeasureTimeline.append("text")
+        .attr("class", "figtext2")
+        .attr("x", 0)
+        .attr("y", height + 18 + i * measureSeperationY)
+        .attr("text-anchor", "end")
+        .attr("fill", "gray")
+        .html((i == 0) ? "Control Measure " + (measures.length - i) : (measures.length - i));
+    }
   }
 
   let trace = [];
@@ -417,23 +441,6 @@ function renderEpidemic(svg, epidemicData, measuresData, region) {
   };
   updateTrace(false, 0);
 
-  let measureDays = [];
-  let measureDaysEnd = [];
-  measureDays.length = measures.length;
-  measureDaysEnd.length = measures.length;
-
-  for (let i = 0; i < measures.length; i++) {
-    const deltaT = (Date.parse(measures[i].startDate) - startDate);
-    measureDays[i] = Math.floor(deltaT / MS_PER_DAY);
-
-    const endDate = Date.parse(measures[i].endDate);
-    if (endDate > 0) {
-      const deltaTEnd = (endDate - startDate);
-      measureDaysEnd[i] = Math.floor(deltaTEnd / MS_PER_DAY);
-    } else {
-      measureDaysEnd[i] = 0;
-    }
-  }
 
 
   const updateSaturationPlot = (graphSvg, rPlot, Y) => {
@@ -568,40 +575,45 @@ function renderEpidemic(svg, epidemicData, measuresData, region) {
     };
     epidemicChartCallbacks.epidemicChartUpdate();
 
-    for (var i = 0; i < measures.length; i++) {
-      const measureIndex = measures.length - 1 - i;
-      const measure = measures[measureIndex];
-      var endpoint = stackedBar.stack[0].selectAll("line").nodes()[measureDays[measureIndex]]
-      var stack = endpoint.getBBox();
-      var ctm = endpoint.getCTM();
+    let index = 0;
+    for (let i = 0; i < measures.length; i++) {
+      const measure = measures[i];
 
-      const startDateText = new Date(Date.parse(measure.startDate)).toLocaleDateString();
-      const endDateText = (measureDaysEnd[measureIndex] != 0) ? (" - " + new Date(Date.parse(measure.endDate)).toLocaleDateString()) : "";
-      const toolTip = startDateText + endDateText + ": " + measure.description;
+      for (let d = 0; d < measure.startDays.length; d++) {
+        const startDateText = new Date(Date.parse(measure.startDate[d])).toLocaleDateString();
+        const endDateText = (measure.endDays[d] != 0) ? (" - " + new Date(Date.parse(measure.endDays[d])).toLocaleDateString()) : "";
+        const toolTip = startDateText + endDateText + ": " + measure.description[d];
 
-      let showMarker = true;
-      if (showMarker) {
-        lines[i].attr("x2", stack.x)
-          .attr("y2", height)
-          .attr("x1", stack.x)
-          .attr("y1", height + 22 + measureSeperationY * (i))
-          .style("visibility", "visible")
+        var endpoint = stackedBar.stack[0].selectAll("line").nodes()[measure.startDays[d]]
+        var stack = endpoint.getBBox();
+        var ctm = endpoint.getCTM();
+
+        let showMarker = true;
+        if (showMarker) {
+          lines[index].attr("x2", stack.x)
+            .attr("y2", height)
+            .attr("x1", stack.x)
+            .attr("y1", height + 22 + measureSeperationY * (i))
+            .style("visibility", "visible")
+            .append("title").html(toolTip);
+
+          linesDashed[index].attr("x2", stack.x)
+            .attr("y2", height)
+            .attr("x1", stack.x)
+            .attr("y1", -10)
+            .style("visibility", "visible")
+            .append("title").html(toolTip);
+        }
+
+        arrows[index].attr("x1", (stackedBar.X(measure.startDays[d]) + 0.75) + "px")
+          .attr("x2", stackedBar.X((measure.endDays[d] != 0) ? measure.endDays[d] : numDays - 1) + "px")
+          .attr("marker-end", "url(#arrowhead" + i + ")")
           .append("title").html(toolTip);
 
-        linesDashed[i].attr("x2", stack.x)
-          .attr("y2", height)
-          .attr("x1", stack.x)
-          .attr("y1", -10)
-          .style("visibility", "visible")
-          .append("title").html(toolTip);
+        setTM(controlMeasureTimeline.node(), ctm);
+
+        index++;
       }
-
-      r[i].attr("x1", (stackedBar.X(measureDays[measureIndex]) + 0.75) + "px")
-        .attr("x2", stackedBar.X((measureDaysEnd[measureIndex] != 0) ? measureDaysEnd[measureIndex] : numDays - 1) + "px")
-        .attr("marker-end", "url(#arrowhead" + i + ")")
-        .append("title").html(toolTip);
-
-      setTM(controlMeasureTimeline.node(), ctm);
     }
   };
 
