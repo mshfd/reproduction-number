@@ -297,7 +297,7 @@ function renderEpidemic(svg, epidemicData, measuresData, region) {
   }
 
   const numDays = epidemicSeriesData.length;
-  const measures = measuresData.measures.reverse();
+  const measures = [...measuresData.measures].reverse();
 
   const numStacks = 2;
   const epidemicModel = new EpidemicModel(5, -1, 5);
@@ -584,7 +584,13 @@ function renderEpidemic(svg, epidemicData, measuresData, region) {
         const endDateText = (measure.endDays[d] != 0) ? (" - " + new Date(Date.parse(measure.endDays[d])).toLocaleDateString()) : "";
         const toolTip = startDateText + endDateText + ": " + measure.description[d];
 
-        var endpoint = stackedBar.stack[0].selectAll("line").nodes()[measure.startDays[d]]
+        var endpoint = stackedBar.stack[0].selectAll("line").nodes()[measure.startDays[d]];
+
+        if (!endpoint) {
+          index++;
+          continue;
+        }
+
         var stack = endpoint.getBBox();
         var ctm = endpoint.getCTM();
 

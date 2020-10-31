@@ -33,10 +33,19 @@
             ]
         },
         {
-            "startDate": "2020-06-13",
-            "endDate": "2020-06-20",
+            "startDate": [
+                "2020-06-13",
+                "2020-11-02"
+            ],
+            "endDate": [
+                "2020-06-20",
+                ""
+            ],
             "type": "non-pharmaceutical",
-            "description": "Conducting PCR tests in meat-processing facilities"
+            "description": [
+                "Conducting PCR tests in meat-processing facilities",
+                "Limited lockdown, closing restaurants and non-essential businesses with customer interaction"
+            ]
         }
     ]
 }
