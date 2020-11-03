@@ -52,13 +52,14 @@ num_unkown_onset_deaths = 0
 publish_death_delay_days = 2
 
 num_onset_after_death = 0
+num_onset_after_test = 0
 num_extreme_late_deaths = 0
 
 start_date = datetime.datetime.strptime("2020-04-08", "%Y-%m-%d")
 end_date = datetime.datetime.strptime("2020-10-21", "%Y-%m-%d")
 
-start_date = datetime.datetime.strptime("2020-08-01", "%Y-%m-%d")
-end_date = datetime.datetime.strptime("2020-08-31", "%Y-%m-%d")
+start_date = datetime.datetime.strptime("2020-04-07", "%Y-%m-%d")
+end_date = datetime.datetime.strptime("2020-11-02", "%Y-%m-%d")
 
 date = start_date - datetime.timedelta(days=1)
 include_previous_day = False
@@ -110,6 +111,11 @@ while date < end_date:
                     "IstErkrankungsbeginn" in row
                     and int(float(row["IstErkrankungsbeginn"])) == 1
                 )
+
+                if case_date_is_known and parse_date(cases_date) > parse_date(
+                    issue_date
+                ):
+                    num_onset_after_test += 1
 
                 if num_days < 0:
                     # symptom onset after death is not possible
@@ -173,8 +179,18 @@ x = range(0, days_until_death.size)
 y = days_until_death
 y2 = days_until_death_real
 
-x_ticks = [0, 10, 20, 30, 40, 50, 60, 70, 80]
-x_labels = ["0", "10", "20", "30", "40", "50", "60", "70", "80+"]
+median = int(days_until_death_median)
+x_ticks = [0, 5, 10, 15, 20, 25, 30, 40, 50, 60, 70, 80]
+x_labels = ["0", "5", "10", "15", "20", "25", "30", "40", "50", "60", "70", "80+"]
+
+for i, t in enumerate(x_ticks):
+    if abs(median - t) < 3:
+        del x_ticks[i]
+        del x_labels[i]
+        break
+
+x_ticks.append(median)
+x_labels.append("median")
 
 ax.bar(x, y2, color="tab:red")
 ax.bar(x, y, bottom=y2, color="tab:blue")
@@ -220,4 +236,5 @@ plt.savefig(
 print("Data spans " + str((end_date - start_date).days) + " days")
 
 print("Number of onset after death " + str(num_onset_after_death))
+print("Number of onset after test: " + str(num_onset_after_test))
 print("Number of extreme late deaths: " + str(num_extreme_late_deaths))
