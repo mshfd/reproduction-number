@@ -57,8 +57,8 @@ num_extreme_late_deaths = 0
 start_date = datetime.datetime.strptime("2020-04-08", "%Y-%m-%d")
 end_date = datetime.datetime.strptime("2020-10-21", "%Y-%m-%d")
 
-# start_date = datetime.datetime.strptime("2020-10-10", "%Y-%m-%d")
-# end_date = datetime.datetime.strptime("2020-05-15", "%Y-%m-%d")
+start_date = datetime.datetime.strptime("2020-08-01", "%Y-%m-%d")
+end_date = datetime.datetime.strptime("2020-08-31", "%Y-%m-%d")
 
 date = start_date - datetime.timedelta(days=1)
 include_previous_day = False
@@ -104,11 +104,7 @@ while date < end_date:
             if num_deaths > 0:
                 num_deaths_total += num_deaths
 
-                num_days = (date.date() - parse_date(cases_date).date()).days - (
-                    publish_death_delay_days - 1
-                    if is_new_death_from_yesterday
-                    else publish_death_delay_days
-                )
+                num_days = (date.date() - parse_date(cases_date).date()).days
 
                 case_date_is_known = issue_date != cases_date or (
                     "IstErkrankungsbeginn" in row
@@ -119,6 +115,13 @@ while date < end_date:
                     # symptom onset after death is not possible
                     case_date_is_known = False
                     num_onset_after_death += num_deaths
+
+                # it takes some time to issue death certificate etc.
+                num_days = num_days - (
+                    publish_death_delay_days - 1
+                    if is_new_death_from_yesterday
+                    else publish_death_delay_days
+                )
 
                 if num_days >= days_until_death.size:
                     num_extreme_late_deaths += num_deaths
@@ -183,7 +186,7 @@ ax.set(
     ylabel="Number of deaths",
     title="Number of deaths assigned to their duration of illness (positive SARS-CoV-2) - Cases total: "
     + str(num_deaths_total)
-    + "\nDeaths caused or induced most likely by COVID-19 - Cases total: "
+    + "\nDeaths with known symptom onset - Cases total: "
     + str(num_real_deaths_total),
 )
 ax.grid()
