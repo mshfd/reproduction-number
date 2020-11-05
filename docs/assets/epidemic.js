@@ -581,7 +581,7 @@ function renderEpidemic(svg, epidemicData, measuresData, region) {
 
       for (let d = 0; d < measure.startDays.length; d++) {
         const startDateText = new Date(Date.parse(measure.startDate[d])).toLocaleDateString();
-        const endDateText = (measure.endDays[d] != 0) ? (" - " + new Date(Date.parse(measure.endDays[d])).toLocaleDateString()) : "";
+        const endDateText = (measure.endDays[d] != 0) ? (" - " + new Date(Date.parse(measure.endDate[d])).toLocaleDateString()) : "";
         const toolTip = startDateText + endDateText + ": " + measure.description[d];
 
         var endpoint = stackedBar.stack[0].selectAll("line").nodes()[measure.startDays[d]];
