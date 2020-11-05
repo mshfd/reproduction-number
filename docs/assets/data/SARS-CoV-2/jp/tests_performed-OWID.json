@@ -1,11 +1,11 @@
 {
     "startDate": "2020-02-29",
-    "versionDate": "2020-10-29",
+    "versionDate": "2020-11-01",
     "type": "pcr_tests_100k",
     "averageReportToCaseDelayInDays": 10,
     "source": {
         "name": "Positive results per 100k tests performed - Data collected by OWID from Ministry of Health, Labor and Welfare Press Release",
-        "url": "https://www.mhlw.go.jp/content/10906000/000690439.pdf",
+        "url": "https://www.mhlw.go.jp/content/10906000/000690857.pdf",
         "license": "Attribution 4.0 International (CC BY 4.0)",
         "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
     },
@@ -253,6 +253,9 @@
         2851,
         2890,
         2991,
-        3138
+        3138,
+        3316,
+        3397,
+        3421
     ]
 }
