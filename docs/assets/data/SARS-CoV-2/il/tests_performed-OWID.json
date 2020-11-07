@@ -1,11 +1,11 @@
 {
     "startDate": "2020-02-29",
-    "versionDate": "2020-10-27",
+    "versionDate": "2020-10-30",
     "type": "pcr_tests_100k",
     "averageReportToCaseDelayInDays": 10,
     "source": {
         "name": "Positive results per 100k tests performed - Data collected by OWID from Israel Ministry of Health",
-        "url": "https://govextra.gov.il/media/28234/covid19-data-israel-27102020.csv",
+        "url": "https://govextra.gov.il/media/28451/covid19-data-israel-30102020.csv",
         "license": "Attribution 4.0 International (CC BY 4.0)",
         "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
     },
@@ -251,6 +251,9 @@
         3047,
         2963,
         2848,
-        2710
+        2710,
+        2603,
+        2543,
+        2318
     ]
 }
