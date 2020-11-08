@@ -131,7 +131,7 @@ for country in data.keys():
         "startDate": str(first_date),
         "versionDate": str(version_date.date()),
         "type": "cases",
-        "averageReportToCaseDelayInDays": 10,
+        "averageReportToCaseDelayInDays": 8,  # RKI's imputed onset offset avg https://edoc.rki.de/bitstream/handle/176904/6650/17_2020_2.Artikel.pdf?sequence=1&isAllowed=y
         "source": {
             "name": "World Health Organization",
             "url": "https://www.who.int/",
