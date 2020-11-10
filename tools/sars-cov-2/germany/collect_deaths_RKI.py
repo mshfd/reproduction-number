@@ -59,7 +59,7 @@ start_date = datetime.datetime.strptime("2020-04-08", "%Y-%m-%d")
 end_date = datetime.datetime.strptime("2020-10-21", "%Y-%m-%d")
 
 start_date = datetime.datetime.strptime("2020-04-07", "%Y-%m-%d")
-end_date = datetime.datetime.strptime("2020-11-02", "%Y-%m-%d")
+end_date = datetime.datetime.strptime("2020-04-10", "%Y-%m-%d")
 
 date = start_date - datetime.timedelta(days=1)
 include_previous_day = False
@@ -192,25 +192,30 @@ for i, t in enumerate(x_ticks):
 x_ticks.append(median)
 x_labels.append("median")
 
-ax.bar(x, y2, color="tab:red")
-ax.bar(x, y, bottom=y2, color="tab:blue")
+known_legend = ax.bar(x, y2, color="tab:red")
+imputed_legend = ax.bar(x, y, bottom=y2, color="tab:blue")
 ax.set_xticks(x_ticks)
 ax.set_xticklabels(x_labels)
 
 ax.set(
     xlabel="Symptom onset to death [days]",
     ylabel="Number of deaths",
-    title="Number of deaths assigned to their duration of illness (positive SARS-CoV-2) - Cases total: "
-    + str(num_deaths_total)
-    + "\nDeaths with known symptom onset - Cases total: "
-    + str(num_real_deaths_total),
+    title="Number of deaths in Germany between "
+    + str(start_date.date())
+    + " - "
+    + str(end_date.date())
+    + " assigned to their duration of illness (positive SARS-CoV-2) - Cases total: "
+    + str(num_deaths_total),
 )
 ax.grid()
 
-extra = Rectangle((0, 0), 1, 1, fill=False, edgecolor="none", linewidth=0)
 ax.legend(
-    [extra],
-    ["Germany between " + str(start_date.date()) + " - " + str(end_date.date())],
+    [imputed_legend, known_legend],
+    [
+        "Deaths with imputed symptom onset - Cases total: "
+        + str(num_deaths_total - num_real_deaths_total),
+        "Deaths with known symptom onset - Cases total: " + str(num_real_deaths_total),
+    ],
     loc="upper right",
 )
 
