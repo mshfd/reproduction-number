@@ -1,11 +1,11 @@
 {
     "startDate": "2020-03-10",
-    "versionDate": "2020-11-13",
+    "versionDate": "2020-11-15",
     "type": "pcr_tests_100k",
     "averageReportToCaseDelayInDays": 10,
     "source": {
         "name": "Positive results per 100k tests performed - Data collected by OWID from Belarus Ministry of Health",
-        "url": "http://minzdrav.gov.by/ru/sobytiya/v-belarusi-vyzdoroveli-i-vypisany-93-tys-570-patsientov/",
+        "url": "http://minzdrav.gov.by/ru/sobytiya/v-belarusi-vyzdoroveli-i-vypisany-95-tys-843-patsienta/",
         "license": "Attribution 4.0 International (CC BY 4.0)",
         "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
     },
@@ -258,6 +258,8 @@
         3808,
         3715,
         3754,
-        3816
+        3816,
+        3762,
+        3749
     ]
 }
