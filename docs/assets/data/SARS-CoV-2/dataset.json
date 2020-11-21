@@ -953,6 +953,11 @@
                     "title": "Positive results per 100k tests performed (OWID)",
                     "description": "Based on data collected by 'Our World in Data'.",
                     "filename": "tests_performed-OWID.json"
+                },
+                {
+                    "title": "Positive results per 100k tests performed (incl. non-PCR) (OWID)",
+                    "description": "Based on data collected by 'Our World in Data'.",
+                    "filename": "tests_performed-OWID.json"
                 }
             ]
         },
