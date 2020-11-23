@@ -1,23 +1,23 @@
 {
     "startDate": "2020-03-21",
-    "versionDate": "2020-11-18",
+    "versionDate": "2020-11-21",
     "type": "pcr_tests_100k",
     "averageReportToCaseDelayInDays": 10,
     "source": {
         "name": "Positive results per 100k tests performed - Data collected by OWID from Ministry of Health",
-        "url": "https://minsalud.gob.bo/4960-reporte-covid-248",
+        "url": "https://minsalud.gob.bo/4972-bolivia-suma-68-nuevos-contagios-de-covid-19-y-4-decesos",
         "license": "Attribution 4.0 International (CC BY 4.0)",
         "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
     },
     "data": [
-        8036,
+        6428,
         5102,
         7359,
         7590,
         6494,
         7563,
         11734,
-        13096,
+        14031,
         15288,
         16160,
         15674,
@@ -252,6 +252,9 @@
         11557,
         11438,
         10047,
-        11841
+        11841,
+        10718,
+        11650,
+        9515
     ]
 }
