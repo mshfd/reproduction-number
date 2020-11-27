@@ -1,11 +1,11 @@
 {
     "startDate": "2020-04-08",
-    "versionDate": "2020-11-24",
+    "versionDate": "2020-11-25",
     "type": "pcr_tests_100k",
     "averageReportToCaseDelayInDays": 10,
     "source": {
         "name": "Positive results per 100k tests performed - Data collected by OWID from Ministry of Health",
-        "url": "http://www.sante.gov.mr/wp-content/uploads/2020/11/241120-Mauritanie-Sitrep-COVID-19_FR.pdf",
+        "url": "http://www.sante.gov.mr/wp-content/uploads/2020/11/251120-Mauritanie-Sitrep-COVID-19_FR-1.pdf",
         "license": "Attribution 4.0 International (CC BY 4.0)",
         "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
     },
@@ -240,6 +240,7 @@
         3906,
         5634,
         5742,
-        6796
+        6796,
+        6393
     ]
 }
