@@ -1,11 +1,11 @@
 {
     "startDate": "2020-04-05",
-    "versionDate": "2020-12-08",
+    "versionDate": "2020-12-09",
     "type": "pcr_tests_100k",
     "averageReportToCaseDelayInDays": 10,
     "source": {
-        "name": "Positive results per 100k samples tested - Data collected by OWID from Public Health Institute of Malawi",
-        "url": "https://malawipublichealth.org/index.php/resources/COVID-19%20SitRep%20Updates/November%202020/20201121_Malawi%20COVID-19%20situation%20report.pdf/download",
+        "name": "Positive results per 100k samples tested - Data collected by OWID from Ministry Of Health - Malawi",
+        "url": "https://covid19.health.gov.mw/",
         "license": "Attribution 4.0 International (CC BY 4.0)",
         "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
     },
@@ -257,6 +257,7 @@
         1006,
         1089,
         963,
-        963
+        963,
+        461
     ]
 }
