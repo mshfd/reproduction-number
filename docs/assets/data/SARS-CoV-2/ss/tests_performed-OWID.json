@@ -1,11 +1,11 @@
 {
     "startDate": "2020-09-03",
-    "versionDate": "2020-12-06",
+    "versionDate": "2020-12-12",
     "type": "pcr_tests_100k",
     "averageReportToCaseDelayInDays": 10,
     "source": {
         "name": "Positive results per 100k tests performed - Data collected by OWID from Ministry of Health",
-        "url": "https://moh.gov.ss/single_daily_report.php?report=December%206th%20Update.pdf",
+        "url": "https://moh.gov.ss/single_daily_report.php?report=December%2012th%20Update.pdf",
         "license": "Attribution 4.0 International (CC BY 4.0)",
         "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
     },
@@ -104,6 +104,12 @@
         1458,
         1120,
         1479,
-        1838
+        1838,
+        1984,
+        2165,
+        2304,
+        1209,
+        1706,
+        2618
     ]
 }

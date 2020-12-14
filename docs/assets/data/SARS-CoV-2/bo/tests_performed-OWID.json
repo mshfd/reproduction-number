@@ -1,11 +1,11 @@
 {
     "startDate": "2020-03-21",
-    "versionDate": "2020-12-08",
+    "versionDate": "2020-12-11",
     "type": "pcr_tests_100k",
     "averageReportToCaseDelayInDays": 10,
     "source": {
         "name": "Positive results per 100k tests performed - Data collected by OWID from Ministry of Health",
-        "url": "https://minsalud.gob.bo/5041-ministerio-de-salud-reporta-189-nuevos-contagios-de-covid-19",
+        "url": "https://minsalud.gob.bo/5050-312-nuevos-casos-de-covid-19-en-bolivia-el-ministerio-de-salud-pide-a-la-poblacion-no-descuidar-las-medidas-preventivas",
         "license": "Attribution 4.0 International (CC BY 4.0)",
         "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
     },
@@ -13,19 +13,19 @@
         6410,
         7143,
         6944,
-        8065,
-        6494,
+        6410,
+        5952,
         8696,
         11765,
+        13699,
         14085,
-        14286,
         16393,
-        15385,
         17544,
+        18519,
         15152,
-        11494,
-        9259,
-        9804,
+        11628,
+        9346,
+        9901,
         10101,
         9615,
         9174,
@@ -272,6 +272,9 @@
         10204,
         10753,
         11111,
-        12500
+        12500,
+        12987,
+        13699,
+        15385
     ]
 }
