@@ -1,22 +1,16 @@
 {
-    "startDate": "2020-03-02",
-    "versionDate": "2020-12-15",
+    "startDate": "2020-03-08",
+    "versionDate": "2020-12-16",
     "type": "pcr_tests_100k",
     "averageReportToCaseDelayInDays": 10,
     "source": {
         "name": "Positive results per 100k people tested - Data collected by OWID from Morocco Ministry of Health",
-        "url": "http://www.covidmaroc.ma/Documents/BULLETIN/BQ_COVID_15.12.20.pdf",
+        "url": "http://www.covidmaroc.ma/Documents/BULLETIN/BQ_COVID_16.12.20.pdf",
         "license": "Attribution 4.0 International (CC BY 4.0)",
         "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
     },
     "data": [
-        7143,
-        4762,
-        4762,
-        9524,
-        7143,
-        5714,
-        5714,
+        2857,
         2857,
         5714,
         8130,
@@ -298,6 +292,7 @@
         17241,
         16667,
         16667,
-        16667
+        16667,
+        16393
     ]
 }

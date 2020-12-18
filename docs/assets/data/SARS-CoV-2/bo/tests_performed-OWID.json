@@ -1,11 +1,11 @@
 {
     "startDate": "2020-03-21",
-    "versionDate": "2020-12-14",
+    "versionDate": "2020-12-15",
     "type": "pcr_tests_100k",
     "averageReportToCaseDelayInDays": 10,
     "source": {
         "name": "Positive results per 100k tests performed - Data collected by OWID from Ministry of Health",
-        "url": "https://minsalud.gob.bo/5057-reporte-covid19-274",
+        "url": "https://minsalud.gob.bo/5061-reporte-covid-275",
         "license": "Attribution 4.0 International (CC BY 4.0)",
         "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
     },
@@ -278,6 +278,7 @@
         15385,
         18182,
         17544,
-        18182
+        18182,
+        19231
     ]
 }
