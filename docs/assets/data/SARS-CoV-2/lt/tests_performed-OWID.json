@@ -1,11 +1,11 @@
 {
     "startDate": "2020-03-26",
-    "versionDate": "2020-12-21",
+    "versionDate": "2020-12-23",
     "type": "pcr_tests_100k",
     "averageReportToCaseDelayInDays": 10,
     "source": {
         "name": "Positive results per 100k tests performed - Data collected by OWID from Government of Lithuania",
-        "url": "https://open-data-ls-osp-sdg.hub.arcgis.com/datasets/538b7bd574594daa86fefd16509cbc36_0",
+        "url": "https://open-data-ls-osp-sdg.hub.arcgis.com/search?q=COVID19%20tyrimai",
         "license": "Attribution 4.0 International (CC BY 4.0)",
         "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
     },
@@ -279,6 +279,8 @@
         21277,
         21277,
         21277,
+        20833,
+        20833,
         21277,
         21739
     ]
