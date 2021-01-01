@@ -1,11 +1,11 @@
 {
     "startDate": "2020-03-03",
-    "versionDate": "2020-12-24",
+    "versionDate": "2020-12-29",
     "type": "pcr_tests_100k",
     "averageReportToCaseDelayInDays": 10,
     "source": {
         "name": "Positive results per 100k tests performed - Data collected by OWID from Statens Serum Institut",
-        "url": "https://files.ssi.dk/covid19/overvagning/data/data-epidemiologisk-rapport-29122020-4jul",
+        "url": "https://files.ssi.dk/covid19/overvagning/data/data-epidemiologiske-rapport-31122020-4ho2",
         "license": "Attribution 4.0 International (CC BY 4.0)",
         "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
     },
@@ -306,6 +306,11 @@
         2632,
         2513,
         2513,
-        2653
+        2653,
+        2770,
+        2770,
+        2899,
+        3040,
+        3322
     ]
 }
