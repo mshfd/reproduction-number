@@ -1,11 +1,11 @@
 {
     "startDate": "2020-03-21",
-    "versionDate": "2020-12-30",
+    "versionDate": "2021-01-02",
     "type": "pcr_tests_100k",
     "averageReportToCaseDelayInDays": 10,
     "source": {
         "name": "Positive results per 100k tests performed - Data collected by OWID from Ministry of Health",
-        "url": "https://minsalud.gob.bo/5117-bolivia-registra-1-485-nuevos-contagios-de-covid-19-y-el-pedido-de-cumplir-las-medidas-preventivas-es-permanente",
+        "url": "https://minsalud.gob.bo/5124-direccion-de-epidemiologia-reporta-1-070-nuevos-contagios-de-coronavirus",
         "license": "Attribution 4.0 International (CC BY 4.0)",
         "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
     },
@@ -49,14 +49,14 @@
         25641,
         27027,
         27027,
-        32258,
+        33333,
         30303,
         25000,
         29412,
         27778,
         25641,
         26316,
-        28571,
+        27778,
         25641,
         28571,
         27778,
@@ -294,6 +294,9 @@
         35714,
         37037,
         38462,
-        38462
+        38462,
+        40000,
+        41667,
+        41667
     ]
 }
