@@ -1,11 +1,11 @@
 {
     "startDate": "2020-03-13",
-    "versionDate": "2021-01-03",
+    "versionDate": "2021-01-04",
     "type": "pcr_tests_100k",
     "averageReportToCaseDelayInDays": 10,
     "source": {
-        "name": "Positive results per 100k tests performed - Data collected by OWID from National Health Information Centre",
-        "url": "https://www.korona.gov.sk",
+        "name": "Positive results per 100k tests performed - Data collected by OWID from Ministry of Health",
+        "url": "https://github.com/Institut-Zdravotnych-Analyz/covid19-data",
         "license": "Attribution 4.0 International (CC BY 4.0)",
         "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
     },
@@ -306,6 +306,7 @@
         25641,
         27027,
         27778,
-        27778
+        27778,
+        27027
     ]
 }
