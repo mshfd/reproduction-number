@@ -1,11 +1,11 @@
 {
     "startDate": "2020-03-31",
-    "versionDate": "2021-01-09",
+    "versionDate": "2021-01-11",
     "type": "pcr_tests_100k",
     "averageReportToCaseDelayInDays": 10,
     "source": {
         "name": "Positive results per 100k samples tested - Data collected by OWID from Jamaica Ministry of Health and Wellness",
-        "url": "https://www.moh.gov.jm/covid-19-clinical-management-summary-for-friday-january-8-2021/",
+        "url": "https://www.moh.gov.jm/covid-19-clinical-management-summary-for-monday-january-11-2021/",
         "license": "Attribution 4.0 International (CC BY 4.0)",
         "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
     },
@@ -294,6 +294,8 @@
         12346,
         11765,
         10989,
-        11905
+        11905,
+        9174,
+        6711
     ]
 }
