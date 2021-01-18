@@ -1,11 +1,11 @@
 {
     "startDate": "2020-05-05",
-    "versionDate": "2021-01-13",
+    "versionDate": "2021-01-16",
     "type": "pcr_tests_100k",
     "averageReportToCaseDelayInDays": 10,
     "source": {
         "name": "Positive results per 100k people tested - Data collected by OWID from Poland Ministry of Health",
-        "url": "https://twitter.com/MZ_GOV_PL/status/1349291346348158978",
+        "url": "https://twitter.com/MZ_GOV_PL/status/1350378509886111747",
         "license": "Attribution 4.0 International (CC BY 4.0)",
         "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
     },
@@ -263,6 +263,9 @@
         20000,
         20833,
         20000,
-        17241
+        17241,
+        15625,
+        14493,
+        13333
     ]
 }
