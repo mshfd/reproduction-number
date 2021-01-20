@@ -1,11 +1,11 @@
 {
     "startDate": "2020-11-07",
-    "versionDate": "2021-01-14",
+    "versionDate": "2021-01-18",
     "type": "pcr_tests_100k",
     "averageReportToCaseDelayInDays": 10,
     "source": {
         "name": "Positive results per 100k tests performed - Data collected by OWID from Jordan Ministry of Health",
-        "url": "https://corona.moh.gov.jo/ar/MediaCenter/2552",
+        "url": "https://corona.moh.gov.jo/ar/MediaCenter/2563",
         "license": "Attribution 4.0 International (CC BY 4.0)",
         "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
     },
@@ -78,6 +78,10 @@
         4950,
         4854,
         4673,
-        4717
+        4717,
+        4673,
+        4587,
+        4545,
+        4425
     ]
 }
