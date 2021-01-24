@@ -1,17 +1,17 @@
 {
     "startDate": "2020-04-15",
-    "versionDate": "2021-01-23",
+    "versionDate": "2021-01-24",
     "type": "cases",
     "averageReportToCaseDelayInDays": 10,
     "source": {
         "name": "Robert Koch-Institut",
-        "url": "https://www.rki.de/DE/Content/InfAZ/N/Neuartiges_Coronavirus/Situationsberichte/Jan_2021/2021-01-23-de.pdf?__blob=publicationFile",
+        "url": "https://www.rki.de/DE/Content/InfAZ/N/Neuartiges_Coronavirus/Situationsberichte/Jan_2021/2021-01-24-de.pdf?__blob=publicationFile",
         "license": "Data licence Germany - attribution - version 2.0",
         "licenseUrl": "https://www.govdata.de/dl-de/by-2-0"
     },
     "metrics": {
-        "numCases": 66486,
-        "numDeaths": 17311
+        "numCases": 66805,
+        "numDeaths": 17447
     },
     "data": [
         561,
@@ -285,18 +285,19 @@
         557,
         666,
         396,
-        204,
-        775,
-        621,
-        544,
-        1556,
-        337,
-        317,
-        547,
-        773,
-        -2798,
+        305,
+        277,
+        291,
+        276,
+        285,
+        277,
+        292,
+        368,
+        280,
+        225,
         720,
         604,
-        478
+        478,
+        319,
     ]
 }
