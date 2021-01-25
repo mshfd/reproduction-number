@@ -1,11 +1,11 @@
 {
     "startDate": "2020-03-07",
-    "versionDate": "2021-01-21",
+    "versionDate": "2021-01-23",
     "type": "pcr_tests_100k",
     "averageReportToCaseDelayInDays": 10,
     "source": {
         "name": "Positive results per 100k people tested - Data collected by OWID from Morocco Ministry of Health",
-        "url": "http://www.covidmaroc.ma/Documents/BULLETIN/21.1.21.SARS-CoV-2.MA.pdf",
+        "url": "http://www.covidmaroc.ma/Documents/BULLETIN/23.1.21.SARS-CoV-2.MA.pdf",
         "license": "Attribution 4.0 International (CC BY 4.0)",
         "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
     },
@@ -330,6 +330,8 @@
         6329,
         6410,
         6452,
-        6579
+        6579,
+        6711,
+        6667
     ]
 }

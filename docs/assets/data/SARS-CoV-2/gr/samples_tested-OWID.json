@@ -1,10 +1,10 @@
 {
     "startDate": "2020-03-10",
-    "versionDate": "2021-01-20",
+    "versionDate": "2021-01-23",
     "type": "pcr_tests_100k",
     "averageReportToCaseDelayInDays": 10,
     "source": {
-        "name": "Positive results per 100k samples tested - Data collected by OWID from Government of Greece",
+        "name": "Positive results per 100k samples tested - Data collected by OWID from National Organization of Public Health",
         "url": "https://covid19.gov.gr/",
         "license": "Attribution 4.0 International (CC BY 4.0)",
         "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
@@ -326,6 +326,9 @@
         1916,
         1934,
         1876,
-        1835
+        1835,
+        1845,
+        1838,
+        1883
     ]
 }
