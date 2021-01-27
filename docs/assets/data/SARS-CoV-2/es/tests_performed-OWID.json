@@ -1,11 +1,11 @@
 {
     "startDate": "2020-04-20",
-    "versionDate": "2021-01-14",
+    "versionDate": "2021-01-21",
     "type": "pcr_tests_100k",
     "averageReportToCaseDelayInDays": 10,
     "source": {
         "name": "Positive results per 100k tests performed - Data collected by OWID from Ministry of Health, Consumption and Social Welfare",
-        "url": "https://www.mscbs.gob.es/profesionales/saludPublica/ccayes/alertasActual/nCov/documentos/Covid_19_pruebas_diagnosticas_14_01_2021.pdf",
+        "url": "https://www.mscbs.gob.es/profesionales/saludPublica/ccayes/alertasActual/nCov/documentos/Covid_19_pruebas_diagnosticas_21_01_2021.pdf",
         "license": "Attribution 4.0 International (CC BY 4.0)",
         "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
     },
@@ -275,10 +275,17 @@
         11628,
         13514,
         12658,
-        11905,
+        11765,
         13889,
-        13333,
-        15873,
-        14493
+        13158,
+        15625,
+        14286,
+        14925,
+        14493,
+        14085,
+        15152,
+        15385,
+        15152,
+        15385
     ]
 }
