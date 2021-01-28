@@ -4,12 +4,25 @@ class TimeSeriesSmoothing {
 
     this.smoothSeries = function (data) {
 
+      let numZeroValues = 0;
       let smoothedData = [];
       smoothedData.length = data.length;
       for (let n = 0; n < data.length; n++) {
-        smoothedData[n] = data[n];;
+        smoothedData[n] = data[n];
+
+        // fix weekly values
+        if (data[n] === 0) {
+          numZeroValues++;
+        }
+        else if (numZeroValues >= 6) {
+          numZeroValues = 0;
+          for (let prev6 = 1; prev6 < 7; prev6++) {
+            smoothedData[n - prev6] = data[n];
+          }
+        }
       }
 
+      // smooth negative values before smoothing
       let hasNegativeValues = true;
       while (hasNegativeValues) {
         hasNegativeValues = false;
