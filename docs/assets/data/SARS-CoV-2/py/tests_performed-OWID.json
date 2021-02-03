@@ -1,11 +1,11 @@
 {
     "startDate": "2020-03-14",
-    "versionDate": "2021-01-29",
+    "versionDate": "2021-02-02",
     "type": "pcr_tests_100k",
     "averageReportToCaseDelayInDays": 10,
     "source": {
         "name": "Positive results per 100k tests performed - Data collected by OWID from Paraguay Ministry of Public Health and Social Welfare",
-        "url": "https://www.mspbs.gov.py/reporte-covid19.html",
+        "url": "https://twitter.com/msaludpy/status/1356731268466151425",
         "license": "Attribution 4.0 International (CC BY 4.0)",
         "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
     },
@@ -325,12 +325,16 @@
         25641,
         25641,
         24390,
-        25641,
+        23810,
+        24390,
+        26316,
         27778,
-        30303,
-        31250,
-        30303,
-        29412,
-        30303
+        26316,
+        25000,
+        25641,
+        25000,
+        25000,
+        23810,
+        22222
     ]
 }
