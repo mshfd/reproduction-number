@@ -1,11 +1,11 @@
 {
     "startDate": "2020-03-21",
-    "versionDate": "2021-02-02",
+    "versionDate": "2021-02-04",
     "type": "pcr_tests_100k",
     "averageReportToCaseDelayInDays": 10,
     "source": {
         "name": "Positive results per 100k tests performed - Data collected by OWID from Ministry of Health",
-        "url": "https://minsalud.gob.bo/5247-de-un-diagnostico-de-7-233-pruebas-2-127-son-casos-positivos-de-covid-19-y-5-106-resultados-negativos",
+        "url": "https://minsalud.gob.bo/5256-de-6-808-pruebas-realizadas-1-787-son-casos-positivos-de-covid-19-y-5-021-resultados-negativos",
         "license": "Attribution 4.0 International (CC BY 4.0)",
         "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
     },
@@ -328,6 +328,8 @@
         33333,
         33333,
         32258,
-        32258
+        32258,
+        31250,
+        30303
     ]
 }
