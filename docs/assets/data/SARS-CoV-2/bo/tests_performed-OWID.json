@@ -1,11 +1,11 @@
 {
     "startDate": "2020-03-21",
-    "versionDate": "2021-02-04",
+    "versionDate": "2021-02-07",
     "type": "pcr_tests_100k",
     "averageReportToCaseDelayInDays": 10,
     "source": {
         "name": "Positive results per 100k tests performed - Data collected by OWID from Ministry of Health",
-        "url": "https://minsalud.gob.bo/5256-de-6-808-pruebas-realizadas-1-787-son-casos-positivos-de-covid-19-y-5-021-resultados-negativos",
+        "url": "https://minsalud.gob.bo/5261-los-contagios-nuevos-de-covid-19-descienden-a-839-y-los-salubristas-vacunados-suman-a-7-752-a-nivel-nacional",
         "license": "Attribution 4.0 International (CC BY 4.0)",
         "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
     },
@@ -330,6 +330,9 @@
         32258,
         32258,
         31250,
-        30303
+        30303,
+        29412,
+        27778,
+        27027
     ]
 }

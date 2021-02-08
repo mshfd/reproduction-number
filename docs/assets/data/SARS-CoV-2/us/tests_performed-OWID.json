@@ -1,11 +1,11 @@
 {
     "startDate": "2020-03-07",
-    "versionDate": "2021-01-18",
+    "versionDate": "2021-01-25",
     "type": "pcr_tests_100k",
     "averageReportToCaseDelayInDays": 10,
     "source": {
         "name": "Positive results per 100k tests performed - Data collected by OWID from Department of Health & Human Services",
-        "url": "https://www.cdc.gov/coronavirus/2019-ncov/covid-data/covidview/01292021/csv/national-activity-indicators.csv",
+        "url": "https://www.cdc.gov/coronavirus/2019-ncov/covid-data/covidview/02052021/csv/national-activity-indicators.csv",
         "license": "Attribution 4.0 International (CC BY 4.0)",
         "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
     },
@@ -129,14 +129,14 @@
         0,
         0,
         0,
-        9804,
+        9901,
         0,
         0,
         0,
         0,
         0,
         0,
-        9804,
+        10000,
         0,
         0,
         0,
@@ -327,6 +327,13 @@
         0,
         0,
         0,
-        10989
+        11236,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        9709
     ]
 }
