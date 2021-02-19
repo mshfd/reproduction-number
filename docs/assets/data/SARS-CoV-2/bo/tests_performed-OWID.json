@@ -1,11 +1,11 @@
 {
     "startDate": "2020-03-21",
-    "versionDate": "2021-02-13",
+    "versionDate": "2021-02-15",
     "type": "pcr_tests_100k",
     "averageReportToCaseDelayInDays": 10,
     "source": {
         "name": "Positive results per 100k tests performed - Data collected by OWID from Ministry of Health",
-        "url": "https://minsalud.gob.bo/5288-reporte-nacional-registra-938-nuevos-contagios-de-covid-19-y-3-759-casos-descartados-a-nivel-nacional",
+        "url": "https://minsalud.gob.bo/5291-nuevo-descenso-de-contagios-covid-19-412-positivos-y-2-419-casos-descartados-a-nivel-nacional",
         "license": "Attribution 4.0 International (CC BY 4.0)",
         "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
     },
@@ -339,6 +339,8 @@
         24390,
         23810,
         22727,
-        22727
+        22727,
+        22222,
+        21277
     ]
 }
