@@ -1,11 +1,11 @@
 {
     "startDate": "2020-03-21",
-    "versionDate": "2021-02-27",
+    "versionDate": "2021-03-03",
     "type": "pcr_tests_100k",
     "averageReportToCaseDelayInDays": 10,
     "source": {
         "name": "Positive results per 100k tests performed - Data collected by OWID from Ministry of Health",
-        "url": "https://minsalud.gob.bo/5329-reporte-covid-349",
+        "url": "https://minsalud.gob.bo/5340-epidemiologia-reporta-834-nuevos-contagios-6-026-casos-descartados-y-729-pacientes-recuperados",
         "license": "Attribution 4.0 International (CC BY 4.0)",
         "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
     },
@@ -353,6 +353,10 @@
         16393,
         15873,
         15385,
-        14706
+        14706,
+        14286,
+        14085,
+        13333,
+        12987
     ]
 }

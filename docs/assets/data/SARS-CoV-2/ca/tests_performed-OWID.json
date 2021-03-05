@@ -1,0 +1,40 @@
+{
+    "startDate": "2021-02-07",
+    "versionDate": "2021-03-04",
+    "type": "pcr_tests_100k",
+    "averageReportToCaseDelayInDays": 10,
+    "source": {
+        "name": "Positive results per 100k tests performed - Data collected by OWID from Government of Canada",
+        "url": "https://health-infobase.canada.ca/src/data/covidLive/covid19-download.csv",
+        "license": "Attribution 4.0 International (CC BY 4.0)",
+        "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
+    },
+    "data": [
+        3484,
+        3401,
+        3390,
+        3390,
+        3257,
+        3030,
+        3115,
+        2994,
+        2717,
+        2915,
+        2833,
+        2976,
+        3067,
+        2874,
+        2924,
+        3185,
+        3040,
+        3096,
+        2941,
+        2924,
+        2950,
+        2933,
+        2933,
+        2833,
+        2865,
+        2967
+    ]
+}
