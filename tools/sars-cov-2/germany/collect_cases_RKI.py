@@ -44,6 +44,14 @@ num_cases_total = 0
 num_deaths_total = 0
 num_recovered_total = 0
 
+num_deaths_80_below = 0
+num_deaths_80_plus = 0
+num_deaths_80_below_vac = 0
+num_deaths_80_plus_vac = 0
+
+vaccination_start_date = key_for_date(
+    datetime.datetime.strptime("2020-12-27", "%Y-%m-%d")
+)
 version_date_str = ""
 cases_for_date = {}
 
@@ -80,6 +88,17 @@ with open(rki_covid19_filename) as csvfile:
             if is_case_date != 1:
                 num_unkown_onset_deaths += num_deaths
 
+            if row["Altersgruppe"] == "A80+":
+                if death_date > vaccination_start_date:
+                    num_deaths_80_plus_vac += num_deaths
+                else:
+                    num_deaths_80_plus += num_deaths
+            else:
+                if death_date > vaccination_start_date:
+                    num_deaths_80_below_vac += num_deaths
+                else:
+                    num_deaths_80_below += num_deaths
+
 
 version_date = datetime.datetime.strptime(version_date_str, "%d.%m.%Y, %H:%M Uhr")
 
@@ -109,6 +128,30 @@ print("Number of cases in total: " + str(num_cases_total))
 print("Number of recovered cases in total: " + str(num_recovered_total))
 print("Number of deaths in total: " + str(num_deaths_total))
 print("Number of deaths without known onset date: " + str(num_unkown_onset_deaths))
+# print("Number of deaths 80+ before vaccination: " + str(num_deaths_80_plus))
+# print("Number of deaths below 80 before vaccination: " + str(num_deaths_80_below))
+print(
+    "Ratio of deaths 80+ before vaccination: "
+    + str(
+        round(100 * num_deaths_80_plus / (num_deaths_80_plus + num_deaths_80_below), 2)
+    )
+    + " %"
+)
+# print("Number of deaths 80+ after vaccination: " + str(num_deaths_80_plus_vac))
+# print("Number of deaths below 80 after vaccination: " + str(num_deaths_80_below_vac))
+print(
+    "Ratio of deaths 80+ after vaccination: "
+    + str(
+        round(
+            100
+            * num_deaths_80_plus_vac
+            / (num_deaths_80_plus_vac + num_deaths_80_below_vac),
+            2,
+        )
+    )
+    + " %"
+)
+
 
 print(
     "Number of active cases in total on "
