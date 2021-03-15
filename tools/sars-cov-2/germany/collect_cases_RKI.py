@@ -44,16 +44,13 @@ num_cases_total = 0
 num_deaths_total = 0
 num_recovered_total = 0
 
-num_deaths_80_below = 0
-num_deaths_80_plus = 0
-num_deaths_80_below_vac = 0
-num_deaths_80_plus_vac = 0
-
 vaccination_start_date = key_for_date(
     datetime.datetime.strptime("2020-12-27", "%Y-%m-%d")
 )
 version_date_str = ""
 cases_for_date = {}
+deaths_for_date_80_plus = {}
+deaths_for_date_80_below = {}
 
 num_unkown_onset_deaths = 0
 
@@ -83,21 +80,19 @@ with open(rki_covid19_filename) as csvfile:
 
         cases_for_date[cases_date] += num_cases
 
+        if death_date not in deaths_for_date_80_plus:
+            deaths_for_date_80_plus[death_date] = 0
+            deaths_for_date_80_below[death_date] = 0
+
         if num_deaths > 0:
             is_case_date = int(row["IstErkrankungsbeginn"])
             if is_case_date != 1:
                 num_unkown_onset_deaths += num_deaths
 
             if row["Altersgruppe"] == "A80+":
-                if death_date > vaccination_start_date:
-                    num_deaths_80_plus_vac += num_deaths
-                else:
-                    num_deaths_80_plus += num_deaths
+                deaths_for_date_80_plus[death_date] += num_deaths
             else:
-                if death_date > vaccination_start_date:
-                    num_deaths_80_below_vac += num_deaths
-                else:
-                    num_deaths_80_below += num_deaths
+                deaths_for_date_80_below[death_date] += num_deaths
 
 
 version_date = datetime.datetime.strptime(version_date_str, "%d.%m.%Y, %H:%M Uhr")
@@ -109,6 +104,9 @@ last_date = parse_date(dates[-1]).date()
 
 date = first_date
 cases = []
+death_ratio = []
+death_ratio_for_day_smoothed = 0
+death_ratio_smoothing_factor = 0.95
 while date <= last_date:
 
     date_key = key_for_date(date)
@@ -117,7 +115,21 @@ while date <= last_date:
     if date_key in cases_for_date:
         num_cases = cases_for_date[date_key]
 
+    if date_key in deaths_for_date_80_plus and date_key in deaths_for_date_80_below:
+        num_deaths_for_day = (
+            deaths_for_date_80_plus[date_key] + deaths_for_date_80_below[date_key]
+        )
+        if num_deaths_for_day > 0:
+            death_ratio_for_day = (
+                10000 * deaths_for_date_80_plus[date_key] / num_deaths_for_day
+            )
+            death_ratio_for_day_smoothed = (
+                death_ratio_for_day_smoothed * death_ratio_smoothing_factor
+                + death_ratio_for_day * (1.0 - death_ratio_smoothing_factor)
+            )
+
     cases.append(num_cases)
+    death_ratio.append(int(round(death_ratio_for_day_smoothed)))
     print(str(date) + " had " + str(num_cases) + " new cases")
 
     date += datetime.timedelta(days=1)
@@ -128,31 +140,6 @@ print("Number of cases in total: " + str(num_cases_total))
 print("Number of recovered cases in total: " + str(num_recovered_total))
 print("Number of deaths in total: " + str(num_deaths_total))
 print("Number of deaths without known onset date: " + str(num_unkown_onset_deaths))
-# print("Number of deaths 80+ before vaccination: " + str(num_deaths_80_plus))
-# print("Number of deaths below 80 before vaccination: " + str(num_deaths_80_below))
-print(
-    "Ratio of deaths 80+ before vaccination: "
-    + str(
-        round(100 * num_deaths_80_plus / (num_deaths_80_plus + num_deaths_80_below), 2)
-    )
-    + " %"
-)
-# print("Number of deaths 80+ after vaccination: " + str(num_deaths_80_plus_vac))
-# print("Number of deaths below 80 after vaccination: " + str(num_deaths_80_below_vac))
-print(
-    "Ratio of deaths 80+ after vaccination: "
-    + str(
-        round(
-            100
-            * num_deaths_80_plus_vac
-            / (num_deaths_80_plus_vac + num_deaths_80_below_vac),
-            2,
-        )
-    )
-    + " %"
-)
-
-
 print(
     "Number of active cases in total on "
     + str(version_date.date())
@@ -168,28 +155,36 @@ print(
     + " days"
 )
 
-targetJson = "docs/assets/data/SARS-CoV-2/de/cases-RKI.json"
-print()
-print("Writing results to " + targetJson)
 
-result = {
-    "startDate": str(first_date),
-    "versionDate": str(version_date.date()),
-    "type": "cases",
-    "averageReportToCaseDelayInDays": 0,
-    "source": {
-        "name": "Robert Koch-Institut",
-        "url": "https://www.arcgis.com/home/item.html?id=f10774f1c63e40168479a1feb6c7ca74",
-        "license": "Data licence Germany - attribution - version 2.0",
-        "licenseUrl": "https://www.govdata.de/dl-de/by-2-0",
-    },
-    "metrics": {
-        "numCases": num_cases_total,
-        "numRecovered": num_recovered_total,
-        "numDeaths": num_deaths_total,
-    },
-    "data": cases,
-}
+def store_to_file(targetJson, data, averageReportToCaseDelayInDays):
 
-with open("../../../" + targetJson, "w") as outfile:
-    json.dump(result, outfile, indent=4, ensure_ascii=False)
+    print()
+    print("Writing results to " + targetJson)
+
+    result = {
+        "startDate": str(first_date),
+        "versionDate": str(version_date.date()),
+        "type": "cases",
+        "averageReportToCaseDelayInDays": averageReportToCaseDelayInDays,
+        "source": {
+            "name": "Robert Koch-Institut",
+            "url": "https://www.arcgis.com/home/item.html?id=f10774f1c63e40168479a1feb6c7ca74",
+            "license": "Data licence Germany - attribution - version 2.0",
+            "licenseUrl": "https://www.govdata.de/dl-de/by-2-0",
+        },
+        "metrics": {
+            "numCases": num_cases_total,
+            "numRecovered": num_recovered_total,
+            "numDeaths": num_deaths_total,
+        },
+        "data": data,
+    }
+
+    with open("../../../" + targetJson, "w") as outfile:
+        json.dump(result, outfile, indent=4, ensure_ascii=False)
+
+
+store_to_file("docs/assets/data/SARS-CoV-2/de/cases-RKI.json", cases, 0)
+store_to_file(
+    "docs/assets/data/SARS-CoV-2/de/death-by-age-ratio-RKI.json", death_ratio, 20
+)
