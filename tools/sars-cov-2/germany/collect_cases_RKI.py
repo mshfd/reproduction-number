@@ -105,8 +105,8 @@ last_date = parse_date(dates[-1]).date()
 date = first_date
 cases = []
 death_ratio = []
-death_ratio_for_day_smoothed = 0
-death_ratio_smoothing_factor = 0.95
+num_deaths_for_day_rolling = []
+num_deaths_for_date_80_plus_rolling = []
 while date <= last_date:
 
     date_key = key_for_date(date)
@@ -115,18 +115,30 @@ while date <= last_date:
     if date_key in cases_for_date:
         num_cases = cases_for_date[date_key]
 
-    if date_key in deaths_for_date_80_plus and date_key in deaths_for_date_80_below:
-        num_deaths_for_day = (
-            deaths_for_date_80_plus[date_key] + deaths_for_date_80_below[date_key]
+    num_deaths_for_day_80_plus = (
+        deaths_for_date_80_plus[date_key] if date_key in deaths_for_date_80_plus else 0
+    )
+    num_deaths_for_day = (
+        num_deaths_for_day_80_plus + deaths_for_date_80_below[date_key]
+        if date_key in deaths_for_date_80_below
+        else num_deaths_for_day_80_plus
+    )
+
+    num_deaths_for_day_rolling.append(num_deaths_for_day)
+    num_deaths_for_date_80_plus_rolling.append(num_deaths_for_day_80_plus)
+
+    if len(num_deaths_for_day_rolling) > 20:
+        num_deaths_for_day_rolling.pop(0)
+        num_deaths_for_date_80_plus_rolling.pop(0)
+
+    num_deaths_for_day_rolled = np.sum(num_deaths_for_day_rolling)
+    num_deaths_for_date_80_plus_rolled = np.sum(num_deaths_for_date_80_plus_rolling)
+
+    death_ratio_for_day_smoothed = 0
+    if num_deaths_for_day_rolled > 0:
+        death_ratio_for_day_smoothed = (
+            10000 * num_deaths_for_date_80_plus_rolled / num_deaths_for_day_rolled
         )
-        if num_deaths_for_day > 0:
-            death_ratio_for_day = (
-                10000 * deaths_for_date_80_plus[date_key] / num_deaths_for_day
-            )
-            death_ratio_for_day_smoothed = (
-                death_ratio_for_day_smoothed * death_ratio_smoothing_factor
-                + death_ratio_for_day * (1.0 - death_ratio_smoothing_factor)
-            )
 
     cases.append(num_cases)
     death_ratio.append(int(round(death_ratio_for_day_smoothed)))
