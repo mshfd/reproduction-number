@@ -51,6 +51,7 @@ version_date_str = ""
 cases_for_date = {}
 deaths_for_date_80_plus = {}
 deaths_for_date_80_below = {}
+deaths_per_age_group = {}
 
 num_unkown_onset_deaths = 0
 
@@ -84,12 +85,18 @@ with open(rki_covid19_filename) as csvfile:
             deaths_for_date_80_plus[death_date] = 0
             deaths_for_date_80_below[death_date] = 0
 
-        if num_deaths > 0:
+        if num_deaths != 0:
             is_case_date = int(row["IstErkrankungsbeginn"])
             if is_case_date != 1:
                 num_unkown_onset_deaths += num_deaths
 
-            if row["Altersgruppe"] == "A80+":
+            age_group = row["Altersgruppe"]
+            if age_group not in deaths_per_age_group:
+                deaths_per_age_group[age_group] = 0
+
+            deaths_per_age_group[age_group] += num_deaths
+
+            if age_group == "A80+":
                 deaths_for_date_80_plus[death_date] += num_deaths
             else:
                 deaths_for_date_80_below[death_date] += num_deaths
@@ -158,6 +165,11 @@ print(
     + ": "
     + str(num_cases_total - num_recovered_total - num_deaths_total)
 )
+
+
+for key, value in deaths_per_age_group.items():
+    print("Number of deaths in age group " + key + ": " + str(value))
+
 
 print(
     "Data is from "
