@@ -1,11 +1,11 @@
 {
     "startDate": "2020-03-07",
-    "versionDate": "2021-03-09",
+    "versionDate": "2021-03-10",
     "type": "pcr_tests_100k",
     "averageReportToCaseDelayInDays": 10,
     "source": {
         "name": "Positive results per 100k tests performed - Data collected by OWID from Department of Health & Human Services",
-        "url": "https://healthdata.gov/dataset/covid-19-diagnostic-laboratory-testing-pcr-testing-time-series",
+        "url": "https://legacy.healthdata.gov/dataset/covid-19-diagnostic-laboratory-testing-pcr-testing-time-series",
         "license": "Attribution 4.0 International (CC BY 4.0)",
         "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
     },
@@ -81,7 +81,7 @@
         6289,
         6098,
         6211,
-        5714,
+        5587,
         5814,
         5917,
         5917,
@@ -90,7 +90,7 @@
         5405,
         5405,
         5405,
-        5208,
+        5102,
         4902,
         4808,
         4505,
@@ -280,7 +280,7 @@
         10204,
         10417,
         10638,
-        10870,
+        10753,
         10870,
         10753,
         10989,
@@ -351,7 +351,7 @@
         7692,
         7407,
         7299,
-        7519,
+        7407,
         7519,
         7519,
         7299,
@@ -373,10 +373,11 @@
         5208,
         5102,
         5102,
-        5102,
-        5102,
-        5102,
+        5000,
+        4902,
+        4902,
+        5917,
         6289,
-        7299
+        7407
     ]
 }
