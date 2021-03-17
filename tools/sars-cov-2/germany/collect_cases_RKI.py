@@ -52,6 +52,7 @@ cases_for_date = {}
 deaths_for_date_80_plus = {}
 deaths_for_date_80_below = {}
 deaths_per_age_group = {}
+deaths_per_age_group_with_sympton_onset = {}
 
 num_unkown_onset_deaths = 0
 
@@ -74,32 +75,40 @@ with open(rki_covid19_filename) as csvfile:
         num_deaths_total += num_deaths
         num_recovered_total += num_recovered
 
-        death_date = row["Meldedatum"]
+        issue_date = row["Meldedatum"]
         cases_date = row["Refdatum"]
         if cases_date not in cases_for_date:
             cases_for_date[cases_date] = 0
 
         cases_for_date[cases_date] += num_cases
 
-        if death_date not in deaths_for_date_80_plus:
-            deaths_for_date_80_plus[death_date] = 0
-            deaths_for_date_80_below[death_date] = 0
+        if issue_date not in deaths_for_date_80_plus:
+            deaths_for_date_80_plus[issue_date] = 0
+            deaths_for_date_80_below[issue_date] = 0
 
         if num_deaths != 0:
             is_case_date = int(row["IstErkrankungsbeginn"])
-            if is_case_date != 1:
+            case_date_is_known = (
+                1 if is_case_date == 1 or issue_date != cases_date else 0
+            )
+
+            if case_date_is_known == 0:
                 num_unkown_onset_deaths += num_deaths
 
             age_group = row["Altersgruppe"]
             if age_group not in deaths_per_age_group:
                 deaths_per_age_group[age_group] = 0
+                deaths_per_age_group_with_sympton_onset[age_group] = 0
 
             deaths_per_age_group[age_group] += num_deaths
+            deaths_per_age_group_with_sympton_onset[age_group] += (
+                num_deaths * case_date_is_known
+            )
 
             if age_group == "A80+":
-                deaths_for_date_80_plus[death_date] += num_deaths
+                deaths_for_date_80_plus[issue_date] += num_deaths
             else:
-                deaths_for_date_80_below[death_date] += num_deaths
+                deaths_for_date_80_below[issue_date] += num_deaths
 
 
 version_date = datetime.datetime.strptime(version_date_str, "%d.%m.%Y, %H:%M Uhr")
@@ -158,7 +167,13 @@ print()
 print("Number of cases in total: " + str(num_cases_total))
 print("Number of recovered cases in total: " + str(num_recovered_total))
 print("Number of deaths in total: " + str(num_deaths_total))
-print("Number of deaths without known onset date: " + str(num_unkown_onset_deaths))
+print(
+    "Number of deaths without known onset date: "
+    + str(num_unkown_onset_deaths)
+    + " ("
+    + str(round(100 * num_unkown_onset_deaths / num_deaths_total, 1))
+    + "%)"
+)
 print(
     "Number of active cases in total on "
     + str(version_date.date())
@@ -168,7 +183,18 @@ print(
 
 
 for key, value in deaths_per_age_group.items():
-    print("Number of deaths in age group " + key + ": " + str(value))
+    num_deaths_with_sympton_onset = deaths_per_age_group_with_sympton_onset[key]
+    print(
+        "Number of deaths in age group "
+        + key
+        + ": "
+        + str(value)
+        + " with known symptom onset "
+        + str(num_deaths_with_sympton_onset)
+        + "("
+        + str(round(100 * num_deaths_with_sympton_onset / value, 1))
+        + " %)"
+    )
 
 
 print(
