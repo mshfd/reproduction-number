@@ -1,11 +1,11 @@
 {
     "startDate": "2020-03-14",
-    "versionDate": "2021-03-12",
+    "versionDate": "2021-03-17",
     "type": "pcr_tests_100k",
     "averageReportToCaseDelayInDays": 10,
     "source": {
         "name": "Positive results per 100k tests performed - Data collected by OWID from Ministry of Health and Social Protection",
-        "url": "https://shendetesia.gov.al/covid19-ministria-e-shendetesise-942-te-vaksinuar-3340-testime-872-te-sheruar-681-raste-te-reja-dhe-16-humbje-jete-ne-24-oret-e-fundit/",
+        "url": "https://shendetesia.gov.al/covid19-ministria-e-shendetesise-3338-te-vaksinuar-2997-testime-744-te-sheruar-446-raste-te-reja-dhe-15-humbje-jete-ne-24-oret-e-fundit/",
         "license": "Attribution 4.0 International (CC BY 4.0)",
         "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
     },
@@ -373,6 +373,11 @@
         24390,
         23256,
         22727,
-        21739
+        21739,
+        21277,
+        20833,
+        20000,
+        19608,
+        18519
     ]
 }
