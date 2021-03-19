@@ -206,7 +206,7 @@ print(
 )
 
 
-def store_to_file(targetJson, data, averageReportToCaseDelayInDays):
+def store_to_file(targetJson, data, average_report_to_case_delay_in_days, data_type):
 
     print()
     print("Writing results to " + targetJson)
@@ -214,8 +214,8 @@ def store_to_file(targetJson, data, averageReportToCaseDelayInDays):
     result = {
         "startDate": str(first_date),
         "versionDate": str(version_date.date()),
-        "type": "cases",
-        "averageReportToCaseDelayInDays": averageReportToCaseDelayInDays,
+        "type": data_type,
+        "averageReportToCaseDelayInDays": average_report_to_case_delay_in_days,
         "source": {
             "name": "Robert Koch-Institut",
             "url": "https://www.arcgis.com/home/item.html?id=f10774f1c63e40168479a1feb6c7ca74",
@@ -234,7 +234,10 @@ def store_to_file(targetJson, data, averageReportToCaseDelayInDays):
         json.dump(result, outfile, indent=4, ensure_ascii=False)
 
 
-store_to_file("docs/assets/data/SARS-CoV-2/de/cases-RKI.json", cases, 0)
+store_to_file("docs/assets/data/SARS-CoV-2/de/cases-RKI.json", cases, 0, "cases")
 store_to_file(
-    "docs/assets/data/SARS-CoV-2/de/death-by-age-ratio-RKI.json", death_ratio, 20
+    "docs/assets/data/SARS-CoV-2/de/death-by-age-ratio-RKI.json",
+    death_ratio,
+    20,
+    "death-by-age-ratio",
 )

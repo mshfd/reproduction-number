@@ -130,6 +130,7 @@ const updateArrows = (g, data, xScale, yScale, width, height, model, dayOfIntere
 
 const epidemicChartCallbacks = {
   dataType: "",
+  showR: true,
   startDate: 0,
   epidemicModel: null,
   epidemicData: null,
@@ -174,7 +175,7 @@ const epidemicChartCallbacks = {
     const typeString = (a.dataType == "pcr_tests_100k") ? "Number of Cases per 100K PCR tests" : "Number of Cases"
     const date = new Date(a.startDate + index * MS_PER_DAY);
     return date.toLocaleDateString() + " - " + typeString + ": " + values[stackIndex] + "\n" +
-      "Reproduction Number: " + (isValidRValue ? rValue.toFixed(2) : "n/a");
+      (a.showR ? ("Reproduction Number: " + (isValidRValue ? rValue.toFixed(2) : "n/a")) : "");
   },
   onMouseEnter: (values, index, stackIndex) => {
     const a = epidemicChartCallbacks;
@@ -185,7 +186,7 @@ const epidemicChartCallbacks = {
 
     clearTimeout(a._hideTimeoutId);
 
-    for (let i = 0; i < a.epidemicData.length; i++) {
+    for (let i = 0; i < a.epidemicData.length && a.showR; i++) {
 
       const p_ij = epidemicChartCallbacks.epidemicModel.computeWeightedInfectedLikelihood(Math.abs(i - index));
       const isCaseDay = (i === index);
@@ -201,7 +202,8 @@ const epidemicChartCallbacks = {
 
     const infoText = a.getBarTitle(values, index, stackIndex);
 
-    updateArrows(a._g, a._data, a._xScale, a._yScale, a._width, a._height, a.epidemicModel, index);
+    if (a.showR)
+      updateArrows(a._g, a._data, a._xScale, a._yScale, a._width, a._height, a.epidemicModel, index);
     updateInfoText(a._infoText, a._data, a._xScale, a._yScale, a._width, a._height, a.epidemicModel, index, infoText);
     epidemicChartCallbacks.epidemicChartUpdate();
     a._g.style("visibility", "visible");
@@ -281,6 +283,7 @@ const likelihoodChartCallbacks = {
 function renderEpidemic(svg, epidemicData, measuresData, region) {
 
   let startDate = Date.parse(epidemicData.startDate);
+  const showR = !epidemicData.type.includes("ratio");
 
   let epidemicSeriesData = epidemicData.data;
 
@@ -499,7 +502,9 @@ function renderEpidemic(svg, epidemicData, measuresData, region) {
       rPlot.push([dayIndex, rValue]);
     }
 
-    updatePlot(rPlot);
+    if (showR) {
+      updatePlot(rPlot);
+    }
 
     scaleSvg
       .attr("class", "grid")
@@ -509,18 +514,20 @@ function renderEpidemic(svg, epidemicData, measuresData, region) {
         .ticks(3)
         .tickSize(2));
 
-    rValueGraphSvg.append("line")
-      .style("stroke", "black")
-      .style("stroke-width", 1.0)
-      .style("stroke-dasharray", "4")
-      .attr("opacity", 0.6)
-      .attr("x2", stackedBar.X(0))
-      .attr("y2", Y(1.0))
-      .attr("x1", stackedBar.X(trace.length))
-      .attr("y1", Y(1.0))
-      .style("visibility", "visible");
+    if (showR) {
+      rValueGraphSvg.append("line")
+        .style("stroke", "black")
+        .style("stroke-width", 1.0)
+        .style("stroke-dasharray", "4")
+        .attr("opacity", 0.6)
+        .attr("x2", stackedBar.X(0))
+        .attr("y2", Y(1.0))
+        .attr("x1", stackedBar.X(trace.length))
+        .attr("y1", Y(1.0))
+        .style("visibility", "visible");
+    }
 
-    if (showSaturation) {
+    if (showSaturation && showR) {
       updateSaturationPlot(rValueGraphSvg.append("g"), rPlot, Y);
     }
   }
@@ -555,6 +562,7 @@ function renderEpidemic(svg, epidemicData, measuresData, region) {
 
   const updateChart = (alpha, smoothData, showSaturation, offsetDays, overlay) => {
 
+
     updateTrace(smoothData, offsetDays);
 
     updateRPlot(showSaturation);
@@ -566,6 +574,7 @@ function renderEpidemic(svg, epidemicData, measuresData, region) {
     epidemicChartCallbacks.overlay = overlay;
     epidemicChartCallbacks.transform = epidemicGraphsvg.attr("transform");
     epidemicChartCallbacks.dataType = epidemicData.type;
+    epidemicChartCallbacks.showR = showR;
     epidemicChartCallbacks.startDate = startDate;
     epidemicChartCallbacks.epidemicData = trace;
     epidemicChartCallbacks.epidemicDataSource = JSON.parse(JSON.stringify(trace));
