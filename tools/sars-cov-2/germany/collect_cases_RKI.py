@@ -120,6 +120,7 @@ last_date = parse_date(dates[-1]).date()
 
 date = first_date
 cases = []
+deaths = []
 death_ratio = []
 num_deaths_for_day_rolling = []
 num_deaths_for_date_80_plus_rolling = []
@@ -157,6 +158,7 @@ while date <= last_date:
         )
 
     cases.append(num_cases)
+    deaths.append(num_deaths_for_day)
     death_ratio.append(int(round(death_ratio_for_day_smoothed)))
     print(str(date) + " had " + str(num_cases) + " new cases")
 
@@ -235,9 +237,10 @@ def store_to_file(targetJson, data, average_report_to_case_delay_in_days, data_t
 
 
 store_to_file("docs/assets/data/SARS-CoV-2/de/cases-RKI.json", cases, 0, "cases")
+store_to_file("docs/assets/data/SARS-CoV-2/de/deaths-RKI.json", deaths, 10, "cases")
 store_to_file(
     "docs/assets/data/SARS-CoV-2/de/death-by-age-ratio-RKI.json",
     death_ratio,
-    20,
+    10,
     "death-by-age-ratio",
 )
