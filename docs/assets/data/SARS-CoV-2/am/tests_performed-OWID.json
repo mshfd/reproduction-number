@@ -1,11 +1,11 @@
 {
     "startDate": "2020-03-16",
-    "versionDate": "2021-04-03",
+    "versionDate": "2021-04-08",
     "type": "pcr_tests_100k",
     "averageReportToCaseDelayInDays": 10,
     "source": {
         "name": "Positive results per 100k tests performed - Data collected by OWID from Ministry of Health",
-        "url": "https://www.moh.am/#3/3732",
+        "url": "https://www.moh.am/#3/3745",
         "license": "Attribution 4.0 International (CC BY 4.0)",
         "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
     },
@@ -289,16 +289,16 @@
         31250,
         31250,
         31250,
-        29412,
-        29412,
+        30303,
         31250,
+        32258,
         30303,
         27027,
         25641,
         24390,
-        23256,
-        23810,
+        22727,
         22222,
+        21277,
         19231,
         18182,
         17544,
@@ -393,6 +393,11 @@
         17857,
         16949,
         17544,
-        18182
+        18182,
+        18519,
+        18868,
+        19608,
+        20000,
+        21277
     ]
 }
