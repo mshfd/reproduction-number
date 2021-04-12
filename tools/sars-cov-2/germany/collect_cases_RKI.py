@@ -53,6 +53,7 @@ deaths_for_date_80_plus = {}
 deaths_for_date_80_below = {}
 deaths_per_age_group = {}
 deaths_per_age_group_with_sympton_onset = {}
+cases_per_age_group = {}
 
 num_unkown_onset_deaths = 0
 
@@ -62,14 +63,16 @@ with open(rki_covid19_filename) as csvfile:
 
     # See https://www.arcgis.com/home/item.html?id=f10774f1c63e40168479a1feb6c7ca74 for details on how to interpret the data.
     for row in reader:
-        version_date_str = row["Datenstand"]
-        num_cases = int(row["AnzahlFall"])
-        num_deaths = int(row["AnzahlTodesfall"])
-        num_recovered = int(row["AnzahlGenesen"])
         is_berlin = row["IdBundesland"] == "11"
 
         # if not is_berlin:
         #    continue
+
+        version_date_str = row["Datenstand"]
+        num_cases = int(row["AnzahlFall"])
+        num_deaths = int(row["AnzahlTodesfall"])
+        num_recovered = int(row["AnzahlGenesen"])
+        age_group = row["Altersgruppe"]
 
         num_cases_total += num_cases
         num_deaths_total += num_deaths
@@ -81,6 +84,13 @@ with open(rki_covid19_filename) as csvfile:
             cases_for_date[cases_date] = 0
 
         cases_for_date[cases_date] += num_cases
+
+        if age_group not in cases_per_age_group:
+            cases_per_age_group[age_group] = num_cases
+            deaths_per_age_group[age_group] = 0
+            deaths_per_age_group_with_sympton_onset[age_group] = 0
+        else:
+            cases_per_age_group[age_group] += num_cases
 
         if issue_date not in deaths_for_date_80_plus:
             deaths_for_date_80_plus[issue_date] = 0
@@ -94,11 +104,6 @@ with open(rki_covid19_filename) as csvfile:
 
             if case_date_is_known == 0:
                 num_unkown_onset_deaths += num_deaths
-
-            age_group = row["Altersgruppe"]
-            if age_group not in deaths_per_age_group:
-                deaths_per_age_group[age_group] = 0
-                deaths_per_age_group_with_sympton_onset[age_group] = 0
 
             deaths_per_age_group[age_group] += num_deaths
             deaths_per_age_group_with_sympton_onset[age_group] += (
@@ -194,7 +199,9 @@ for key, value in deaths_per_age_group.items():
         + " with known symptom onset "
         + str(num_deaths_with_sympton_onset)
         + "("
-        + str(round(100 * num_deaths_with_sympton_onset / value, 1))
+        + str(
+            round(100 * num_deaths_with_sympton_onset / (value if value > 0 else 1), 1)
+        )
         + " %)"
     )
 
