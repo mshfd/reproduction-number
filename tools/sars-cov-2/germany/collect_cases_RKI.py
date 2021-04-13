@@ -68,6 +68,9 @@ with open(rki_covid19_filename) as csvfile:
         # if not is_berlin:
         #    continue
 
+        # if num_cases_total > 30000:
+        #    break
+
         version_date_str = row["Datenstand"]
         num_cases = int(row["AnzahlFall"])
         num_deaths = int(row["AnzahlTodesfall"])
@@ -189,7 +192,9 @@ print(
 )
 
 
-for key, value in deaths_per_age_group.items():
+sorted_keys = sorted(deaths_per_age_group.keys())
+for key in sorted_keys:
+    value = deaths_per_age_group[key]
     num_deaths_with_sympton_onset = deaths_per_age_group_with_sympton_onset[key]
     print(
         "Number of deaths in age group "
@@ -205,6 +210,15 @@ for key, value in deaths_per_age_group.items():
         + " %)"
     )
 
+for key in sorted_keys:
+    deaths_for_age_group = deaths_per_age_group[key]
+    cases_for_age_group = cases_per_age_group[key]
+    print(
+        "Lethality per 100k "
+        + key
+        + ": "
+        + str(int(round(100000 * deaths_for_age_group / cases_for_age_group)))
+    )
 
 print(
     "Data is from "
