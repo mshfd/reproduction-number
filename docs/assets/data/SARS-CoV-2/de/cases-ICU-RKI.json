@@ -1,6 +1,6 @@
 {
     "startDate": "2020-04-15",
-    "versionDate": "2021-04-13",
+    "versionDate": "2021-04-14",
     "type": "cases",
     "averageReportToCaseDelayInDays": 10,
     "source": {
@@ -10,8 +10,8 @@
         "licenseUrl": "https://www.govdata.de/dl-de/by-2-0"
     },
     "metrics": {
-        "numCases": 95877,
-        "numDeaths": 26002
+        "numCases": 96559,
+        "numDeaths": 26180
     },
     "data": [
         561,
@@ -377,6 +377,7 @@
         409,
         366,
         382,
-        472
+        472,
+        682
     ]
 }
