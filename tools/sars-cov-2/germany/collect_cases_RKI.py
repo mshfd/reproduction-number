@@ -29,10 +29,40 @@ def key_for_date(date):
 # Download source data if necessary.
 if not os.path.exists(rki_covid19_filename):
     print("Downloading " + rki_covid19_filename)
-    with urllib.request.urlopen(rki_covid19_source_url) as response, open(
-        rki_covid19_filename, "wb"
-    ) as out_file:
-        shutil.copyfileobj(response, out_file)
+
+    req = urllib.request.Request(
+        rki_covid19_source_url,
+        data=None,
+        headers={  # pretend to be a browser (not a bot) to get maximum download speed
+            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.47 Safari/537.36"
+        },
+    )
+
+    with urllib.request.urlopen(req) as Response:
+        Length = Response.getheader("content-length")
+        BlockSize = 100000  # default value
+
+        if Length:
+            Length = int(Length)
+
+        print(f"UrlLib len: {round((Length / 1024) / 1024, 2)} MB")
+
+        with open(rki_covid19_filename, "wb") as out_file:
+            Size = 0
+            while True:
+                BufferNow = Response.read(BlockSize)
+                if not BufferNow:
+                    break
+                out_file.write(BufferNow)
+                Size += len(BufferNow)
+                if Length:
+                    Percent = round((Size / Length) * 100, 2)
+                    print(
+                        f"download: {Percent}% {rki_covid19_source_url}\r",
+                        end="",
+                        flush=True,
+                    )
+
     print("Finished downloading " + rki_covid19_filename)
 
 
