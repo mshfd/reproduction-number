@@ -34,7 +34,7 @@ if not os.path.exists(rki_covid19_filename):
         rki_covid19_source_url,
         data=None,
         headers={  # pretend to be a browser (not a bot) to get maximum download speed
-            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.47 Safari/537.36"
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.128 Safari/537.36"
         },
     )
 
