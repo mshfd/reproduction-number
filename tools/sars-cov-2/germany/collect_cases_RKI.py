@@ -84,6 +84,7 @@ deaths_for_date_80_below = {}
 deaths_per_age_group = {}
 deaths_per_age_group_with_sympton_onset = {}
 cases_per_age_group = {}
+cases_per_age_group_with_sympton_onset = {}
 
 num_unkown_onset_deaths = 0
 
@@ -118,22 +119,27 @@ with open(rki_covid19_filename) as csvfile:
 
         cases_for_date[cases_date] += num_cases
 
+        is_case_date = int(row["IstErkrankungsbeginn"])
+        case_date_is_known = 1 if is_case_date == 1 or issue_date != cases_date else 0
+
         if age_group not in cases_per_age_group:
             cases_per_age_group[age_group] = num_cases
+            cases_per_age_group_with_sympton_onset[age_group] = (
+                num_cases * case_date_is_known
+            )
             deaths_per_age_group[age_group] = 0
             deaths_per_age_group_with_sympton_onset[age_group] = 0
         else:
             cases_per_age_group[age_group] += num_cases
+            cases_per_age_group_with_sympton_onset[age_group] += (
+                num_cases * case_date_is_known
+            )
 
         if issue_date not in deaths_for_date_80_plus:
             deaths_for_date_80_plus[issue_date] = 0
             deaths_for_date_80_below[issue_date] = 0
 
         if num_deaths != 0:
-            is_case_date = int(row["IstErkrankungsbeginn"])
-            case_date_is_known = (
-                1 if is_case_date == 1 or issue_date != cases_date else 0
-            )
 
             if case_date_is_known == 0:
                 num_unkown_onset_deaths += num_deaths
@@ -248,6 +254,46 @@ for key in sorted_keys:
         + key
         + ": "
         + str(int(round(100000 * deaths_for_age_group / cases_for_age_group)))
+    )
+print("---------------")
+for key in sorted_keys:
+    deaths_for_age_group = deaths_per_age_group_with_sympton_onset[key]
+    cases_for_age_group = cases_per_age_group_with_sympton_onset[key]
+    print(
+        "Lethality with symptoms per 100k "
+        + key
+        + ": "
+        + str(
+            int(
+                round(
+                    100000
+                    * deaths_for_age_group
+                    / (cases_for_age_group if cases_for_age_group > 0 else 1)
+                )
+            )
+        )
+    )
+print("---------------")
+for key in sorted_keys:
+    deaths_for_age_group = (
+        deaths_per_age_group[key] - deaths_per_age_group_with_sympton_onset[key]
+    )
+    cases_for_age_group = (
+        cases_per_age_group[key] - cases_per_age_group_with_sympton_onset[key]
+    )
+    print(
+        "Lethality without symptoms per 100k "
+        + key
+        + ": "
+        + str(
+            int(
+                round(
+                    100000
+                    * deaths_for_age_group
+                    / (cases_for_age_group if cases_for_age_group > 0 else 1)
+                )
+            )
+        )
     )
 
 print(

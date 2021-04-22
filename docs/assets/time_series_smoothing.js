@@ -2,7 +2,7 @@ class TimeSeriesSmoothing {
   constructor(alpha) {
     this._alpha = alpha;
 
-    this.smoothSeries = function (data) {
+    this.smoothSeries = function (data, weeklyValueAreDailyValues) {
 
       let numZeroValues = 0;
       let smoothedData = [];
@@ -10,14 +10,16 @@ class TimeSeriesSmoothing {
       for (let n = 0; n < data.length; n++) {
         smoothedData[n] = data[n];
 
-        // fix weekly values
-        if (data[n] === 0) {
-          numZeroValues++;
-        }
-        else if (numZeroValues >= 6) {
-          numZeroValues = 0;
-          for (let prev6 = 1; prev6 < 7; prev6++) {
-            smoothedData[n - prev6] = data[n];
+        if (weeklyValueAreDailyValues) {
+          // fix weekly values
+          if (data[n] === 0) {
+            numZeroValues++;
+          }
+          else if (numZeroValues >= 6) {
+            numZeroValues = 0;
+            for (let prev6 = 1; prev6 < 7; prev6++) {
+              smoothedData[n - prev6] = data[n];
+            }
           }
         }
       }

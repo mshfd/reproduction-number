@@ -424,8 +424,9 @@ function renderEpidemic(svg, epidemicData, measuresData, region) {
     const smoothingFactor = 0.5;
     //const smoothing = new zodiac.HoltSmoothing(epidemicSeriesData, smoothingFactor, 0.1);
     //const data = (smoothingFactor > 0.0) ? smoothing.predict() : epidemicSeriesData;
+    const weeklyValueAreDailyValues = (epidemicData.type !== "cases");
     const smoothing = new TimeSeriesSmoothing(smoothingFactor);
-    const data = smoothData ? smoothing.smoothSeries(epidemicSeriesData) : epidemicSeriesData;
+    const data = smoothData ? smoothing.smoothSeries(epidemicSeriesData, weeklyValueAreDailyValues) : epidemicSeriesData;
     const smoothMaxValue = Math.max(...data);
     const originalMaxValue = Math.max(...epidemicSeriesData);
     const smoothingRatio = originalMaxValue / smoothMaxValue;
