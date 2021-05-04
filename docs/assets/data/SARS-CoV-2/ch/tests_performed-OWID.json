@@ -1,11 +1,11 @@
 {
     "startDate": "2020-05-23",
-    "versionDate": "2021-04-28",
+    "versionDate": "2021-05-02",
     "type": "pcr_tests_100k",
     "averageReportToCaseDelayInDays": 10,
     "source": {
         "name": "Positive results per 100k tests performed - Data collected by OWID from Federal Office of Public Health",
-        "url": "https://www.covid19.admin.ch/api/data/20210429-5ncrubd7/downloads/sources-csv.zip",
+        "url": "https://www.covid19.admin.ch/api/data/20210503-p5y5ewoj/downloads/sources-csv.zip",
         "license": "Attribution 4.0 International (CC BY 4.0)",
         "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
     },
@@ -345,11 +345,15 @@
         8403,
         8621,
         8621,
-        8621,
+        8696,
         8621,
         8621,
         8475,
         8197,
-        8130
+        8000,
+        7874,
+        7519,
+        7407,
+        7299
     ]
 }
