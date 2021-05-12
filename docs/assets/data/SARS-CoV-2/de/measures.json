@@ -58,10 +58,18 @@
             ]
         },
         {
-            "startDate": "2020-12-27",
-            "endDate": "",
+            "startDate": [
+                "2020-12-27",
+                "2021-05-12"
+            ],
+            "endDate": [
+                "2021-05-11"
+            ],
             "type": "pharmaceutical",
-            "description": "Vaccination"
+            "description": [
+                "Vaccination started with prioritization by age and risk group",
+                "Vaccination priorization abolished; vaccination quota of 69% reached for age group 80+"
+            ]
         }
     ]
 }
