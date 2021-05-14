@@ -1325,6 +1325,17 @@
             ]
         },
         {
+            "name": "Hong Kong - tests performed",
+            "path": "hk",
+            "datasets": [
+                {
+                    "title": "Positive results per 100k tests performed (OWID)",
+                    "description": "Based on data collected by 'Our World in Data'.",
+                    "filename": "tests_performed-OWID.json"
+                }
+            ]
+        },
+        {
             "name": "Hungary",
             "path": "hu",
             "datasets": [

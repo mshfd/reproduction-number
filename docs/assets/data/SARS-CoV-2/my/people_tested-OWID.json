@@ -1,11 +1,11 @@
 {
     "startDate": "2020-02-21",
-    "versionDate": "2021-05-09",
+    "versionDate": "2021-05-13",
     "type": "pcr_tests_100k",
     "averageReportToCaseDelayInDays": 10,
     "source": {
         "name": "Positive results per 100k people tested - Data collected by OWID from Ministry of Health Malaysia",
-        "url": "http://covid-19.moh.gov.my/terkini/2021/05/situasi-terkini-covid-19-di-malaysia-09052021",
+        "url": "http://covid-19.moh.gov.my/terkini/2021/05/situasi-terkini-covid-19-di-malaysia-13052021",
         "license": "Attribution 4.0 International (CC BY 4.0)",
         "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
     },
@@ -453,6 +453,10 @@
         4717,
         4739,
         5076,
-        4975
+        4975,
+        5263,
+        5435,
+        5556,
+        5814
     ]
 }
