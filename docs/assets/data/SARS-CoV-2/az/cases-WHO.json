@@ -1,6 +1,6 @@
 {
     "startDate": "2020-01-03",
-    "versionDate": "2021-05-14",
+    "versionDate": "2021-05-15",
     "type": "cases",
     "averageReportToCaseDelayInDays": 8,
     "source": {
@@ -10,8 +10,8 @@
         "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/3.0/igo/"
     },
     "metrics": {
-        "numCases": 328668,
-        "numDeaths": 4742
+        "numCases": 328994,
+        "numDeaths": 4754
     },
     "data": [
         0,
@@ -511,6 +511,7 @@
         371,
         514,
         558,
-        509
+        509,
+        326
     ]
 }
