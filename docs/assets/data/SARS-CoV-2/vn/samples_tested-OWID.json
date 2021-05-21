@@ -1,11 +1,11 @@
 {
     "startDate": "2020-03-07",
-    "versionDate": "2021-05-15",
+    "versionDate": "2021-05-18",
     "type": "pcr_tests_100k",
     "averageReportToCaseDelayInDays": 10,
     "source": {
         "name": "Positive results per 100k samples tested - Data collected by OWID from Vietnam General Department of Preventive Medicine",
-        "url": "https://ncov.moh.gov.vn/vi/web/guest/-/6847426-3507",
+        "url": "https://ncov.moh.gov.vn/en/web/guest/-/6847426-3678",
         "license": "Attribution 4.0 International (CC BY 4.0)",
         "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
     },
@@ -434,16 +434,19 @@
         0,
         0,
         0,
-        100,
+        86,
+        94,
         109,
-        127,
-        184,
-        273,
-        306,
-        350,
-        381,
-        395,
-        412,
-        526
+        158,
+        234,
+        263,
+        300,
+        327,
+        339,
+        354,
+        452,
+        417,
+        453,
+        490
     ]
 }
