@@ -1,11 +1,11 @@
 {
     "startDate": "2020-04-06",
-    "versionDate": "2021-05-24",
+    "versionDate": "2021-05-25",
     "type": "pcr_tests_100k",
     "averageReportToCaseDelayInDays": 10,
     "source": {
         "name": "Positive results per 100k tests performed - Data collected by OWID from Ministry of Health",
-        "url": "https://koronavirus.gov.mk/stat",
+        "url": "https://koronavirus.gov.mk/",
         "license": "Attribution 4.0 International (CC BY 4.0)",
         "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
     },
@@ -423,6 +423,7 @@
         3745,
         3205,
         2985,
-        2801
+        2801,
+        2188
     ]
 }
