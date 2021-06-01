@@ -1,11 +1,11 @@
 {
     "startDate": "2020-07-01",
-    "versionDate": "2021-05-26",
+    "versionDate": "2021-05-29",
     "type": "pcr_tests_100k",
     "averageReportToCaseDelayInDays": 10,
     "source": {
         "name": "Positive results per 100k tests performed - Data collected by OWID from Federal Office of Public Health",
-        "url": "https://www.covid19.admin.ch/api/data/20210528-rey6l50i/downloads/sources-csv.zip",
+        "url": "https://www.covid19.admin.ch/api/data/20210531-f0b458nd/downloads/sources-csv.zip",
         "license": "Attribution 4.0 International (CC BY 4.0)",
         "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
     },
@@ -320,7 +320,7 @@
         3597,
         3497,
         2899,
-        2500,
+        2398,
         2299,
         2500,
         2398,
@@ -339,6 +339,9 @@
         1100,
         900,
         1100,
-        1200
+        1200,
+        1000,
+        1000,
+        1100
     ]
 }
