@@ -1,11 +1,11 @@
 {
     "startDate": "2020-03-21",
-    "versionDate": "2021-05-30",
+    "versionDate": "2021-06-02",
     "type": "pcr_tests_100k",
     "averageReportToCaseDelayInDays": 10,
     "source": {
         "name": "Positive results per 100k tests performed - Data collected by OWID from Ministry of Health",
-        "url": "https://minsalud.gob.bo/5624-reporte-441-de-covid-19-1-388-pacientes-recuperados-5-637-pruebas-negativas-y-1-635-543-dosis-de-la-vacuna-aplicadas-hasta-la-fecha",
+        "url": "https://minsalud.gob.bo/5639-reporte-444-de-covid-19-2-560-pacientes-recuperados-11-264-pruebas-negativas-y-1-767-803-dosis-de-la-vacuna-aplicadas-hasta-la-fecha",
         "license": "Attribution 4.0 International (CC BY 4.0)",
         "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
     },
@@ -445,6 +445,9 @@
         26316,
         25641,
         23810,
-        21739
+        21739,
+        25000,
+        22222,
+        22222
     ]
 }
