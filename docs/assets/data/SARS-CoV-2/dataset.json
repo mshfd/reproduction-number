@@ -95,6 +95,11 @@
                     "title": "WHO COVID-19 Cases",
                     "description": "The WHO coronavirus disease (COVID-19) data presents official daily counts of COVID-19 cases and deaths reported by countries, territories and areas. Caution must be taken when interpreting all data presented, and differences between information products published by WHO, national public health authorities, and other sources using different inclusion criteria and different data cut-off times are to be expected.",
                     "filename": "cases-WHO.json"
+                },
+                {
+                    "title": "Positive results per 100k tests performed (OWID)",
+                    "description": "Based on data collected by 'Our World in Data'.",
+                    "filename": "tests_performed-OWID.json"
                 }
             ]
         },
@@ -894,6 +899,11 @@
                     "title": "WHO COVID-19 Cases",
                     "description": "The WHO coronavirus disease (COVID-19) data presents official daily counts of COVID-19 cases and deaths reported by countries, territories and areas. Caution must be taken when interpreting all data presented, and differences between information products published by WHO, national public health authorities, and other sources using different inclusion criteria and different data cut-off times are to be expected.",
                     "filename": "cases-WHO.json"
+                },
+                {
+                    "title": "Positive results per 100k tests performed (OWID)",
+                    "description": "Based on data collected by 'Our World in Data'.",
+                    "filename": "tests_performed-OWID.json"
                 }
             ]
         },
@@ -1067,6 +1077,11 @@
                     "title": "WHO COVID-19 Cases",
                     "description": "The WHO coronavirus disease (COVID-19) data presents official daily counts of COVID-19 cases and deaths reported by countries, territories and areas. Caution must be taken when interpreting all data presented, and differences between information products published by WHO, national public health authorities, and other sources using different inclusion criteria and different data cut-off times are to be expected.",
                     "filename": "cases-WHO.json"
+                },
+                {
+                    "title": "Positive results per 100k samples tested (OWID)",
+                    "description": "Based on data collected by 'Our World in Data'.",
+                    "filename": "samples_tested-OWID.json"
                 }
             ]
         },
@@ -2606,6 +2621,11 @@
                     "title": "WHO COVID-19 Cases",
                     "description": "The WHO coronavirus disease (COVID-19) data presents official daily counts of COVID-19 cases and deaths reported by countries, territories and areas. Caution must be taken when interpreting all data presented, and differences between information products published by WHO, national public health authorities, and other sources using different inclusion criteria and different data cut-off times are to be expected.",
                     "filename": "cases-WHO.json"
+                },
+                {
+                    "title": "Positive results per 100k people tested (OWID)",
+                    "description": "Based on data collected by 'Our World in Data'.",
+                    "filename": "people_tested-OWID.json"
                 }
             ]
         },

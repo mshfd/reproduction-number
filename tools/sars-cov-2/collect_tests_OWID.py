@@ -154,6 +154,11 @@ for country in data.keys():
         print()
         print("Writing results to " + target_json)
 
+        source = (
+            country_data["source"] if "source" in country_data else "unknown source"
+        )
+        source_url = country_data["source_url"] if "source_url" in country_data else ""
+
         result = {
             "startDate": str(first_date),
             "versionDate": data_by_type["version_date"],
@@ -163,10 +168,8 @@ for country in data.keys():
                 "name": "Positive results per 100k "
                 + data_by_type["title"]
                 + " - Data collected by OWID from "
-                + country_data["source"],
-                "url": country_data["source_url"]
-                if "source_url" in country_data
-                else "",
+                + source,
+                "url": source_url,
                 "license": "Attribution 4.0 International (CC BY 4.0)",
                 "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
             },

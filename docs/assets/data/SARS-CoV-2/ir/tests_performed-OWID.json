@@ -1,11 +1,11 @@
 {
     "startDate": "2020-04-12",
-    "versionDate": "2021-06-07",
+    "versionDate": "2021-06-09",
     "type": "pcr_tests_100k",
     "averageReportToCaseDelayInDays": 10,
     "source": {
         "name": "Positive results per 100k tests performed - Data collected by OWID from Government of Iran",
-        "url": "http://irangov.ir/detail/365199",
+        "url": "http://irangov.ir/detail/365336",
         "license": "Attribution 4.0 International (CC BY 4.0)",
         "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
     },
@@ -431,6 +431,8 @@
         7692,
         7634,
         7299,
-        6623
+        6623,
+        6410,
+        6250
     ]
 }
