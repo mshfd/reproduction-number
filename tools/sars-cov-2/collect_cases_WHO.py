@@ -160,7 +160,7 @@ who_dataset = {
 
 dataset_json_filepath = base_data_dir + "dataset.json"
 dataset = {}
-with open(dataset_json_filepath, "r") as dataset_json:
+with open(dataset_json_filepath, "r", encoding="utf-8") as dataset_json:
     dataset = json.load(dataset_json)
 
     def find_entry(arr, key, id):
