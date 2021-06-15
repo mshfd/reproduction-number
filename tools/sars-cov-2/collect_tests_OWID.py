@@ -237,5 +237,5 @@ with open(dataset_json_filepath, "r") as dataset_json:
 dataset["regions"].sort(key=lambda x: x["name"])
 
 print("Writing datasets to " + dataset_json_filepath)
-with open(dataset_json_filepath, "w") as dataset_json:
+with open(dataset_json_filepath, "w", encoding="utf-8") as dataset_json:
     json.dump(dataset, dataset_json, indent=4, ensure_ascii=False)

@@ -329,7 +329,7 @@ def store_to_file(targetJson, data, average_report_to_case_delay_in_days, data_t
         "data": data,
     }
 
-    with open("../../../" + targetJson, "w") as outfile:
+    with open("../../../" + targetJson, "w", encoding="utf-8") as outfile:
         json.dump(result, outfile, indent=4, ensure_ascii=False)
 
 
