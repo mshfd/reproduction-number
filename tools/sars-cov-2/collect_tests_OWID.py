@@ -176,7 +176,7 @@ for country in data.keys():
             "data": cases,
         }
 
-        with open(target_json, "w") as outfile:
+        with open(target_json, "w", encoding="utf-8") as outfile:
             json.dump(result, outfile, indent=4, ensure_ascii=False)
 
 
