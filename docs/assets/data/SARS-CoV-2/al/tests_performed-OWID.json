@@ -1,11 +1,11 @@
 {
     "startDate": "2020-03-14",
-    "versionDate": "2021-06-12",
+    "versionDate": "2021-06-13",
     "type": "pcr_tests_100k",
     "averageReportToCaseDelayInDays": 10,
     "source": {
         "name": "Positive results per 100k tests performed - Data collected by OWID from Ministry of Health and Social Protection",
-        "url": "https://shendetesia.gov.al/covid19-ministria-e-shendetesise-asnje-humbje-jete-2916-testime-19-te-sheruar-12-raste-te-reja-ne-24-oret-e-fundit/",
+        "url": "https://shendetesia.gov.al/covid19-ministria-e-shendetesise-asnje-humbje-jete-2224-testime-16-te-sheruar-10-raste-te-reja-ne-24-oret-e-fundit/",
         "license": "Attribution 4.0 International (CC BY 4.0)",
         "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
     },
@@ -465,6 +465,7 @@
         328,
         350,
         345,
-        413
+        413,
+        432
     ]
 }
