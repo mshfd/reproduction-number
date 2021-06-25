@@ -1,11 +1,11 @@
 {
     "startDate": "2020-03-07",
-    "versionDate": "2021-06-17",
+    "versionDate": "2021-06-24",
     "type": "pcr_tests_100k",
     "averageReportToCaseDelayInDays": 10,
     "source": {
         "name": "Positive results per 100k people tested - Data collected by OWID from Morocco Ministry of Health",
-        "url": "http://www.covidmaroc.ma/Documents/BULLETIN/17.6.21.COVID-19.pdf",
+        "url": "https://twitter.com/Ministere_Sante/status/1408090405288173568",
         "license": "Attribution 4.0 International (CC BY 4.0)",
         "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
     },
@@ -477,6 +477,13 @@
         4167,
         4016,
         3906,
-        3774
+        3774,
+        3650,
+        3460,
+        3390,
+        3322,
+        3257,
+        3367,
+        3448
     ]
 }
