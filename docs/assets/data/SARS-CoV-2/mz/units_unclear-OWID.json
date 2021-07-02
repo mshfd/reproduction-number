@@ -1,11 +1,11 @@
 {
     "startDate": "2020-04-04",
-    "versionDate": "2021-06-24",
+    "versionDate": "2021-06-30",
     "type": "pcr_tests_100k",
     "averageReportToCaseDelayInDays": 10,
     "source": {
         "name": "Positive results per 100k units unclear - Data collected by OWID from Mozambique Ministry of Health",
-        "url": "https://www.misau.gov.mz/index.php/covid-19-boletins-diarios?download=1024:boletim-diario-covid-19-n-464",
+        "url": "https://www.misau.gov.mz/index.php/covid-19-boletins-diarios?download=1030:boletim-diario-covid-19-n-430",
         "license": "Attribution 4.0 International (CC BY 4.0)",
         "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
     },
@@ -456,6 +456,12 @@
         11111,
         11765,
         13889,
-        16129
+        16129,
+        16949,
+        18182,
+        19608,
+        17857,
+        18519,
+        19608
     ]
 }
