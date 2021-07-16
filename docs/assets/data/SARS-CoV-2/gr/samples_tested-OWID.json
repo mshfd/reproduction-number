@@ -1,11 +1,11 @@
 {
     "startDate": "2020-03-10",
-    "versionDate": "2021-07-08",
+    "versionDate": "2021-07-14",
     "type": "pcr_tests_100k",
     "averageReportToCaseDelayInDays": 10,
     "source": {
         "name": "Positive results per 100k samples tested - Data collected by OWID from National Organization of Public Health",
-        "url": "https://eody.gov.gr/wp-content/uploads/2021/06/covid-gr-daily-report-20210630.pdf",
+        "url": "https://eody.gov.gr/wp-content/uploads/2021/07/covid-gr-daily-report-20210714.pdf",
         "license": "Attribution 4.0 International (CC BY 4.0)",
         "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
     },
@@ -495,6 +495,12 @@
         2146,
         2551,
         2762,
-        2967
+        2967,
+        3012,
+        3040,
+        3135,
+        3311,
+        3559,
+        3704
     ]
 }
