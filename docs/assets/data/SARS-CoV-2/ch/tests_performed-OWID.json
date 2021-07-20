@@ -1,11 +1,11 @@
 {
     "startDate": "2020-05-23",
-    "versionDate": "2021-07-12",
+    "versionDate": "2021-07-17",
     "type": "pcr_tests_100k",
     "averageReportToCaseDelayInDays": 10,
     "source": {
         "name": "Positive results per 100k tests performed - Data collected by OWID from Federal Office of Public Health",
-        "url": "https://www.covid19.admin.ch/api/data/20210713-woxpzjfj/downloads/sources-csv.zip",
+        "url": "https://www.covid19.admin.ch/api/data/20210719-wpjcvnzf/downloads/sources-csv.zip",
         "license": "Attribution 4.0 International (CC BY 4.0)",
         "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
     },
@@ -262,7 +262,7 @@
         8333,
         8000,
         7692,
-        7519,
+        7576,
         7519,
         7299,
         7092,
@@ -330,7 +330,7 @@
         5102,
         5291,
         5917,
-        6494,
+        6579,
         6897,
         7299,
         7576,
@@ -351,7 +351,7 @@
         8475,
         8197,
         8000,
-        7812,
+        7874,
         7519,
         7407,
         7299,
@@ -379,8 +379,8 @@
         3906,
         3802,
         3704,
-        3704,
-        3704,
+        3802,
+        3802,
         3704,
         3704,
         3597,
@@ -425,6 +425,11 @@
         1100,
         1200,
         1200,
-        1300
+        1401,
+        1499,
+        1600,
+        1799,
+        2000,
+        2198
     ]
 }
