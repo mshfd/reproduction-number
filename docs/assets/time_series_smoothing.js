@@ -28,12 +28,11 @@ class TimeSeriesSmoothing {
       let hasNegativeValues = true;
       while (hasNegativeValues) {
         hasNegativeValues = false;
-        for (let n = 0; n < data.length; n++) {
+        for (let n = 1; n < data.length; n++) {
           if (smoothedData[n] < 0) {
             hasNegativeValues = true;
-            smoothedData[n] += 2;
             smoothedData[n - 1] -= 1;
-            smoothedData[n + 1] -= 1;
+            smoothedData[n] += 1;
           }
         }
       }
