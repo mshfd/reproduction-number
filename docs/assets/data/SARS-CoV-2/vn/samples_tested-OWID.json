@@ -1,11 +1,11 @@
 {
     "startDate": "2020-03-07",
-    "versionDate": "2021-07-13",
+    "versionDate": "2021-07-18",
     "type": "pcr_tests_100k",
     "averageReportToCaseDelayInDays": 10,
     "source": {
-        "name": "Positive results per 100k samples tested - Data collected by OWID from Vietnam General Department of Preventive Medicine",
-        "url": "https://luatvietnam.vn/covid/bao-cao-1054-bc-byt-205500-d6.html",
+        "name": "Positive results per 100k samples tested - Data collected by OWID from Vietnam Ministry of Health",
+        "url": "https://luatvietnam.vn/y-te/bao-cao-1074-bc-byt-205801-d6.html",
         "license": "Attribution 4.0 International (CC BY 4.0)",
         "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
     },
@@ -503,6 +503,11 @@
         2128,
         2222,
         2315,
-        2695
+        2695,
+        2994,
+        3436,
+        3774,
+        4202,
+        4739
     ]
 }
