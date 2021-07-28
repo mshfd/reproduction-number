@@ -1,11 +1,11 @@
 {
     "startDate": "2020-03-03",
-    "versionDate": "2021-07-22",
+    "versionDate": "2021-07-25",
     "type": "pcr_tests_100k",
     "averageReportToCaseDelayInDays": 10,
     "source": {
         "name": "Positive results per 100k tests performed - Data collected by OWID from Statens Serum Institut",
-        "url": "https://files.ssi.dk/covid19/overvagning/data/overvaagningsdata-covid19-23072021-vjlv",
+        "url": "https://files.ssi.dk/covid19/overvagning/data/overvaagningsdata-covid19-26072021-slj8",
         "license": "Attribution 4.0 International (CC BY 4.0)",
         "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
     },
@@ -516,6 +516,9 @@
         1144,
         1122,
         1091,
-        1182
+        1083,
+        1082,
+        1072,
+        1172
     ]
 }
