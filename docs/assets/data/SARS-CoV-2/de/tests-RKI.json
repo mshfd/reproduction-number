@@ -1,11 +1,11 @@
 {
     "startDate": "2020-01-19",
-    "versionDate": "2021-07-18",
+    "versionDate": "2021-07-25",
     "type": "pcr_tests_100k",
     "averageReportToCaseDelayInDays": 5,
     "source": {
         "name": "Robert Koch-Institut",
-        "url": "https://www.rki.de/DE/Content/InfAZ/N/Neuartiges_Coronavirus/Situationsberichte/Jul_2021/2021-07-14-de.pdf?__blob=publicationFile",
+        "url": "https://www.rki.de/DE/Content/InfAZ/N/Neuartiges_Coronavirus/Daten/Testzahlen-gesamt.html",
         "license": "Data licence Germany - attribution - version 2.0",
         "licenseUrl": "https://www.govdata.de/dl-de/by-2-0"
     },
@@ -85,8 +85,9 @@
         2310,2310,2310,2310,2310,2310,2310,
 		1432,1432,1432,1432,1432,1432,1432,
 		970,970,970,970,970,970,970,
-		797,797,797,797,797,797,797,
-		1102,1102,1102,1102,1102,1102,1102,
-		1637,1637,1637,1637,1637,1637,1637
+		799,799,799,799,799,799,799,
+		1106,1106,1106,1106,1106,1106,1106,
+		1640,1640,1640,1640,1640,1640,1640,
+		2347,2347,2347,2347,2347,2347,2347
     ]
 }
