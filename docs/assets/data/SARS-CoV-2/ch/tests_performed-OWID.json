@@ -1,11 +1,11 @@
 {
     "startDate": "2020-05-23",
-    "versionDate": "2021-08-07",
+    "versionDate": "2021-08-11",
     "type": "pcr_tests_100k",
     "averageReportToCaseDelayInDays": 10,
     "source": {
         "name": "Positive results per 100k tests performed - Data collected by OWID from Federal Office of Public Health",
-        "url": "https://www.covid19.admin.ch/api/data/20210809-yvpa9vdz/downloads/sources-csv.zip",
+        "url": "https://opendata.swiss/en/dataset/covid-19-schweiz",
         "license": "Attribution 4.0 International (CC BY 4.0)",
         "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
     },
@@ -342,7 +342,7 @@
         8333,
         8333,
         8403,
-        8403,
+        8475,
         8621,
         8621,
         8621,
@@ -451,6 +451,10 @@
         5000,
         5405,
         5814,
-        6289
+        6289,
+        6711,
+        7519,
+        8197,
+        9009
     ]
 }
