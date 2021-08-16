@@ -1,6 +1,6 @@
 {
     "startDate": "2020-01-01",
-    "versionDate": "2021-08-15",
+    "versionDate": "2021-08-16",
     "type": "death-by-age-ratio",
     "averageReportToCaseDelayInDays": 10,
     "source": {
@@ -10,9 +10,9 @@
         "licenseUrl": "https://www.govdata.de/dl-de/by-2-0"
     },
     "metrics": {
-        "numCases": 3820970,
-        "numRecovered": 3679440,
-        "numDeaths": 91867
+        "numCases": 3823109,
+        "numRecovered": 3681969,
+        "numDeaths": 91871
     },
     "data": [
         0,
@@ -592,20 +592,21 @@
         5000,
         5070,
         5000,
+        5132,
         5067,
-        5000,
-        5135,
-        5135,
         5263,
-        5132,
-        5132,
-        5325,
-        5395,
-        5616,
+        5263,
+        5385,
+        5256,
+        5316,
+        5500,
+        5570,
+        5789,
+        5733,
+        5753,
         5556,
-        5571,
-        5362,
-        5556,
-        5484
+        5821,
+        5758,
+        6032
     ]
 }
