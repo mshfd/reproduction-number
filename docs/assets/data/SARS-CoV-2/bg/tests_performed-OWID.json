@@ -1,11 +1,11 @@
 {
     "startDate": "2020-04-18",
-    "versionDate": "2021-08-22",
+    "versionDate": "2021-08-23",
     "type": "pcr_tests_100k",
     "averageReportToCaseDelayInDays": 10,
     "source": {
         "name": "Positive results per 100k tests performed - Data collected by OWID from Bulgaria COVID-10 Information Portal",
-        "url": "https://coronavirus.bg/",
+        "url": "https://coronavirus.bg/bg/statistika",
         "license": "Attribution 4.0 International (CC BY 4.0)",
         "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
     },
@@ -500,7 +500,8 @@
         5291,
         5556,
         5682,
-        5952,
-        6135
+        5556,
+        5319,
+        5435
     ]
 }
