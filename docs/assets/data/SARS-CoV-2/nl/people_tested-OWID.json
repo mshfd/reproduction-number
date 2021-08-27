@@ -1,11 +1,11 @@
 {
     "startDate": "2020-03-15",
-    "versionDate": "2021-08-15",
+    "versionDate": "2021-08-22",
     "type": "pcr_tests_100k",
     "averageReportToCaseDelayInDays": 10,
     "source": {
         "name": "Positive results per 100k people tested - Data collected by OWID from National Institute for Public Health and the Environment",
-        "url": "https://www.rivm.nl/sites/default/files/2021-08/COVID-19_WebSite_rapport_wekelijks_20210817_1158_publicatie.pdf",
+        "url": "https://www.rivm.nl/sites/default/files/2021-08/COVID-19_WebSite_rapport_wekelijks_20210824_1215_final.pdf",
         "license": "Attribution 4.0 International (CC BY 4.0)",
         "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
     },
@@ -388,7 +388,7 @@
         0,
         0,
         0,
-        8000,
+        7874,
         0,
         0,
         0,
@@ -528,6 +528,13 @@
         0,
         0,
         0,
-        7299
+        7299,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        8000
     ]
 }
