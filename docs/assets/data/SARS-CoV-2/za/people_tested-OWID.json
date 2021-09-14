@@ -1,11 +1,11 @@
 {
     "startDate": "2020-03-10",
-    "versionDate": "2021-09-09",
+    "versionDate": "2021-09-12",
     "type": "pcr_tests_100k",
     "averageReportToCaseDelayInDays": 10,
     "source": {
         "name": "Positive results per 100k people tested - Data collected by OWID from National Institute for Communicable Diseases (NICD)",
-        "url": "https://sacoronavirus.co.za/2021/09/09/update-on-covid-19-thursday-09-september/",
+        "url": "https://sacoronavirus.co.za/2021/09/12/update-on-covid-19-sunday-12-september/",
         "license": "Attribution 4.0 International (CC BY 4.0)",
         "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
     },
@@ -558,6 +558,9 @@
         15152,
         14925,
         14493,
-        13889
+        13889,
+        12987,
+        12195,
+        11765
     ]
 }
