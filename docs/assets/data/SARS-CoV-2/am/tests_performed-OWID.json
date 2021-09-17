@@ -1,11 +1,11 @@
 {
     "startDate": "2020-03-16",
-    "versionDate": "2021-09-13",
+    "versionDate": "2021-09-16",
     "type": "pcr_tests_100k",
     "averageReportToCaseDelayInDays": 10,
     "source": {
         "name": "Positive results per 100k tests performed - Data collected by OWID from Ministry of Health",
-        "url": "https://www.moh.am/#3/4291",
+        "url": "https://www.moh.am/#3/4300",
         "license": "Attribution 4.0 International (CC BY 4.0)",
         "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
     },
@@ -556,6 +556,9 @@
         9091,
         9259,
         9615,
-        9804
+        9804,
+        10101,
+        10526,
+        11111
     ]
 }
