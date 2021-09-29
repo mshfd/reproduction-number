@@ -1,11 +1,11 @@
 {
     "startDate": "2020-03-21",
-    "versionDate": "2021-09-23",
+    "versionDate": "2021-09-25",
     "type": "pcr_tests_100k",
     "averageReportToCaseDelayInDays": 10,
     "source": {
         "name": "Positive results per 100k tests performed - Data collected by OWID from Ministry of Health",
-        "url": "https://minsalud.gob.bo/6055-el-ministerio-de-salud-informa-que-se-inmunizo-hasta-hoy-a-6-601-529-personas-con-primeras-segundas-y-dosis-unica",
+        "url": "https://minsalud.gob.bo/6060-el-ministerio-de-salud-informa-que-se-inmunizo-hasta-hoy-a-6-646-806-personas-con-primeras-segundas-y-dosis-unica",
         "license": "Attribution 4.0 International (CC BY 4.0)",
         "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
     },
@@ -561,6 +561,8 @@
         6944,
         6098,
         5882,
-        7092
+        7092,
+        5747,
+        5714
     ]
 }
