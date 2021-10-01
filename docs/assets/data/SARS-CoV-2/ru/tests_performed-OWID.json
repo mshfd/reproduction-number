@@ -1,11 +1,11 @@
 {
     "startDate": "2020-03-11",
-    "versionDate": "2021-09-27",
+    "versionDate": "2021-09-29",
     "type": "pcr_tests_100k",
     "averageReportToCaseDelayInDays": 10,
     "source": {
         "name": "Positive results per 100k tests performed - Data collected by OWID from Government of the Russian Federation",
-        "url": "https://rospotrebnadzor.ru/about/info/news/news_details.php?ELEMENT_ID=19102",
+        "url": "https://rospotrebnadzor.ru/about/info/news/news_details.php?ELEMENT_ID=19127",
         "license": "Attribution 4.0 International (CC BY 4.0)",
         "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
     },
@@ -575,6 +575,8 @@
         4425,
         4444,
         4484,
-        4545
+        4545,
+        4566,
+        4587
     ]
 }
