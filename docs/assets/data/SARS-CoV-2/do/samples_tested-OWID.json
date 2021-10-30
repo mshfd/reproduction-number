@@ -1,11 +1,11 @@
 {
     "startDate": "2020-03-25",
-    "versionDate": "2021-10-19",
+    "versionDate": "2021-10-26",
     "type": "pcr_tests_100k",
     "averageReportToCaseDelayInDays": 10,
     "source": {
         "name": "Positive results per 100k samples tested - Data collected by OWID from Ministry of Public Health and Social Assistance",
-        "url": "https://www.msp.gob.do/web/wp-admin/admin-ajax.php?juwpfisadmin=false&action=wpfd&task=file.download&wpfd_category_id=59&wpfd_file_id=13722",
+        "url": "https://www.msp.gob.do/web/wp-admin/admin-ajax.php?juwpfisadmin=false&action=wpfd&task=file.download&wpfd_category_id=59&wpfd_file_id=13801",
         "license": "Attribution 4.0 International (CC BY 4.0)",
         "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
     },
@@ -583,6 +583,13 @@
         14286,
         14706,
         15385,
-        15152
+        15152,
+        15873,
+        15873,
+        16393,
+        16667,
+        16667,
+        15385,
+        15625
     ]
 }
