@@ -1,11 +1,11 @@
 {
     "startDate": "2020-03-10",
-    "versionDate": "2021-10-28",
+    "versionDate": "2021-11-01",
     "type": "pcr_tests_100k",
     "averageReportToCaseDelayInDays": 10,
     "source": {
         "name": "Positive results per 100k tests performed - Data collected by OWID from Government of Belarus",
-        "url": "https://www.belarus.by/en/press-center/press-release/belarus-covid-19-latest-2097-new-cases-2315-recoveries_i_0000135917.html",
+        "url": "https://www.belarus.by/en/press-center/press-release/belarus-covid-19-update-1890-new-cases-1561-recoveries_i_0000136324.html",
         "license": "Attribution 4.0 International (CC BY 4.0)",
         "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
     },
@@ -601,12 +601,16 @@
         5780,
         5780,
         5814,
-        5714,
         5650,
-        5618,
+        5495,
+        5376,
+        5587,
         5556,
-        5525,
-        5435,
-        5319
+        5464,
+        5376,
+        5376,
+        5556,
+        5747,
+        5556
     ]
 }
