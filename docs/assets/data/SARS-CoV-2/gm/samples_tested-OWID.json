@@ -1,11 +1,11 @@
 {
     "startDate": "2021-08-01",
-    "versionDate": "2021-10-26",
+    "versionDate": "2021-10-31",
     "type": "pcr_tests_100k",
     "averageReportToCaseDelayInDays": 10,
     "source": {
         "name": "Positive results per 100k samples tested - Data collected by OWID from Ministry of Health",
-        "url": "https://www.moh.gov.gm/wp-content/uploads/2021/10/GMB-COVID-19-Situational-Report_2021_26th_October_No-394.pdf",
+        "url": "https://www.moh.gov.gm/wp-content/uploads/2021/11/GMB-COVID-19-Situational-Report_2021_28th_31st_October_No-396.pdf",
         "license": "Attribution 4.0 International (CC BY 4.0)",
         "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
     },
@@ -96,6 +96,11 @@
         684,
         704,
         677,
-        880
+        880,
+        1109,
+        1070,
+        574,
+        554,
+        536
     ]
 }
