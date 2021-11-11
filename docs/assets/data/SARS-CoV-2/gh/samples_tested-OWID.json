@@ -1,11 +1,11 @@
 {
     "startDate": "2020-03-24",
-    "versionDate": "2021-10-27",
+    "versionDate": "2021-10-30",
     "type": "pcr_tests_100k",
     "averageReportToCaseDelayInDays": 10,
     "source": {
         "name": "Positive results per 100k samples tested - Data collected by OWID from Outbreak Response Management Situation Update",
-        "url": "https://www.ghanahealthservice.org/covid19/archive.php",
+        "url": "https://www.ghs.gov.gh/covid19/",
         "license": "Attribution 4.0 International (CC BY 4.0)",
         "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
     },
@@ -592,6 +592,9 @@
         1370,
         1883,
         1527,
-        1616
+        1616,
+        1730,
+        1745,
+        989
     ]
 }

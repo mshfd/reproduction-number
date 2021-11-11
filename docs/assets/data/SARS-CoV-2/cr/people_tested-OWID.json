@@ -1,6 +1,6 @@
 {
-    "startDate": "2020-03-12",
-    "versionDate": "2021-10-30",
+    "startDate": "2020-03-11",
+    "versionDate": "2021-11-02",
     "type": "pcr_tests_100k",
     "averageReportToCaseDelayInDays": 10,
     "source": {
@@ -10,6 +10,7 @@
         "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
     },
     "data": [
+        100000,
         20833,
         12346,
         6289,
@@ -607,6 +608,9 @@
         25000,
         25000,
         23256,
+        21739,
+        21277,
+        21277,
         21739
     ]
 }

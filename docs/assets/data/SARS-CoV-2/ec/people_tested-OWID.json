@@ -1,11 +1,11 @@
 {
     "startDate": "2020-09-14",
-    "versionDate": "2021-11-04",
+    "versionDate": "2021-11-06",
     "type": "pcr_tests_100k",
     "averageReportToCaseDelayInDays": 10,
     "source": {
         "name": "Positive results per 100k people tested - Data collected by OWID from Government of Ecuador",
-        "url": "https://www.salud.gob.ec/actualizacion-de-casos-de-coronavirus-en-ecuador/",
+        "url": "https://www.salud.gob.ec/wp-content/uploads/2021/11/Presentacion-COVID-19-SNVSPSNGR06.pdf",
         "license": "Attribution 4.0 International (CC BY 4.0)",
         "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
     },
@@ -418,14 +418,16 @@
         10870,
         11364,
         7299,
-        6667,
-        5236,
-        4255,
-        3584,
-        421,
-        283,
-        253,
+        9346,
+        10000,
+        9615,
+        9709,
+        1302,
+        984,
+        1092,
         0,
-        3058
+        15625,
+        15625,
+        22222
     ]
 }
