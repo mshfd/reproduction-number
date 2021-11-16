@@ -1,11 +1,11 @@
 {
     "startDate": "2020-03-10",
-    "versionDate": "2021-11-10",
+    "versionDate": "2021-11-14",
     "type": "pcr_tests_100k",
     "averageReportToCaseDelayInDays": 10,
     "source": {
         "name": "Positive results per 100k people tested - Data collected by OWID from National Institute for Communicable Diseases (NICD)",
-        "url": "https://sacoronavirus.co.za/2021/11/10/update-on-covid-19-wednesday-10-november-2021/",
+        "url": "https://sacoronavirus.co.za/2021/11/14/update-on-covid-19-sunday-14-november-2021/",
         "license": "Attribution 4.0 International (CC BY 4.0)",
         "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
     },
@@ -620,6 +620,10 @@
         1026,
         1014,
         1015,
-        963
+        963,
+        983,
+        1010,
+        992,
+        889
     ]
 }
