@@ -1,11 +1,11 @@
 {
     "startDate": "2020-03-29",
-    "versionDate": "2021-11-14",
+    "versionDate": "2021-11-18",
     "type": "pcr_tests_100k",
     "averageReportToCaseDelayInDays": 10,
     "source": {
         "name": "Positive results per 100k tests performed - Data collected by OWID from Australian Government Department of Health",
-        "url": "https://www.health.gov.au/sites/default/files/documents/2021/11/coronavirus-covid-19-at-a-glance-14-november-2021_0.pdf",
+        "url": "https://www.health.gov.au/sites/default/files/documents/2021/11/coronavirus-covid-19-at-a-glance-17-november-2021.pdf",
         "license": "Attribution 4.0 International (CC BY 4.0)",
         "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
     },
@@ -605,6 +605,10 @@
         895,
         885,
         872,
-        850
+        850,
+        804,
+        797,
+        802,
+        800
     ]
 }
