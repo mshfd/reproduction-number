@@ -1,11 +1,11 @@
 {
     "startDate": "2020-03-21",
-    "versionDate": "2021-11-20",
+    "versionDate": "2021-11-23",
     "type": "pcr_tests_100k",
     "averageReportToCaseDelayInDays": 10,
     "source": {
         "name": "Positive results per 100k tests performed - Data collected by OWID from Ministry of Health",
-        "url": "https://minsalud.gob.bo/6243-covid-19-hasta-hoy-la-inmunizacion-alcanza-a-8-336-670-vacunas-con-primeras-segundas-unidosis-y-terceras-dosis",
+        "url": "https://minsalud.gob.bo/6254-covid-19-hasta-hoy-la-inmunizacion-alcanza-a-8-411-426-vacunas-con-primeras-segundas-unidosis-y-terceras-dosis",
         "license": "Attribution 4.0 International (CC BY 4.0)",
         "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
     },
@@ -619,6 +619,9 @@
         16129,
         13889,
         10989,
-        12821
+        12821,
+        12048,
+        13158,
+        13158
     ]
 }
