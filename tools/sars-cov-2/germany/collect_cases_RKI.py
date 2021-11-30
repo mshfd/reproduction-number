@@ -47,7 +47,7 @@ if not os.path.exists(rki_covid19_filename):
 
         print(f"UrlLib len: {round((Length / 1024) / 1024, 2)} MB")
 
-        with open(rki_covid19_filename, "wb") as out_file:
+        with open("tmp.csv", "wb") as out_file:
             Size = 0
             while True:
                 BufferNow = Response.read(BlockSize)
@@ -62,6 +62,8 @@ if not os.path.exists(rki_covid19_filename):
                         end="",
                         flush=True,
                     )
+
+        os.rename("tmp.csv", rki_covid19_filename)
 
     print("Finished downloading " + rki_covid19_filename)
 
