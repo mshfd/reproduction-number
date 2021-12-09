@@ -1,11 +1,11 @@
 {
     "startDate": "2020-03-19",
-    "versionDate": "2021-12-05",
+    "versionDate": "2021-12-07",
     "type": "pcr_tests_100k",
     "averageReportToCaseDelayInDays": 10,
     "source": {
         "name": "Positive results per 100k tests performed - Data collected by OWID from Ministry of Internal Affairs",
-        "url": "https://gov.ro/fisiere/comunicate_fisiere/3-12_BULETIN_DE_PRESA_ora_13.00.pdf",
+        "url": "https://gov.ro/fisiere/comunicate_fisiere/6-12_BULETIN_DE_PRESA,_ora_13.00.pdf",
         "license": "Attribution 4.0 International (CC BY 4.0)",
         "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
     },
@@ -636,6 +636,8 @@
         4975,
         5102,
         5000,
-        4785
+        4785,
+        4651,
+        4525
     ]
 }
