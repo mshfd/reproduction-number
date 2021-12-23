@@ -1,11 +1,11 @@
 {
     "startDate": "2020-09-14",
-    "versionDate": "2021-12-12",
+    "versionDate": "2021-12-17",
     "type": "pcr_tests_100k",
     "averageReportToCaseDelayInDays": 10,
     "source": {
         "name": "Positive results per 100k people tested - Data collected by OWID from Government of Ecuador",
-        "url": "https://www.salud.gob.ec/wp-content/uploads/2021/12/MSP_cvd19_infografia_diaria_20211212.pdf",
+        "url": "https://www.salud.gob.ec/wp-content/uploads/2021/12/MSP_cvd19_infografia_diaria_20211216.pdf",
         "license": "Attribution 4.0 International (CC BY 4.0)",
         "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
     },
@@ -464,6 +464,11 @@
         12346,
         15152,
         15385,
-        24390
+        24390,
+        15385,
+        18868,
+        20408,
+        27027,
+        26316
     ]
 }
