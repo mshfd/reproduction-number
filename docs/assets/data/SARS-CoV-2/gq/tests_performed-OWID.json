@@ -1,11 +1,11 @@
 {
     "startDate": "2021-07-19",
-    "versionDate": "2022-02-13",
+    "versionDate": "2022-02-28",
     "type": "pcr_tests_100k",
     "averageReportToCaseDelayInDays": 10,
     "source": {
-        "name": "Positive results per 100k tests performed - Data collected by OWID from Africa Centres for Disease Control and Prevention",
-        "url": "https://africacdc.org/covid-19/",
+        "name": "Positive results per 100k tests performed - Data collected by OWID from Ministerio de Sanidad y Bienestar Social",
+        "url": "https://guineasalud.org/estadisticas/",
         "license": "Attribution 4.0 International (CC BY 4.0)",
         "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
     },
@@ -219,6 +219,21 @@
         1289,
         571,
         837,
-        722
+        722,
+        404,
+        728,
+        633,
+        521,
+        483,
+        306,
+        300,
+        403,
+        144,
+        154,
+        224,
+        15,
+        8,
+        5,
+        6
     ]
 }

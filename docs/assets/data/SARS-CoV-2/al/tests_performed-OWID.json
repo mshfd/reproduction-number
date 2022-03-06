@@ -1,16 +1,15 @@
 {
-    "startDate": "2020-03-14",
-    "versionDate": "2022-02-13",
+    "startDate": "2020-03-15",
+    "versionDate": "2022-03-02",
     "type": "pcr_tests_100k",
     "averageReportToCaseDelayInDays": 10,
     "source": {
         "name": "Positive results per 100k tests performed - Data collected by OWID from Ministry of Health and Social Protection",
-        "url": "https://shendetesia.gov.al/covid19-ministria-e-shendetesise-1874-testime-296-qytetare-te-infektuar-4-humbje-jete-dhe-835-te-sheruar-ne-24-oret-e-fundit/",
+        "url": "https://shendetesia.gov.al/covid19-ministria-e-shendetesise-1213-testime-102-qytetare-te-infektuar-2-humbje-jete-dhe-208-te-sheruar-ne-24-oret-e-fundit/",
         "license": "Attribution 4.0 International (CC BY 4.0)",
         "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
     },
     "data": [
-        8475,
         8850,
         10101,
         9174,
@@ -711,6 +710,23 @@
         0,
         76923,
         90909,
-        71429
+        71429,
+        62500,
+        45455,
+        38462,
+        32258,
+        37037,
+        34483,
+        31250,
+        31250,
+        30303,
+        33333,
+        37037,
+        37037,
+        32258,
+        38462,
+        43478,
+        66667,
+        55556
     ]
 }

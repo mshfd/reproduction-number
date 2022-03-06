@@ -1,0 +1,26 @@
+{
+    "startDate": "2022-02-20",
+    "versionDate": "2022-03-03",
+    "type": "pcr_tests_100k",
+    "averageReportToCaseDelayInDays": 10,
+    "source": {
+        "name": "Positive results per 100k tests performed - Data collected by OWID from Africa Centres for Disease Control and Prevention",
+        "url": "https://africacdc.org/covid-19/",
+        "license": "Attribution 4.0 International (CC BY 4.0)",
+        "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
+    },
+    "data": [
+        299,
+        286,
+        238,
+        252,
+        309,
+        272,
+        190,
+        168,
+        180,
+        195,
+        170,
+        183
+    ]
+}
